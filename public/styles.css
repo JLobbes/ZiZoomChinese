@@ -1,0 +1,81 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#menuBar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  font-family: sans-serif;
+}
+
+.menu {
+  background: #fff;
+  padding: 6px 12px;
+  border: 2px solid #111;
+  border-radius : 5px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: calc(100%);
+  left: -1px;
+  background: #fff;
+  border: 2px solid #111;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+}
+
+.menu:hover .submenu {
+  display: block;
+}
+
+.menuItem {
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.menuItem:hover {
+  background: #ddd;
+  cursor: pointer;
+}
+  
+#viewerContainer {
+  height: 90vh;
+  width: fit-content;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: black 3px solid;
+  border-radius: 5px;
+  background: #fdb5b5;
+}
+
+#viewer {
+  height: 100%;
+  width: auto;
+  transform-origin: center center;
+  transition: transform 0.1s ease;
+  display: block;
+  box-shadow: 0 2px 4px rgba(250, 44, 44, 0.5),  
+              0 6px 12px rgba(250, 44, 44, 0.5);  
+}
+
+img#viewer {
+  border-radius: 5px;
+}

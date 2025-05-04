@@ -41,22 +41,39 @@ document.querySelectorAll('.menuItem').forEach(item => {
 
 // Zoom listeners + logic
 document.addEventListener('keydown', e => {
+  const step = 200  ; // Number of pixels to move per key press
+  let smooth = false;
+
   if (e.shiftKey && (e.key === '+' || e.key === '=')) {
     scale = Math.min(scale + 0.5, 5);
   } else if (e.shiftKey && (e.key === '-' || e.key === '_')) {
     scale = Math.max(scale - 0.5, 0.5);
+  } else if (e.key === 'ArrowLeft') {
+    currentX += step;
+    smooth = true;
+  } else if (e.key === 'ArrowRight') {
+    currentX -= step;
+    smooth = true;
+  } else if (e.key === 'ArrowUp') {
+    currentY += step;
+    smooth = true;
+  } else if (e.key === 'ArrowDown') {
+    currentY -= step;
+    smooth = true;
   } else {
-    return;
+    return; // exit if not a relevant key
   }
-  img.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`;
 
+  setTransform(smooth);
 });
+
 
 let isDragging = false;
 let startX, startY;
 let currentX = 0, currentY = 0;
 
-function setTransform() {
+function setTransform(smooth) {
+  smooth ? img.style.transition = 'transform 0.3s ease' : img.style.transition = '';
   img.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`;
 }
 

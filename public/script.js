@@ -93,6 +93,9 @@ function enableSelectionMode() {
   img.addEventListener('mousedown', startSelection);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('mouseup', onMouseUp);
+
+  selectAreaBtn.style.backgroundColor = 'black'; 
+  selectAreaBtn.style.color = 'white'; 
 }
 
 function startSelection(e) {
@@ -156,6 +159,9 @@ function finalizeSelection(e) {
       }
     }, 2000);
   }
+
+  selectAreaBtn.style.backgroundColor = ''; 
+  selectAreaBtn.style.color = ''; 
 }
 
 

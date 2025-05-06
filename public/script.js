@@ -147,8 +147,17 @@ function finalizeSelection(e) {
 
   console.log('Selected area in image coordinates:', box);
 
-  setTimeout(() => selectionBox?.remove(), 2000);
+  // Remove the selection box after 2 seconds (ensure this happens only once)
+  if (selectionBox) {
+    setTimeout(() => {
+      if (selectionBox) {
+        selectionBox.remove();
+        selectionBox = null;  // Reset the reference to prevent future issues
+      }
+    }, 2000);
+  }
 }
+
 
 // ==== UTILITY ====
 

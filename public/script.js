@@ -181,6 +181,8 @@ function getImageCoords(clientX, clientY) {
   };
 }
 
+// ==== COLLECT FLASH CARD DATA ====
+
 function collectCardData(croppedImageLocation) {
   const newCard = { croppedImageLocation };
   showCardOverlay(croppedImageLocation);
@@ -231,7 +233,7 @@ function startTermStep(card) {
     const term = termInput.value.trim();
     if (!term) return alert('Please enter a word.');
     card.term = term;
-    startPinyinStep(card);
+    startPinyinStep(card); // Continue to PinYin collection
   };
 }
 
@@ -246,23 +248,47 @@ function startPinyinStep(card) {
   pinyinInput.focus();
   createPinyinKeyboard();
 
-  btn.textContent = 'Save';
+  btn.textContent = 'Next';
   btn.onclick = () => {
     const pinyin = pinyinInput.value.trim();
     if (!pinyin) return alert('Please enter Pinyin.');
     card.pinyin = pinyin;
+  
+    startMeaningStep(card);  // Continue to meaning collection
+  };
+};
 
-    console.log('Flashcard saved:', card);
+function startMeaningStep(card) {
+  const pinyinStep = document.getElementById('pinyinStep');
+  const meaningStep = document.getElementById('meaningStep');
+  const meaningInput = document.getElementById('meaningInput');
+  const btn = document.getElementById('saveTermBtn');
+
+  pinyinStep.style.display = 'none';
+  meaningStep.style.display = 'flex';
+  meaningInput.focus();
+
+  btn.textContent = 'Save';
+  btn.onclick = () => {
+    const meaning = meaningInput.value.trim();
+    if (!meaning) return alert('Please enter a meaning.');
+    card.meaning = meaning;
+
+    console.log('Flashcard saved:', card);  
+    meaningStep.style.display = 'none';
     resetCardOverlay();
   };
 }
+
 
 function resetCardOverlay() {
   document.getElementById('cardDataCollection-Overlay').style.display = 'none';
   document.getElementById('termInput').value = '';
   document.getElementById('pinyinInput').value = '';
+  document.getElementById('meaningInput').value = '';
   document.getElementById('croppedPreview').src = '';
 }
+
 
 // ==== PinYin Input ====
 

@@ -15,6 +15,9 @@ let selectionBox;
 // ==== ZOOM & PAN via Keyboard ====
 
 document.addEventListener('keydown', e => {
+  const overlayVisible = document.getElementById('cardDataCollection-Overlay').style.display === 'flex';
+  if (selectionModeEnabled || overlayVisible) return;
+
   const moveStep = 200;
   let animate = false;
 

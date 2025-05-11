@@ -187,4 +187,29 @@ img#viewer {
   background: #e0e0e0;
 }
 
+#pinyinKeyboard {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tone-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tone-label {
+  font-size: 16px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.tone-key {
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
 

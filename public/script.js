@@ -263,75 +263,97 @@ function resetCardOverlay() {
 
 // ==== PinYin Input ====
 
-const baseVowels = ['a', 'e', 'i', 'o', 'u', 'ü'];  // Basic vowels without tones
+const baseVowels = ['a', 'e', 'i', 'o', 'u', 'ü'];
 const toneMapping = {
-  'a': ['ā', 'á', 'ǎ', 'à', 'a'],  // Vowel "a" and its tones (1, 2, 3, 4) and no tone
+  'a': ['ā', 'á', 'ǎ', 'à', 'a'],
   'e': ['ē', 'é', 'ě', 'è', 'e'],
   'i': ['ī', 'í', 'ǐ', 'ì', 'i'],
   'o': ['ō', 'ó', 'ǒ', 'ò', 'o'],
   'u': ['ū', 'ú', 'ǔ', 'ù', 'u'],
-  'ü': ['ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü']  // Adding ü with tones and no tone (vowel)
+  'ü': ['ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü']
 };
 
-let currentVowel = '';  // Store the current vowel being typed
+let currentVowel = '';
+let showingToneOptions = false;
+
+let pinyinInputMode = false;
 
 function createPinyinKeyboard() {
   const keyboard = document.getElementById('pinyinKeyboard');
-  keyboard.innerHTML = ''; // Clear old keys if needed
+  keyboard.innerHTML = '';
+  showingToneOptions = false;
+  pinyinInputMode = true; // 🔥 Enable typing behavior
 
   baseVowels.forEach(vowel => {
     const btn = document.createElement('button');
     btn.className = 'pinyin-key';
     btn.textContent = vowel;
-    btn.onclick = () => {
-      // Set the current vowel when clicked
-      currentVowel = vowel;
-      console.log('current Vowel:', currentVowel);
-      const input = document.getElementById('pinyinInput');
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      const currentValue = input.value;
-
-      // Insert the vowel into the input field
-      input.value = currentValue.slice(0, start) + vowel + currentValue.slice(end);
-      input.setSelectionRange(start + 1, start + 1); // Move cursor after inserted char
-      input.focus();
-    };
+    btn.onclick = () => showToneOptions(vowel);
     keyboard.appendChild(btn);
   });
+}
 
-  // Listen for tone key presses
-  window.addEventListener('keydown', e => {
-    if (!currentVowel) return;  // If no vowel is typed yet, do nothing
+function showToneOptions(vowel) {
+  const keyboard = document.getElementById('pinyinKeyboard');
+  keyboard.innerHTML = '';
+  currentVowel = vowel;
+  showingToneOptions = true;
 
-    let toneIndex;
-    switch (e.key) {
-      case '1': toneIndex = 0; break;  // Tone 1
-      case '2': toneIndex = 1; break;  // Tone 2
-      case '3': toneIndex = 2; break;  // Tone 3
-      case '4': toneIndex = 3; break;  // Tone 4
-      case '5': toneIndex = 4; break;  // No tone
-      default: return;
-    }
+  toneMapping[vowel].forEach((toneChar, index) => {
+    const container = document.createElement('div');
+    container.className = 'tone-container';
 
-    // Replace the last vowel typed with the corresponding tone
-    const input = document.getElementById('pinyinInput');
-    const start = input.selectionStart;
-    const end = input.selectionEnd;
-    const currentValue = input.value;
+    const label = document.createElement('div');
+    label.className = 'tone-label';
+    label.textContent = index + 1;
 
-    // Get the tone for the current vowel
-    const tone = toneMapping[currentVowel][toneIndex];
+    const btn = document.createElement('button');
+    btn.className = 'tone-key';
+    btn.textContent = toneChar;
+    btn.onclick = () => insertTonedVowel(toneChar);
 
-    // Insert the toned vowel into the input field
-    input.value = currentValue.slice(0, start) + tone + currentValue.slice(end);
-    input.setSelectionRange(start + 1, start + 1); // Move cursor after inserted tone
-    input.focus();
-
-    // Reset currentVowel after inserting tone
-    currentVowel = '';
+    container.appendChild(btn);
+    container.appendChild(label);
+    keyboard.appendChild(container);
   });
 }
+
+
+function insertTonedVowel(toneChar) {
+  const input = document.getElementById('pinyinInput');
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const currentValue = input.value;
+
+  input.value = currentValue.slice(0, start) + toneChar + currentValue.slice(end);
+  input.setSelectionRange(start + 1, start + 1);
+  input.focus();
+
+  createPinyinKeyboard(); // Reset keyboard
+}
+
+// Keyboard tone selection
+window.addEventListener('keydown', e => {
+  if (showingToneOptions && currentVowel) {
+    const key = parseInt(e.key);
+    if (key >= 1 && key <= 5) {
+      e.preventDefault();
+      const toneChar = toneMapping[currentVowel][key - 1];
+      insertTonedVowel(toneChar);
+      return;
+    }
+  }
+
+  if (pinyinInputMode && !showingToneOptions) {
+    const char = e.key.toLowerCase();
+    if (['a', 'e', 'i', 'o', 'u', 'v'].includes(char)) {
+      e.preventDefault(); // ⛔ Prevent digits 1,2,3... from being input.
+      const vowel = char === 'v' ? 'ü' : char;
+      showToneOptions(vowel); // ⏎ Simulate button click
+    }
+  }
+});
+
 
 // ==== IMAGE LOADING ====
 

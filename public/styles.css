@@ -90,6 +90,101 @@ img#viewer {
   border-radius : 5px;
   font-size: 18px;
   cursor: pointer;
-  z-index: 10001;
+  z-index: 9999;
   font-family: sans-serif;
 }
+
+#cardDataCollection-Overlay {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10000;
+}
+
+#croppedPreview {
+  margin: 0 0 20px 0;
+  border: #111 5px solid;
+  border-radius: 5px;
+  box-sizing: content-box;
+}
+
+.cardDataCollection-Overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardDataCollection-Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardDataCollection-Container .inputStep label {
+  font-family: sans-serif;
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.cardDataCollection-Container input {
+  font-family: sans-serif;
+  width: 100px;
+  background: #fff;
+  font-size: 18px;
+  padding: 10px 12px;
+  border: 2px solid #111;
+  border-radius : 5px; 
+}
+
+.cardDataCollection-Container button {
+  background: #fff;
+  padding: 6px 12px;
+  margin-top: 10px;
+  border: 2px solid #111;
+  border-radius : 15px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 9999;
+  font-family: sans-serif;
+}
+
+.pinyin-keyboard {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: 400px;
+}
+
+.pinyin-key {
+  padding: 6px 10px;
+  font-size: 18px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+  transition: background 0.2s;
+}
+
+.pinyin-key:hover {
+  background: #e0e0e0;
+}
+
+

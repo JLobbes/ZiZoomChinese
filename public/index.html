@@ -1,22 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Image Viewer</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<button id="selectAreaBtn">Select Area</button> 
-<body>
-  <div id="menuBar">
-    <div class="menu">Menu
-      <div class="submenu" id="imageMenu"></div>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Image Viewer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="menuBar">
+      <div class="menu">Menu
+        <div class="submenu" id="imageMenu"></div>
+      </div>
     </div>
-  </div>
+    
+    <input type="file" id="fileInput" accept="image/*" style="display:none" />
+    <div id="viewerContainer">
+      <img id="viewer" draggable="false"/>
+    </div>
 
-  <input type="file" id="fileInput" accept="image/*" style="display:none" />
-  <div id="viewerContainer">
-    <img id="viewer" draggable="false"/>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+    <button id="selectAreaBtn">Select Area</button> 
+
+    <div id="cardDataCollection-Overlay" style="display:none;">
+      <img id="croppedPreview" />
+    
+      <div class="cardDataCollection-Container">
+        <!-- Term Step -->
+        <div id="termStep" class="inputStep">
+          <label for="termInput">Enter Term:</label>
+          <input type="text" id="termInput" />
+        </div>
+    
+        <!-- Pinyin Step -->
+        <div id="pinyinStep" class="inputStep" style="display:none;">
+          <label for="pinyinInput">Enter Pinyin:</label>
+          <input type="text" id="pinyinInput" />
+          <div id="pinyinKeyboard" class="pinyin-keyboard"></div>
+        </div>
+    
+        <button id="saveTermBtn">Next</button>
+      </div>
+    </div>
+     
+
+    <script src="script.js"></script>
+  </body>
+  </html>

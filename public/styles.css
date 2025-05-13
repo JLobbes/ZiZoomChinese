@@ -108,6 +108,18 @@ img#viewer {
   z-index: 10000;
 }
 
+.exit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
 #croppedPreview {
   margin: 0 0 20px 0;
   border: #111 5px solid;

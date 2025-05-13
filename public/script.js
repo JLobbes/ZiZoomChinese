@@ -430,6 +430,19 @@ window.addEventListener('mouseup', onMouseUp);
 selectAreaBtn.addEventListener('click', enableSelectionMode);
 
 
+document.getElementById('exitOverlayBtn').addEventListener('click', () => {
+  resetCardOverlay();
+});
+
+window.addEventListener('keydown', (e) => {
+  const overlayVisible = document.getElementById('cardDataCollection-Overlay').style.display === 'flex';
+  if (e.key === 'Escape' && overlayVisible) {
+    resetCardOverlay();
+  }
+});
+
+
+
 // ==== IMAGE LOADING ====
 
 fetch('/api/images')

@@ -185,7 +185,12 @@ function getImageCoords(clientX, clientY) {
 
 function collectCardData(croppedImageLocation) {
   const newCard = { croppedImageLocation };
+  
+  // Set early variables
   newCard.deckID = 2;
+  newCard.imgPath = img.src;
+  console.log('imgPath:', newCard.imgPath); 
+
   showCardOverlay(croppedImageLocation);
   startCollectChinese(newCard);
 }

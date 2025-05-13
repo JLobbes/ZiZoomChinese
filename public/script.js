@@ -412,12 +412,18 @@ window.addEventListener('keydown', e => {
     }
   }
 
-  if (pinyinInputMode && !showingToneOptions) {
+  if (
+    pinyinInputMode &&
+    !showingToneOptions &&
+    !e.ctrlKey &&
+    !e.metaKey &&
+    !e.altKey
+  ) {
     const char = e.key.toLowerCase();
     if (['a', 'e', 'i', 'o', 'u', 'v'].includes(char)) {
-      e.preventDefault(); // ⛔ Prevent digits 1,2,3... from being input.
+      e.preventDefault();
       const vowel = char === 'v' ? 'ü' : char;
-      showToneOptions(vowel); // ⏎ Simulate button click
+      showToneOptions(vowel);
     }
   }
 });

@@ -435,11 +435,21 @@ document.getElementById('exitOverlayBtn').addEventListener('click', () => {
 });
 
 window.addEventListener('keydown', (e) => {
+  // === Cancel tone selection if open ===
+  if (e.key === 'Escape' && showingToneOptions) {
+    e.preventDefault();
+    createPinyinKeyboard(); // Reset to base vowels
+    return;
+  }
+
+  // === Then check for overlay dismissal ===
   const overlayVisible = document.getElementById('cardDataCollection-Overlay').style.display === 'flex';
   if (e.key === 'Escape' && overlayVisible) {
+    e.preventDefault();
     resetCardOverlay();
   }
 });
+
 
 
 

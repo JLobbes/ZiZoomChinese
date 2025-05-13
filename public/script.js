@@ -263,6 +263,8 @@ function startCollectPinYin(card) {
 };
 
 function startCollectEnglish(card) {
+  pinyinInputMode = false; // Will steal one vowel from user if left untouched;
+
   const collectPinYinStep = document.getElementById('collectPinYinStep');
   const collectEnglishStep = document.getElementById('collectEnglishStep');
   const englishInput = document.getElementById('englishInput');
@@ -330,9 +332,8 @@ const toneMapping = {
 };
 
 let currentVowel = '';
-let showingToneOptions = false;
-
 let pinyinInputMode = false;
+let showingToneOptions = false;
 
 function createPinyinKeyboard() {
   const keyboard = document.getElementById('pinyinKeyboard');

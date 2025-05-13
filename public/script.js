@@ -361,13 +361,13 @@ function showToneOptions(vowel) {
   currentVowel = vowel;
   showingToneOptions = true;
 
-  toneMapping[vowel].forEach((toneChar, index) => {
+  toneMapping[vowel].slice(0, vowel === 'ü' ? 4 : 5).forEach((toneChar, index) => {
     const container = document.createElement('div');
     container.className = 'tone-container';
 
     const label = document.createElement('div');
     label.className = 'tone-label';
-    label.textContent = index + 1;
+    label.textContent = index < 4 ? index + 1 : vowel;  // Show vowel instead of "5"
 
     const btn = document.createElement('button');
     btn.className = 'tone-key';
@@ -396,12 +396,19 @@ function insertTonedVowel(toneChar) {
 // Keyboard tone selection
 window.addEventListener('keydown', e => {
   if (showingToneOptions && currentVowel) {
-    const key = parseInt(e.key);
-    if (key >= 1 && key <= 5) {
+    const keyAsInt = parseInt(e.key);
+    if (keyAsInt >= 1 && keyAsInt <= 4) {
       e.preventDefault();
-      const toneChar = toneMapping[currentVowel][key - 1];
+      const toneChar = toneMapping[currentVowel][keyAsInt - 1];
       insertTonedVowel(toneChar);
       return;
+    }
+
+    if (e.key.toLowerCase() === currentVowel) {
+      e.preventDefault();
+      const baseChar = toneMapping[currentVowel][4]; // index 4 = base vowel
+      insertTonedVowel(baseChar);
+      return
     }
   }
 

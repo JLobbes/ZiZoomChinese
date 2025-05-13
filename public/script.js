@@ -303,7 +303,7 @@ function startReviewStep(card) {
   
   btn.textContent = 'Save';
   btn.onclick = () => {
-    console.log('Flashcard saved:', card);  
+    console.log('Flashcard data pushed to server:', card);  
     collectEnglishStep.style.display = 'none';
     saveCardToDatabase(card);
     resetCardOverlay();
@@ -312,10 +312,15 @@ function startReviewStep(card) {
 
 function resetCardOverlay() {
   document.getElementById('cardDataCollection-Overlay').style.display = 'none';
-  document.getElementById('termInput').value = '';
+  document.getElementById('chineseInput').value = '';
   document.getElementById('pinyinInput').value = '';
-  document.getElementById('meaningInput').value = '';
+  document.getElementById('englishInput').value = '';
   document.getElementById('croppedPreview').src = '';
+
+  document.getElementById('reviewStep').style.display = 'none';
+  document.getElementById('reviewCardChinese').value = '';
+  document.getElementById('reviewCardPinYin').value = '';
+  document.getElementById('reviewCardEnglish').value = '';
 }
 
 
@@ -445,21 +450,27 @@ fetch('/api/images')
 
 // ==== APIs ====
 
-function saveCardToDatabase(card) {
-  const response = fetch('/api/card/create', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      card
-    }),
-  });
+async function saveCardToDatabase(card) {
+  try {
+    const response = await fetch('/api/card/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ card }),
+    });
 
-  const data = response.json();
-  if (data.message) {
-    console.log(data.message);
-  } else {
-    console.error('Failed to save card to DB');
+    const data = await response.json(); // ✅ Wait for the body to parse
+
+    console.log('data from Flashcard Push:', data);
+
+    if (data.flashcardId) {
+      console.log(`Card succesfully created. Card ID: ${data.flashcardId}`);
+    } else {
+      console.error('Failed to save card to DB');
+    }
+  } catch (err) {
+    console.error('Error saving card:', err);
   }
 }
+

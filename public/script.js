@@ -185,8 +185,9 @@ function getImageCoords(clientX, clientY) {
 
 function collectCardData(croppedImageLocation) {
   const newCard = { croppedImageLocation };
+  newCard.deckID = 2;
   showCardOverlay(croppedImageLocation);
-  startTermStep(newCard);
+  startCollectChinese(newCard);
 }
 
 function showCardOverlay(croppedImageLocation) {
@@ -218,33 +219,31 @@ function showCardOverlay(croppedImageLocation) {
   document.getElementById('cardDataCollection-Overlay').style.display = 'flex';
 }
 
-function startTermStep(card) {
-  const termStep = document.getElementById('termStep');
-  const pinyinStep = document.getElementById('pinyinStep');
-  const termInput = document.getElementById('termInput');
-  const btn = document.getElementById('saveTermBtn');
+function startCollectChinese(card) {
+  const collectChineseStep = document.getElementById('collectChineseStep');
+  const chineseInput = document.getElementById('chineseInput');
+  const btn = document.getElementById('saveDataBtn');
 
-  termStep.style.display = 'flex';
-  pinyinStep.style.display = 'none';
-  termInput.focus();
+  collectChineseStep.style.display = 'flex';
+  chineseInput.focus();
 
   btn.textContent = 'Next';
   btn.onclick = () => {
-    const term = termInput.value.trim();
-    if (!term) return alert('Please enter a word.');
-    card.term = term;
-    startPinyinStep(card); // Continue to PinYin collection
+    const term = chineseInput.value.trim();
+    if (!term) return alert('Please enter Chinese word.');
+    card.chinese = term;
+    startCollectPinYin(card); // Continue to PinYin collection
   };
 }
 
-function startPinyinStep(card) {
-  const termStep = document.getElementById('termStep');
-  const pinyinStep = document.getElementById('pinyinStep');
+function startCollectPinYin(card) {
+  const collectChineseStep = document.getElementById('collectChineseStep');
+  const collectPinYinStep = document.getElementById('collectPinYinStep');
   const pinyinInput = document.getElementById('pinyinInput');
-  const btn = document.getElementById('saveTermBtn');
+  const btn = document.getElementById('saveDataBtn');
 
-  termStep.style.display = 'none';
-  pinyinStep.style.display = 'flex';
+  collectChineseStep.style.display = 'none';
+  collectPinYinStep.style.display = 'flex';
   pinyinInput.focus();
   createPinyinKeyboard();
 
@@ -254,32 +253,55 @@ function startPinyinStep(card) {
     if (!pinyin) return alert('Please enter Pinyin.');
     card.pinyin = pinyin;
   
-    startMeaningStep(card);  // Continue to meaning collection
+    startCollectEnglish(card);  // Continue to meaning collection
   };
 };
 
-function startMeaningStep(card) {
-  const pinyinStep = document.getElementById('pinyinStep');
-  const meaningStep = document.getElementById('meaningStep');
-  const meaningInput = document.getElementById('meaningInput');
-  const btn = document.getElementById('saveTermBtn');
+function startCollectEnglish(card) {
+  const collectPinYinStep = document.getElementById('collectPinYinStep');
+  const collectEnglishStep = document.getElementById('collectEnglishStep');
+  const englishInput = document.getElementById('englishInput');
+  const btn = document.getElementById('saveDataBtn');
 
-  pinyinStep.style.display = 'none';
-  meaningStep.style.display = 'flex';
-  meaningInput.focus();
+  collectPinYinStep.style.display = 'none';
+  collectEnglishStep.style.display = 'flex';
+  englishInput.focus();
 
-  btn.textContent = 'Save';
+  btn.textContent = 'Next';
   btn.onclick = () => {
-    const meaning = meaningInput.value.trim();
-    if (!meaning) return alert('Please enter a meaning.');
-    card.meaning = meaning;
+    const english = englishInput.value.trim();
+    if (!english) return alert('Please enter English meaning.');
+    card.english = english;
 
-    console.log('Flashcard saved:', card);  
-    meaningStep.style.display = 'none';
-    resetCardOverlay();
+    startReviewStep(card);
   };
 }
 
+function startReviewStep(card) {
+  const collectEnglishStep = document.getElementById('collectEnglishStep');
+  const reviewStep = document.getElementById('reviewStep');
+  const btn = document.getElementById('saveDataBtn');
+
+  collectEnglishStep.style.display = 'none';
+  reviewStep.style.display = 'flex';
+
+  const cardChineseDisplay = document.getElementById('reviewCardChinese');
+  cardChineseDisplay.textContent = card.chinese;
+  
+  const cardPinYinDisplay = document.getElementById('reviewCardPinYin');
+  cardPinYinDisplay.textContent = card.pinyin;
+  
+  const cardMeaningDisplay = document.getElementById('reviewCardEnglish');
+  cardMeaningDisplay.textContent = card.english;
+  
+  btn.textContent = 'Save';
+  btn.onclick = () => {
+    console.log('Flashcard saved:', card);  
+    collectEnglishStep.style.display = 'none';
+    saveCardToDatabase(card);
+    resetCardOverlay();
+  }
+}
 
 function resetCardOverlay() {
   document.getElementById('cardDataCollection-Overlay').style.display = 'none';
@@ -347,7 +369,6 @@ function showToneOptions(vowel) {
   });
 }
 
-
 function insertTonedVowel(toneChar) {
   const input = document.getElementById('pinyinInput');
   const start = input.selectionStart;
@@ -383,6 +404,13 @@ window.addEventListener('keydown', e => {
   }
 });
 
+// ==== EVENT BINDINGS ====
+
+img.addEventListener('mousedown', onImageMouseDown);
+window.addEventListener('mousemove', onMouseMove);
+window.addEventListener('mouseup', onMouseUp);
+selectAreaBtn.addEventListener('click', enableSelectionMode);
+
 
 // ==== IMAGE LOADING ====
 
@@ -408,9 +436,24 @@ fetch('/api/images')
   })
   .catch(err => console.error('Error loading image list:', err));
 
-// ==== EVENT BINDINGS ====
 
-img.addEventListener('mousedown', onImageMouseDown);
-window.addEventListener('mousemove', onMouseMove);
-window.addEventListener('mouseup', onMouseUp);
-selectAreaBtn.addEventListener('click', enableSelectionMode);
+// ==== APIs ====
+
+function saveCardToDatabase(card) {
+  const response = fetch('/api/card/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      card
+    }),
+  });
+
+  const data = response.json();
+  if (data.message) {
+    console.log(data.message);
+  } else {
+    console.error('Failed to save card to DB');
+  }
+}

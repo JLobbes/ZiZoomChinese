@@ -24,25 +24,33 @@
     
       <div class="cardDataCollection-Container">
         <!-- Term Step -->
-        <div id="termStep" class="inputStep">
-          <label for="termInput">Enter Term:</label>
-          <input type="text" id="termInput" />
+        <div id="collectChineseStep" class="inputStep">
+          <label for="chineseInput">Enter Term:</label>
+          <input type="text" id="chineseInput" />
         </div>
     
         <!-- Pinyin Step -->
-        <div id="pinyinStep" class="inputStep" style="display:none;">
+        <div id="collectPinYinStep" class="inputStep" style="display:none;">
           <label for="pinyinInput">Enter Pinyin:</label>
           <input type="text" id="pinyinInput" />
           <div id="pinyinKeyboard" class="pinyin-keyboard"></div>
         </div>
 
         <!-- Meaning Step -->
-        <div id="meaningStep" class="inputStep" style="display:none;">
-          <label for="meaningInput">Enter Meaning:</label>
-          <input type="text" id="meaningInput" />
+        <div id="collectEnglishStep" class="inputStep" style="display:none;">
+          <label for="englishInput">Enter Meaning:</label>
+          <input type="text" id="englishInput" />
+        </div>
+        
+        <!-- Review & Save Step -->
+        <div id="reviewStep" class="inputStep" style="display:none;">
+          <label for="reviewStep">Review Card:</label>
+          <p id="reviewCardChinese" class="reviewCardItem"></p>
+          <p id="reviewCardPinYin" class="reviewCardItem"></p>
+          <p id="reviewCardEnglish" class="reviewCardItem"></p>
         </div>
     
-        <button id="saveTermBtn">Next</button>
+        <button id="saveDataBtn">Next</button>
       </div>
     </div>
      

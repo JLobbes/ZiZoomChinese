@@ -1,12 +1,19 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
+const { createFlashCard } = require('./api/card/create');
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.static('public'));
-app.use('/images', express.static('images'));
+// ====  MIDDLEWARE ====
+
+app.use(bodyParser.json()); // Parse JSON request bodies
+app.use(express.static('public')); // Serve static files from /public
+app.use('/images', express.static('images')); // Serve images from /images
+
+// ==== API ROUTES ====
 
 app.get('/api/images', (req, res) => {
   const imagesDir = path.join(__dirname, 'images');
@@ -19,4 +26,18 @@ app.get('/api/images', (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.post('/api/card/create', async (req, res) => {
+  try {
+    const id = await createFlashCard(req.body.card);
+    res.status(201).json({ flashcardId: id });
+  } catch (err) {
+    console.error('Error adding flashcard:', err);
+    res.status(500).json({ error: 'Failed to add flashcard' });
+  }
+});
+
+// ==== SERVER START ====
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});

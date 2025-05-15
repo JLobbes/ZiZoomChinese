@@ -2,7 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { createFlashCard } = require('./api/card/create');
+const { createFlashCard } = require('./model/cards/create');
+const { readByImgPath } = require('./model/cards/read_by_imgPath');
 
 const app = express();
 const PORT = 3000;
@@ -26,13 +27,24 @@ app.get('/api/images', (req, res) => {
   });
 });
 
-app.post('/api/card/create', async (req, res) => {
+app.post('/api/cards/create', async (req, res) => {
   try {
     const id = await createFlashCard(req.body.card);
     res.status(201).json({ flashcardId: id });
   } catch (err) {
     console.error('Error adding flashcard:', err);
     res.status(500).json({ error: 'Failed to add flashcard' });
+  }
+});
+
+app.post('/api/cards/read_by_imgPath', async (req, res) => {
+  try {
+    const imagePath = req.body.imgPath
+    const flashcards = await readByImgPath(imagePath);
+    res.status(201).json({ flashcards });
+  } catch (err) {
+    console.error('Error retrieving flashcard:', err);
+    res.status(500).json({ error: 'Failed to retrieve flashcard data for img:', imagePath });
   }
 });
 

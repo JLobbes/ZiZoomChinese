@@ -46,9 +46,11 @@ document.addEventListener('keydown', e => {
 });
 
 function updateImageTransform(smooth = false) {
-  img.style.transition = smooth ? 'transform 0.3s ease' : '';
-  img.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+  const wrapper = document.getElementById('viewerWrapper');
+  wrapper.style.transition = smooth ? 'transform 0.3s ease' : '';
+  wrapper.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
+
 
 // ==== IMAGE DRAGGING ====
 
@@ -83,7 +85,7 @@ function onMouseUp(e) {
   }
 }
 
-// ==== IMAGE SELECTION ====
+// ==== IMAGE SECTION SELECTION (FOR FLASHCARD)  ====
 
 function enableSelectionMode() {
   if (selectionModeEnabled) return;
@@ -91,7 +93,6 @@ function enableSelectionMode() {
 
   selectionModeEnabled = true;
   img.style.cursor = 'crosshair';
-  console.log('Selection mode active. Drag to select.');
 
   img.addEventListener('mousedown', startSelection);
   window.addEventListener('mousemove', onMouseMove);
@@ -131,8 +132,13 @@ function drawSelectionBox(e) {
   const left = Math.min(x, selectionStartX);
   const top = Math.min(y, selectionStartY);
 
-  selectionBox.style.left = `${(left / naturalWidth) * rect.width + rect.left}px`;
-  selectionBox.style.top = `${(top / naturalHeight) * rect.height + rect.top}px`;
+  const containerRect = imgContainer.getBoundingClientRect();
+  const imageLeftOffset = rect.left - containerRect.left;
+  const imageTopOffset = rect.top - containerRect.top;
+
+  selectionBox.style.left = `${(left / naturalWidth) * rect.width + imageLeftOffset}px`;
+  selectionBox.style.top = `${(top / naturalHeight) * rect.height + imageTopOffset}px`;
+
   selectionBox.style.width = `${(width / naturalWidth) * rect.width}px`;
   selectionBox.style.height = `${(height / naturalHeight) * rect.height}px`;
 }
@@ -151,23 +157,76 @@ function finalizeSelection(e) {
     height: Math.abs(endY - selectionStartY),
   };
 
-  console.log('Selected area in image coordinates:', box);
-
   // Remove the selection box after 2 seconds (ensure this happens only once)
-  if (selectionBox) {
-    setTimeout(() => {
-      if (selectionBox) {
-        selectionBox.remove();
-        selectionBox = null;  // Reset the reference to prevent future issues
-      }
-    }, 2000);
-  }
+  // if (selectionBox) {
+  //   setTimeout(() => {
+  //     if (selectionBox) {
+  //       selectionBox.remove();
+  //       selectionBox = null;  // Reset the reference to prevent future issues
+  //     }
+  //   }, 2000);
+  // }
 
   selectAreaBtn.style.backgroundColor = ''; 
   selectAreaBtn.style.color = ''; 
   collectCardData(box);
 }
 
+// ==== IMAGE ADD ONS (FLASHCARD GHOSTS) ====
+
+function displayFlashCardGhosts(cards) {
+  const imgContainer = document.getElementById('viewerContainer');
+  
+  // Remove any existing flashcard ghosts
+  const existingGhosts = imgContainer.querySelectorAll('.flashCardGhost');
+  existingGhosts.forEach(ghost => ghost.remove());
+
+  // Create new flashcard ghosts based on the cards data
+  cards.forEach(card => {
+    const flashcardGhost = document.createElement('div');
+    flashcardGhost.classList.add('flashCardGhost');
+    flashcardGhost.style.position = 'absolute';
+    flashcardGhost.style.border = '2px dashed #ff00ff';
+    flashcardGhost.style.background = 'rgba(255, 0, 255, 0.3)';
+    flashcardGhost.style.pointerEvents = 'none';
+    flashcardGhost.style.zIndex = '9999';
+    
+    // Calculate position and size relative to the image
+    const { FLASHCARD_CROP_X, FLASHCARD_CROP_Y, FLASHCARD_CROP_WIDTH, FLASHCARD_CROP_HEIGHT } = card;
+    flashcardGhost.style.left = `${(FLASHCARD_CROP_X / img.naturalWidth) * imgContainer.offsetWidth}px`;
+    flashcardGhost.style.top = `${(FLASHCARD_CROP_Y / img.naturalHeight) * imgContainer.offsetHeight}px`;
+    flashcardGhost.style.width = `${(FLASHCARD_CROP_WIDTH / img.naturalWidth) * imgContainer.offsetWidth}px`;
+    flashcardGhost.style.height = `${(FLASHCARD_CROP_HEIGHT / img.naturalHeight) * imgContainer.offsetHeight}px`;
+
+    imgContainer.appendChild(flashcardGhost);
+  });
+}
+
+function updateFlashCardGhosts() {
+  const imgContainer = document.getElementById('viewerContainer');
+  const ghosts = imgContainer.querySelectorAll('.flashCardGhost');
+
+  ghosts.forEach(flashcardGhost => {
+    const card = flashcardGhost.dataset.card; // Retrieve card data if necessary
+
+    // Recalculate the position based on the scale and offset of the image
+    const scaleX = img.naturalWidth / imgContainer.offsetWidth;
+    const scaleY = img.naturalHeight / imgContainer.offsetHeight;
+
+    flashcardGhost.style.left = `${(card.x / img.naturalWidth) * imgContainer.offsetWidth + offsetX}px`;
+    flashcardGhost.style.top = `${(card.y / img.naturalHeight) * imgContainer.offsetHeight + offsetY}px`;
+    flashcardGhost.style.width = `${(card.width / img.naturalWidth) * imgContainer.offsetWidth * scale}px`;
+    flashcardGhost.style.height = `${(card.height / img.naturalHeight) * imgContainer.offsetHeight * scale}px`;
+  });
+}
+
+function updateImageTransform(smooth = false) {
+  img.style.transition = smooth ? 'transform 0.3s ease' : '';
+  img.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+
+  // After updating the image, update the flashcard ghosts
+  updateFlashCardGhosts();
+}
 
 // ==== UTILITY ====
 
@@ -189,7 +248,6 @@ function collectCardData(croppedImageLocation) {
   // Set early variables
   newCard.deckID = 2;
   newCard.imgPath = img.src;
-  console.log('imgPath:', newCard.imgPath); 
 
   showCardOverlay(croppedImageLocation);
   startCollectChinese(newCard);
@@ -303,7 +361,6 @@ function startReviewStep(card) {
   
   btn.textContent = 'Save';
   btn.onclick = () => {
-    console.log('Flashcard data pushed to server:', card);  
     collectEnglishStep.style.display = 'none';
     saveCardToDatabase(card);
     resetCardOverlay();
@@ -431,6 +488,10 @@ window.addEventListener('keydown', e => {
 // ==== EVENT BINDINGS ====
 
 img.addEventListener('mousedown', onImageMouseDown);
+img.addEventListener('load', () => {
+  fetchFlashcardsData(img.src);  // This will fetch the flashcards based on the current image's source path.
+});
+
 window.addEventListener('mousemove', onMouseMove);
 window.addEventListener('mouseup', onMouseUp);
 selectAreaBtn.addEventListener('click', enableSelectionMode);
@@ -456,9 +517,6 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-
-
-
 // ==== IMAGE LOADING ====
 
 fetch('/api/images')
@@ -483,12 +541,33 @@ fetch('/api/images')
   })
   .catch(err => console.error('Error loading image list:', err));
 
+function fetchFlashcardsData(imgPath) {
+  console.log('Fetching flashcards data for image:', imgPath);
+
+  fetch('/api/cards/read_by_imgPath', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ imgPath })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('received flashcards (given imgPath):', data.flashcards);
+    console.log('data type:', typeof data.flashcards);
+    if (data.flashcards && Array.isArray(data.flashcards)) {
+      console.log('here');
+      displayFlashCardGhosts(data.flashcards);
+    }
+  })
+  .catch(err => console.error('Error fetching flashcards:', err));
+}
 
 // ==== APIs ====
 
 async function saveCardToDatabase(card) {
   try {
-    const response = await fetch('/api/card/create', {
+    const response = await fetch('/api/cards/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -497,8 +576,6 @@ async function saveCardToDatabase(card) {
     });
 
     const data = await response.json(); // ✅ Wait for the body to parse
-
-    console.log('data from Flashcard Push:', data);
 
     if (data.flashcardId) {
       console.log(`Card succesfully created. Card ID: ${data.flashcardId}`);

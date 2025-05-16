@@ -158,14 +158,14 @@ function finalizeSelection(e) {
   };
 
   // Remove the selection box after 2 seconds (ensure this happens only once)
-  // if (selectionBox) {
-  //   setTimeout(() => {
-  //     if (selectionBox) {
-  //       selectionBox.remove();
-  //       selectionBox = null;  // Reset the reference to prevent future issues
-  //     }
-  //   }, 2000);
-  // }
+  if (selectionBox) {
+    setTimeout(() => {
+      if (selectionBox) {
+        selectionBox.remove();
+        selectionBox = null;  // Reset the reference to prevent future issues
+      }
+    }, 2000);
+  }
 
   selectAreaBtn.style.backgroundColor = ''; 
   selectAreaBtn.style.color = ''; 
@@ -176,29 +176,34 @@ function finalizeSelection(e) {
 
 function displayFlashCardGhosts(cards) {
   const imgContainer = document.getElementById('viewerContainer');
-  
-  // Remove any existing flashcard ghosts
   const existingGhosts = imgContainer.querySelectorAll('.flashCardGhost');
   existingGhosts.forEach(ghost => ghost.remove());
 
-  // Create new flashcard ghosts based on the cards data
   cards.forEach(card => {
-    const flashcardGhost = document.createElement('div');
-    flashcardGhost.classList.add('flashCardGhost');
-    flashcardGhost.style.position = 'absolute';
-    flashcardGhost.style.border = '2px dashed #ff00ff';
-    flashcardGhost.style.background = 'rgba(255, 0, 255, 0.3)';
-    flashcardGhost.style.pointerEvents = 'none';
-    flashcardGhost.style.zIndex = '9999';
-    
-    // Calculate position and size relative to the image
     const { FLASHCARD_CROP_X, FLASHCARD_CROP_Y, FLASHCARD_CROP_WIDTH, FLASHCARD_CROP_HEIGHT } = card;
-    flashcardGhost.style.left = `${(FLASHCARD_CROP_X / img.naturalWidth) * imgContainer.offsetWidth}px`;
-    flashcardGhost.style.top = `${(FLASHCARD_CROP_Y / img.naturalHeight) * imgContainer.offsetHeight}px`;
-    flashcardGhost.style.width = `${(FLASHCARD_CROP_WIDTH / img.naturalWidth) * imgContainer.offsetWidth}px`;
-    flashcardGhost.style.height = `${(FLASHCARD_CROP_HEIGHT / img.naturalHeight) * imgContainer.offsetHeight}px`;
 
-    imgContainer.appendChild(flashcardGhost);
+    const ghost = document.createElement('div');
+    ghost.className = 'flashCardGhost';
+    ghost.style.position = 'absolute';
+    ghost.style.border = '2px dashed #ff00ff';
+    ghost.style.background = 'rgba(255, 0, 255, 0.3)';
+    ghost.style.pointerEvents = 'none';
+    ghost.style.zIndex = '9999';
+
+    ghost.style.left = `${(FLASHCARD_CROP_X / img.naturalWidth) * imgContainer.offsetWidth}px`;
+    ghost.style.top = `${(FLASHCARD_CROP_Y / img.naturalHeight) * imgContainer.offsetHeight}px`;
+    ghost.style.width = `${(FLASHCARD_CROP_WIDTH / img.naturalWidth) * imgContainer.offsetWidth}px`;
+    ghost.style.height = `${(FLASHCARD_CROP_HEIGHT / img.naturalHeight) * imgContainer.offsetHeight}px`;
+
+    // Store card data as JSON string
+    ghost.dataset.card = JSON.stringify({
+      x: FLASHCARD_CROP_X,
+      y: FLASHCARD_CROP_Y,
+      width: FLASHCARD_CROP_WIDTH,
+      height: FLASHCARD_CROP_HEIGHT
+    });
+
+    imgContainer.appendChild(ghost);
   });
 }
 
@@ -206,17 +211,13 @@ function updateFlashCardGhosts() {
   const imgContainer = document.getElementById('viewerContainer');
   const ghosts = imgContainer.querySelectorAll('.flashCardGhost');
 
-  ghosts.forEach(flashcardGhost => {
-    const card = flashcardGhost.dataset.card; // Retrieve card data if necessary
+  ghosts.forEach(ghost => {
+    const card = JSON.parse(ghost.dataset.card); // Parse back to object
 
-    // Recalculate the position based on the scale and offset of the image
-    const scaleX = img.naturalWidth / imgContainer.offsetWidth;
-    const scaleY = img.naturalHeight / imgContainer.offsetHeight;
-
-    flashcardGhost.style.left = `${(card.x / img.naturalWidth) * imgContainer.offsetWidth + offsetX}px`;
-    flashcardGhost.style.top = `${(card.y / img.naturalHeight) * imgContainer.offsetHeight + offsetY}px`;
-    flashcardGhost.style.width = `${(card.width / img.naturalWidth) * imgContainer.offsetWidth * scale}px`;
-    flashcardGhost.style.height = `${(card.height / img.naturalHeight) * imgContainer.offsetHeight * scale}px`;
+    ghost.style.left = `${(card.x / img.naturalWidth) * imgContainer.offsetWidth + offsetX}px`;
+    ghost.style.top = `${(card.y / img.naturalHeight) * imgContainer.offsetHeight + offsetY}px`;
+    ghost.style.width = `${(card.width / img.naturalWidth) * imgContainer.offsetWidth * scale}px`;
+    ghost.style.height = `${(card.height / img.naturalHeight) * imgContainer.offsetHeight * scale}px`;
   });
 }
 
@@ -224,7 +225,6 @@ function updateImageTransform(smooth = false) {
   img.style.transition = smooth ? 'transform 0.3s ease' : '';
   img.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 
-  // After updating the image, update the flashcard ghosts
   updateFlashCardGhosts();
 }
 

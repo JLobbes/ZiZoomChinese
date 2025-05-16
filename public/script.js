@@ -83,6 +83,17 @@ function onMouseUp(e) {
   if (isDrawingSelection) {
     finalizeSelection(e);
   }
+
+  // Set interval to continuously update image transform
+  const transformInterval = setInterval(() => {
+    updateImageTransform();
+  }, 1);
+
+  // Set timeout to clear the interval after 500ms
+  setTimeout(() => {
+    clearInterval(transformInterval);  // Clear the interval after 500ms
+    updateImageTransform();  // Ensure the final transform is applied smoothly
+  }, 500);
 }
 
 // ==== IMAGE SECTION SELECTION (FOR FLASHCARD)  ====
@@ -190,6 +201,7 @@ function displayFlashCardGhosts(cards) {
     ghost.style.pointerEvents = 'none';
     ghost.style.zIndex = '9999';
 
+    ghost.style.transition = 'all 0.3s ease';  // Apply smooth transition to ghosts
     ghost.style.left = `${(FLASHCARD_CROP_X / img.naturalWidth) * imgContainer.offsetWidth}px`;
     ghost.style.top = `${(FLASHCARD_CROP_Y / img.naturalHeight) * imgContainer.offsetHeight}px`;
     ghost.style.width = `${(FLASHCARD_CROP_WIDTH / img.naturalWidth) * imgContainer.offsetWidth}px`;
@@ -208,16 +220,21 @@ function displayFlashCardGhosts(cards) {
 }
 
 function updateFlashCardGhosts() {
-  const imgContainer = document.getElementById('viewerContainer');
   const ghosts = imgContainer.querySelectorAll('.flashCardGhost');
+  const rect = img.getBoundingClientRect();  // <- Real on-screen size and position
 
   ghosts.forEach(ghost => {
-    const card = JSON.parse(ghost.dataset.card); // Parse back to object
+    const card = JSON.parse(ghost.dataset.card);
 
-    ghost.style.left = `${(card.x / img.naturalWidth) * imgContainer.offsetWidth + offsetX}px`;
-    ghost.style.top = `${(card.y / img.naturalHeight) * imgContainer.offsetHeight + offsetY}px`;
-    ghost.style.width = `${(card.width / img.naturalWidth) * imgContainer.offsetWidth * scale}px`;
-    ghost.style.height = `${(card.height / img.naturalHeight) * imgContainer.offsetHeight * scale}px`;
+    const left = (card.x / img.naturalWidth) * rect.width + rect.left - imgContainer.getBoundingClientRect().left;
+    const top = (card.y / img.naturalHeight) * rect.height + rect.top - imgContainer.getBoundingClientRect().top;
+    const width = (card.width / img.naturalWidth) * rect.width;
+    const height = (card.height / img.naturalHeight) * rect.height;
+
+    ghost.style.left = `${left}px`;
+    ghost.style.top = `${top}px`;
+    ghost.style.width = `${width}px`;
+    ghost.style.height = `${height}px`;
   });
 }
 
@@ -225,8 +242,18 @@ function updateImageTransform(smooth = false) {
   img.style.transition = smooth ? 'transform 0.3s ease' : '';
   img.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 
+  // 🧠 Step 1: force a reflow to ensure layout is accurate
+  void img.offsetWidth;
+
+  // 🧠 Step 2: delay just enough for animation to visually complete before syncing overlays
+  setTimeout(() => {
+    updateFlashCardGhosts();
+  }, smooth ? 350 : 0); // only delay if it's a smooth animation
+
+  // Original, no frills
   updateFlashCardGhosts();
 }
+
 
 // ==== UTILITY ====
 

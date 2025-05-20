@@ -138,6 +138,7 @@ img#viewer {
   border: #111 5px solid;
   border-radius: 5px;
   box-sizing: content-box;
+  max-width: 90%;
 }
 
 .cardDataCollection-Container {

@@ -8,6 +8,7 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: #caffb1;
 }
 
 #menuBar {
@@ -58,43 +59,40 @@ body, html {
   
 #viewerContainer {
   position: relative;
-  height: 90vh;
-  width: fit-content;
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border: black 3px solid;
+}
+
+#viewerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: fit-content;
+  width: fit-content;
+  box-shadow: 0 2px 4px rgba(65, 65, 65, 0.5),  
+  0 6px 12px rgba(75, 75, 75, 0.5);
   border-radius: 5px;
-  background: #fdb5b5;
+  transform-origin: center center;
+  transition: transform 0.1s ease;
 }
 
 #viewedImage {
-  height: 100%;
-  width: auto;
-  display: block;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(250, 44, 44, 0.5),  
-              0 6px 12px rgba(250, 44, 44, 0.5);
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 img#viewer {
   border-radius: 5px;
 }
 
-#viewerWrapper {
-  transform-origin: center center;
-  transition: transform 0.1s ease;
-  height: 100%;
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#viewer {
-  transform: none !important; /* Prevent conflicts */
-}
 
 
 #selectAreaBtn {

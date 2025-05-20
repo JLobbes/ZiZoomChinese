@@ -535,7 +535,7 @@ function updateImageTransform(smooth = false) {
         item.setAttribute('data-src', `/images/${file}`);
         item.addEventListener('click', () => {
           viewedImg.src = `/images/${file}`;
-          viewerContainer.style.display = 'block';
+          viewerContainer.style.display = 'flex';
           scale = 1;
           offsetX = 0;
           offsetY = 0;

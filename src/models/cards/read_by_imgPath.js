@@ -1,4 +1,4 @@
-// model/cards/read_by_imgPath.js
+// models/cards/read_by_imgPath.js
 
 const db = require('../../lib/db');
 

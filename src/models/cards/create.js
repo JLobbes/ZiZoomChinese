@@ -1,3 +1,5 @@
+// models/cards/create.js
+
 const db = require('../../lib/db');
 
 async function createFlashCard(flashcard) {
@@ -30,10 +32,10 @@ async function createFlashCard(flashcard) {
       flashcard.chinese, 
       flashcard.pinyin,
       flashcard.imgPath, 
-      flashcard.croppedImageLocation.x, 
-      flashcard.croppedImageLocation.y,
-      flashcard.croppedImageLocation.width, 
-      flashcard.croppedImageLocation.height,
+      flashcard.selected_area.x, 
+      flashcard.selected_area.y,
+      flashcard.selected_area.width, 
+      flashcard.selected_area.height,
       null, 
       null,
       null, 

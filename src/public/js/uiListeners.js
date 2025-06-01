@@ -1,8 +1,7 @@
 // public/js/uiListeners.js
 
 import uiState from './uiState.js';
-import { getImages } from './api/getImages.js';
-import { loadImages } from './utils/loadImages.js';
+import { renderMenu } from './utils/renderMenu.js';
 import { keyPressZoomAndPan, startPan, panImage, endPan } from './utils/zoomOrPanImage.js';
 import { startSelection, drawSelectionBox, finalizeSelection } from './utils/selectImageArea.js';
 import { resetCardOverlay } from './utils/collectCardData.js';
@@ -12,13 +11,7 @@ import { handlePinyinKeydown, createPinyinKeyboard } from './utils/createPinYinK
 export function initUIListeners() {
 
   window.addEventListener('load', () => {
-    getImages()
-      .then(images => {
-        loadImages(images);  
-      })
-      .catch(err => {
-        console.error('Error loading images:', err);
-      });
+    renderMenu();
   });
 
   document.addEventListener('keydown', e => {

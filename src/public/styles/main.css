@@ -42,14 +42,38 @@ body, html {
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
   box-sizing: border-box;
+  z-index: 1000; /* keep menus above other content */
 }
 
-.menu:hover .submenu {
-  
+.menu > .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  /* rest of styles */
+}
+
+.menu > .submenu, .menuItem > .submenu {
+  display: none;
+}
+
+.menu > .submenu {
+  top: 100%;
+  left: 0;
+}
+
+.menu:hover > .submenu,
+.menuItem:hover > .submenu {
   display: block;
 }
 
+.menuItem > .submenu {
+  left: 100%;
+  top: 0;
+}
+
 .menuItem {
+  position: relative;
   padding: 6px 12px;
   white-space: nowrap;
 }

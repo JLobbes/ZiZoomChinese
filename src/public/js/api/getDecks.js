@@ -5,7 +5,7 @@ export async function getDecks() {
     const res = await fetch('/api/decks');
     if (!res.ok) throw new Error('Failed to fetch decks');
     const data = await res.json();
-    return data; // Expected: [{ DECK_ID, DECK_NAME, PARENT_DECK_ID }, ...]
+    return data.decks; 
   } catch (err) {
     console.error('getDecks error:', err);
     return [];

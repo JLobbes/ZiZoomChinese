@@ -1,4 +1,4 @@
-// src/cards.js
+// src/routes/cards.js
 
 const express = require('express');
 const { createFlashCard } = require('../models/cards/create');

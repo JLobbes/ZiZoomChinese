@@ -6,6 +6,7 @@ const path = require('path');
 
 const cardRoutes = require('./routes/cards');
 const imageRoutes = require('./routes/images');
+const deckRoutes = require('./routes/decks');
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // Mount routes
 app.use('/api/cards', cardRoutes);
 app.use('/api/images', imageRoutes);
+app.use('/api/decks', deckRoutes);
 
 module.exports = app;

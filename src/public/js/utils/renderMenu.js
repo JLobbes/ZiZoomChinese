@@ -1,14 +1,4 @@
-// public/js/ui/renderMenu.js
-
-// Image Data
-
-// [
-//   { name: "page1.jpg", path: "charlottes_web/page1.jpg" },
-//   { name: "page2.jpg", path: "charlottes_web/page2.jpg" },
-//   { name: "cover.jpg", path: "harry_potter/cover.jpg" }
-// ]
-
-// public/js/ui/renderMenu.js
+// public/js/utils/renderMenu.js
 
 import { getImages } from '../api/getImages.js';
 import { getDecks } from '../api/getDecks.js';
@@ -19,45 +9,29 @@ export async function renderMenu() {
   imageMenu.innerHTML = '';
 
   // === IMAGES ===
-  const imagesHeader = createHeader('📂 Images');
-  imageMenu.appendChild(imagesHeader);
-
   try {
     const images = await getImages();
-    console.log('images:', images);
     const folderTree = buildFolderTree(images);
     appendFoldersToMenu(imageMenu, folderTree);
   } catch (err) {
     console.error('Error loading images:', err);
   }
 
-  // // === DECKS ===
-  // const decksHeader = createHeader('🗂️ Decks');
-  // imageMenu.appendChild(decksHeader);
+  // === DECKS ===
+  try {
+    const decks = await getDecks();
+    const deckTree = buildDeckTree(decks);
+    appendDecksToMenu(imageMenu, deckTree);
+  } catch (err) {
+    console.error('Error loading decks:', err);
+  }
 
-  // try {
-  //   const decks = await getDecks();
-  //   decks.forEach(deck => {
-  //     const item = document.createElement('div');
-  //     item.className = 'menuItem';
-  //     item.textContent = deck.DECK_NAME;
-  //     item.addEventListener('click', () => {
-  //       console.log(`Load deck: ${deck.DECK_NAME}`);
-  //     });
-  //     imageMenu.appendChild(item);
-  //   });
-  // } catch (err) {
-  //   console.error('Error loading decks:', err);
-  // }
-
-  const quizItem = createMenuItem('🧠 Quiz Mode', () => console.log('Quiz'));
-  const settingsItem = createMenuItem('⚙️ Settings', () => console.log('Settings'));
-
-  imageMenu.appendChild(quizItem);
-  imageMenu.appendChild(settingsItem);
+  // === Other menu items
+  imageMenu.appendChild(createMenuItem('🧠 Quiz Mode', () => console.log('Quiz')));
+  imageMenu.appendChild(createMenuItem('⚙️ Settings', () => console.log('Settings')));
 }
 
-// === Build folder tree from flat paths
+// === Images: Folder structure
 function buildFolderTree(images) {
   const root = {};
   images.forEach(({ name, path }) => {
@@ -73,47 +47,75 @@ function buildFolderTree(images) {
   return root;
 }
 
-// === Recursively build DOM
 function appendFoldersToMenu(container, tree) {
   for (const key in tree) {
     const node = tree[key];
 
     if (node.__file) {
-      const fileItem = createMenuItem(node.name, () => {
-        uiState.viewedImg.src = `/${node.path}`;
-        uiState.viewerContainer.style.display = 'flex';
-        uiState.scale = 1;
-        uiState.offsetX = 0;
-        uiState.offsetY = 0;
-      });
-      container.appendChild(fileItem);
+      container.appendChild(
+        createMenuItem(node.name, () => {
+          uiState.viewedImg.src = `/${node.path}`;
+          uiState.viewerContainer.style.display = 'flex';
+          uiState.scale = 1;
+          uiState.offsetX = 0;
+          uiState.offsetY = 0;
+        })
+      );
     } else {
-      const folderItem = document.createElement('div');
-      folderItem.className = 'menuItem';
-      folderItem.textContent = key;
-
+      const folderItem = createMenuItem(key);
       const subMenu = document.createElement('div');
       subMenu.className = 'submenu';
       appendFoldersToMenu(subMenu, node);
       folderItem.appendChild(subMenu);
-
       container.appendChild(folderItem);
     }
   }
 }
 
-// === Helpers
-function createHeader(text) {
-  const el = document.createElement('div');
-  el.className = 'menuHeader';
-  el.textContent = text;
-  return el;
+// === Decks: Tree structure
+function buildDeckTree(decks) {
+  const deckMap = new Map();
+  const root = [];
+
+  decks.forEach(deck => {
+    deck.children = [];
+    deckMap.set(deck.DECK_ID, deck);
+  });
+
+  decks.forEach(deck => {
+    if (deck.PARENT_DECK_ID === null) {
+      root.push(deck);
+    } else {
+      const parent = deckMap.get(deck.PARENT_DECK_ID);
+      if (parent) parent.children.push(deck);
+    }
+  });
+
+  return root;
 }
 
-function createMenuItem(text, onClick) {
+function appendDecksToMenu(container, decks) {
+  decks.forEach(deck => {
+    const item = createMenuItem(deck.DECK_NAME, () => {
+      console.log(`Load deck: ${deck.DECK_NAME}`);
+    });
+
+    if (deck.children.length > 0) {
+      const subMenu = document.createElement('div');
+      subMenu.className = 'submenu';
+      appendDecksToMenu(subMenu, deck.children);
+      item.appendChild(subMenu);
+    }
+
+    container.appendChild(item);
+  });
+}
+
+// === Helper
+function createMenuItem(text, onClick = null) {
   const el = document.createElement('div');
   el.className = 'menuItem';
   el.textContent = text;
-  el.addEventListener('click', onClick);
+  if (onClick) el.addEventListener('click', onClick);
   return el;
 }

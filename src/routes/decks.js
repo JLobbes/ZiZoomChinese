@@ -1,11 +1,20 @@
 // server/routes/decks.js
 
-app.get('/api/decks', async (req, res) => {
+const express = require('express');
+const { readAll } = require('../models/decks/read_all');
+
+const router = express.Router();
+
+// GET /api/decks
+router.get('/', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM DECKS');
-    res.json(rows);
+    const decks = await readAll();
+    res.status(200).json({ decks });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server error');
+    console.error('Error retrieving decks:', err);
+    res.status(500).json({ error: 'Failed to retrieve decks' });
   }
 });
+
+module.exports = router;
+

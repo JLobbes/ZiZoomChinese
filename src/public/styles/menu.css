@@ -1,0 +1,61 @@
+/* public/styles/menu.css */
+
+#menuBar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
+.menu {
+  background: #fff;
+  padding: 6px 12px;
+  border: 2px solid #111;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  font-size: 18px;
+  user-select: none;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: calc(100%);
+  left: -1px;
+  background: #fff;
+  border: 2px solid #111;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.menu > .submenu,
+.menuItem > .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.menuItem > .submenu {
+  left: 100%;
+  top: 0;
+}
+
+.menu:hover > .submenu,
+.menuItem:hover > .submenu {
+  display: block;
+}
+
+.menuItem {
+  position: relative;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.menuItem:hover {
+  background: #ddd;
+  cursor: pointer;
+}

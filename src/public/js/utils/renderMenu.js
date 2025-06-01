@@ -62,7 +62,8 @@ function appendFoldersToMenu(container, tree) {
         })
       );
     } else {
-      const folderItem = createMenuItem(key);
+      const folderName = key.charAt(0).toUpperCase() + key.slice(1);
+      const folderItem = createMenuItem(folderName);
       const subMenu = document.createElement('div');
       subMenu.className = 'submenu';
       appendFoldersToMenu(subMenu, node);

@@ -59,3 +59,17 @@
   background: #ddd;
   cursor: pointer;
 }
+
+.add-item {
+  font-style: italic;
+  color: #2a7ae2;
+  font-weight: bold;
+  border-top: 1px solid #ccc;
+  margin-top: 4px;
+  padding-top: 4px;
+}
+
+.add-item:hover {
+  background: #eef3fc;
+  color: #1a5bc8;
+}

@@ -32,8 +32,14 @@ export function initUIListeners() {
   });
 
   document.addEventListener('mousedown', e => {
+    const overlayVisible = uiState.cardCollectionOverlay.style.display === 'flex';
+
     if (uiState.selectionModeEnabled) {
       startSelection(e);
+
+    } else if (overlayVisible) {
+      // do nothing
+      return;
     } else {
       startPan(e);
     }

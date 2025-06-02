@@ -76,9 +76,12 @@ export function startCollectPinYin(card) {
 }
 
 export function startCollectEnglish(card) {
-  uiState.pinyinInputMode = false;
 
+  // shut down items related to pinyin collection
+  uiState.pinyinInputMode = false;
+  uiState.showingToneOptions = false;
   uiState.collectPinYinStep.style.display = 'none';
+
   uiState.collectEnglishStep.style.display = 'flex';
   uiState.englishInput.focus();
 

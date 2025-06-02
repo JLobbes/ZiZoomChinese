@@ -20,6 +20,7 @@
   border-radius: 5px;
   box-sizing: content-box;
   max-width: 90%;
+  user-select: none;
 }
 
 .cardDataCollection-Container {

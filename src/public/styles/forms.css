@@ -24,6 +24,10 @@
   font-family: sans-serif;
 }
 
+.cardDataCollection-Container label {
+  user-select: none;
+}
+
 .cardDataCollection-Container button {
   background: #fff;
   padding: 6px 12px;
@@ -35,6 +39,7 @@
   cursor: pointer;
   z-index: 9999;
   font-family: sans-serif;
+  user-select: none;
 }
 
 #deckSelectionGUI {

@@ -58,6 +58,7 @@
 .menuItem:hover {
   background: #ddd;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .add-item {

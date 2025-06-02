@@ -50,15 +50,22 @@
           <div id="pinyinKeyboard" class="pinyin-keyboard"></div>
         </div>
 
-        <!-- Meaning Step -->
+        <!-- English Step -->
         <div id="collectEnglishStep" class="inputStep" style="display:none;">
           <label for="englishInput">Enter Meaning:</label>
           <input type="text" id="englishInput" />
+        </div>
+
+        <!-- Deck Selection Step -->
+        <div id="collectDeckStep" class="inputStep" style="display:none;">
+          <h3>Select Deck</h3>
+          <div id="deckSelectionGUI" class=".menu"></div>
         </div>
         
         <!-- Review & Save Step -->
         <div id="reviewStep" class="inputStep" style="display:none;">
           <label for="reviewStep">Review Card:</label>
+          <p id="reviewCardDeck" class="reviewCardItem"></p>
           <p id="reviewCardChinese" class="reviewCardItem"></p>
           <p id="reviewCardPinYin" class="reviewCardItem"></p>
           <p id="reviewCardEnglish" class="reviewCardItem"></p>
@@ -67,7 +74,6 @@
         <button id="saveDataBtn">Next</button>
       </div>
     </div>
-     
 
     <script src="main.js" type="module"></script>
   </body>

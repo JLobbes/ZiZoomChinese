@@ -3,10 +3,10 @@
 import uiState from './uiState.js';
 import { renderMenu } from './utils/menuConstruction/renderMenuMain.js';
 import { keyPressZoomAndPan, startPan, panImage, endPan } from './utils/zoomOrPanImage.js';
-import { startSelection, drawSelectionBox, finalizeSelection } from './utils/selectImageArea.js';
-import { resetCardOverlay } from './utils/collectCardData.js';
-import { enableSelectionMode } from './utils/selectImageArea.js';
-import { handlePinyinKeydown, createPinyinKeyboard } from './utils/createPinYinKeyboard.js';
+import { startSelection, drawSelectionBox, finalizeSelection } from './utils/collectFlashcardData/selectImageArea.js';
+import { resetCardOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
+import { enableSelectionMode } from './utils/collectFlashcardData/selectImageArea.js';
+import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashcardData/createPinYinKeyboard.js';
  
 export function initUIListeners() {
 
@@ -76,4 +76,3 @@ export function initUIListeners() {
   uiState.exitCardDataCollectBtn.addEventListener('click', resetCardOverlay);
 
 }
-

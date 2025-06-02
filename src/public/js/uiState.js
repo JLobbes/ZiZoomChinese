@@ -1,3 +1,5 @@
+// public/js/uiState.js
+
 const uiState = {
   
   // ==== Image Viewer Elements ====
@@ -30,17 +32,20 @@ const uiState = {
   // ==== Card Data Collection Elements ====
   cardCollectionOverlay: document.getElementById('cardDataCollection-Overlay'),
   previewImg: document.getElementById('croppedPreview'),
+  deckSelectionGUI: document.getElementById('deckSelectionGUI'),
   saveDataBtn: document.getElementById('saveDataBtn'),
 
   collectChineseStep: document.getElementById('collectChineseStep'),
   collectPinYinStep: document.getElementById('collectPinYinStep'),
   collectEnglishStep: document.getElementById('collectEnglishStep'),
+  collectDeckStep: document.getElementById('collectDeckStep'),
   reviewStep: document.getElementById('reviewStep'),
 
   chineseInput: document.getElementById('chineseInput'),
   pinyinInput: document.getElementById('pinyinInput'),
   englishInput: document.getElementById('englishInput'),
 
+  reviewCardDeck: document.getElementById('reviewCardDeck'),
   reviewCardChinese: document.getElementById('reviewCardChinese'),
   reviewCardPinYin: document.getElementById('reviewCardPinYin'),
   reviewCardEnglish: document.getElementById('reviewCardEnglish'),

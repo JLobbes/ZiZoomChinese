@@ -1,15 +1,17 @@
-// public/js/utils/collectCard.js
+// public/js/utils/collectCardDataMain.js
 
-import uiState from "../uiState.js";
+import uiState from "../../uiState.js";
 import { createPinyinKeyboard } from './createPinYinKeyboard.js';
-import { saveCardToDatabase } from '../api/saveFlashcard.js';
+import { saveCardToDatabase } from '../../api/saveFlashcard.js';
+import { getDecks } from '../../api/getDecks.js'
+import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js'
 
 // ==== COLLECT FLASH CARD DATA ====
 
 export function collectCardData(selected_area) {
   const newCard = {
     selected_area,
-    deckID: 2,
+    deckID: null,
     imgPath: uiState.viewedImg.src,
   };
 
@@ -73,8 +75,8 @@ export function startCollectPinYin(card) {
   };
 }
 
-function startCollectEnglish(card) {
-  uiState.pinyinInputMode = false; // Still in global scope?
+export function startCollectEnglish(card) {
+  uiState.pinyinInputMode = false;
 
   uiState.collectPinYinStep.style.display = 'none';
   uiState.collectEnglishStep.style.display = 'flex';
@@ -86,24 +88,55 @@ function startCollectEnglish(card) {
     if (!english) return alert('Please enter English meaning.');
     card.english = english;
 
-    startReviewStep(card);
+    // Move to deck selection step
+    startSelectDeck(card);
   };
 }
 
-function startReviewStep(card) {
+export function startSelectDeck(card) {
+  uiState.collectEnglishStep.style.display = 'none';
+  uiState.previewImg.style.display = 'none';
+  uiState.collectDeckStep.style.display = 'block';
+
+  getDecks().then((decks) => {
+    console.log('got decks:', decks);
+
+    renderDeckSelection(uiState.deckSelectionGUI, decks, (deckID, deckName) => {
+      card.deckID = deckID;
+      card.deckName = deckName; 
+      uiState.collectDeckStep.style.display = 'none';
+      uiState.previewImg.style.display = 'block';
+
+      // Proceed to final review
+      startReviewStep(card);
+    });
+  }).catch((err) => {
+    console.error('Failed to load decks', err);
+    alert('Could not load decks. Please try again later.');
+    resetCardOverlay();
+  });
+}
+
+export function startReviewStep(card) {
   uiState.collectEnglishStep.style.display = 'none';
   uiState.reviewStep.style.display = 'flex';
 
   uiState.reviewCardChinese.textContent = card.chinese;
   uiState.reviewCardPinYin.textContent = card.pinyin;
   uiState.reviewCardEnglish.textContent = card.english;
+  uiState.reviewCardDeck.textContent = card.deckName;
 
   uiState.saveDataBtn.textContent = 'Save';
   uiState.saveDataBtn.onclick = () => {
+    if (!card.deckID) {
+      alert('Please select a deck to save the card.');
+      return;
+    }
     saveCardToDatabase(card);
     resetCardOverlay();
   };
 }
+
 
 export function resetCardOverlay() {
   uiState.cardCollectionOverlay.style.display = 'none';
@@ -118,3 +151,4 @@ export function resetCardOverlay() {
   uiState.reviewCardPinYin.textContent = '';
   uiState.reviewCardEnglish.textContent = '';
 }
+

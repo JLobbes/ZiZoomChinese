@@ -1,6 +1,6 @@
 // public/js/utils/createPinYinKeyboard.js
 
-import uiState from "../uiState.js";
+import uiState from "../../uiState.js";
 
 // ==== PinYin Input ====
 

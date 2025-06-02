@@ -1,8 +1,8 @@
 // public/js/utils/selectImageArea.js
 
-import uiState from "../uiState.js";
-import { getImageCoords, imageCoordsToPercent } from "./coordinateConverter.js";
-import { collectCardData } from "../utils/collectCardData.js"; // or wherever it's defined
+import uiState from "../../uiState.js";
+import { getImageCoords, imageCoordsToPercent } from "../coordinateConverter.js";
+import { collectCardData } from "../collectFlashcardData/collectCardDataMain.js"; 
 
 // ==== IMAGE AREA SELECTION (FOR FLASHCARD)  ====
 

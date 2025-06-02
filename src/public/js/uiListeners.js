@@ -1,7 +1,7 @@
 // public/js/uiListeners.js
 
 import uiState from './uiState.js';
-import { renderMenu } from './utils/renderMenu.js';
+import { renderMenu } from './utils/menuConstruction/renderMenuMain.js';
 import { keyPressZoomAndPan, startPan, panImage, endPan } from './utils/zoomOrPanImage.js';
 import { startSelection, drawSelectionBox, finalizeSelection } from './utils/selectImageArea.js';
 import { resetCardOverlay } from './utils/collectCardData.js';

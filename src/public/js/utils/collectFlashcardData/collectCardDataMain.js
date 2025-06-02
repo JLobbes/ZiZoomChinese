@@ -155,7 +155,11 @@ export function resetCardOverlay() {
   uiState.englishInput.value = '';
   uiState.previewImg.src = '';
 
+  uiState.collectChineseStep.style.display = 'none';
+  uiState.collectEnglishStep.style.display = 'none';
+  uiState.collectDeckStep.style.display = 'none';
   uiState.reviewStep.style.display = 'none';
+  
   uiState.reviewCardChinese.textContent = '';
   uiState.reviewCardPinYin.textContent = '';
   uiState.reviewCardEnglish.textContent = '';

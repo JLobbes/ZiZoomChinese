@@ -44,6 +44,7 @@ const uiState = {
   chineseInput: document.getElementById('chineseInput'),
   pinyinInput: document.getElementById('pinyinInput'),
   englishInput: document.getElementById('englishInput'),
+  deckInput: document.getElementById('deckInput'),
 
   reviewCardDeck: document.getElementById('reviewCardDeck'),
   reviewCardChinese: document.getElementById('reviewCardChinese'),

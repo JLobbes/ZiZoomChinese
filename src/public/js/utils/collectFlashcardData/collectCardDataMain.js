@@ -96,20 +96,29 @@ export function startCollectEnglish(card) {
 export function startSelectDeck(card) {
   uiState.collectEnglishStep.style.display = 'none';
   uiState.previewImg.style.display = 'none';
-  uiState.collectDeckStep.style.display = 'block';
+  uiState.collectDeckStep.style.display = 'flex';
 
   getDecks().then((decks) => {
     console.log('got decks:', decks);
 
     renderDeckSelection(uiState.deckSelectionGUI, decks, (deckID, deckName) => {
       card.deckID = deckID;
-      card.deckName = deckName; 
+      card.deckName = deckName;
+      uiState.deckInput.value = deckName;
+    });
+
+    uiState.saveDataBtn.textContent = 'Next';
+    uiState.saveDataBtn.onclick = () => {
+      if (!card.deckID) {
+        alert('Please select a deck.');
+        return;
+      }
+
       uiState.collectDeckStep.style.display = 'none';
       uiState.previewImg.style.display = 'block';
-
-      // Proceed to final review
       startReviewStep(card);
-    });
+    };
+
   }).catch((err) => {
     console.error('Failed to load decks', err);
     alert('Could not load decks. Please try again later.');

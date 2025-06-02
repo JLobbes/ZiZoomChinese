@@ -1,4 +1,4 @@
-// public/js/utils/collectFlashCardData.js/renderDeckSelection.js
+// public/js/utils/collectFlashCardData.js/renderSelectDeck.js
 
 export function renderDeckSelection(container, decks, onSelect) {
   container.innerHTML = ''; // clear previous content
@@ -34,8 +34,11 @@ export function renderDeckSelection(container, decks, onSelect) {
 
       item.addEventListener('click', (e) => {
         e.stopPropagation();
-        onSelect(deck.DECK_ID, deck.DECK_NAME);
+        document.querySelectorAll('.menuItem.selected').forEach(el => el.classList.remove('selected'));
+        item.classList.add('selected');
+        onSelect(deck.DECK_ID, deck.DECK_NAME); // still call it to record choice
       });
+
 
       if (deck.children.length > 0) {
         const subMenu = document.createElement('div');

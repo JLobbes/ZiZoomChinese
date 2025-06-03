@@ -17,7 +17,6 @@ async function getCardsRecursive(deckID) {
     `;
 
     const rows = await conn.query(query, [deckID]);
-    console.log('cards found:', rows);
     return rows;
 
   } finally {

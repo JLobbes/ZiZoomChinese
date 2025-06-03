@@ -106,10 +106,20 @@
       </div>
 
       <div id="chooseDeckToQuiz-Container" class="inputStep" style="display:none;">
-          <div id="chooseDeckToQuizGUI" class="menu"></div>
-          <label for="deckToQuizInput">Select Deck:</label>
-          <input type="text" id="deckToQuizInput" readonly style="user-select: none; cursor: not-allowed;" />
-          <button id="quizMeBtn">Quiz Me!</button>
+        <div id="chooseDeckToQuizGUI" class="menu"></div>
+        <label for="deckToQuizInput">Select Deck:</label>
+        <input type="text" id="deckToQuizInput" readonly style="user-select: none; cursor: not-allowed;" />
+        <button id="quizMeBtn">Quiz Me!</button>
+      </div>
+        
+      <div id="quizOperationUI" style="display: none;">
+        <label>Choose an Answer:</label>
+        <div id="options-container">
+          <button id="option-one"></button>
+          <button id="option-two"></button>
+          <button id="option-three"></button>
+          <button id="option-four"></button>
+        </div>
       </div>
     <script src="main.js" type="module"></script>
   </body>

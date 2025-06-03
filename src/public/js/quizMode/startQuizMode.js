@@ -4,6 +4,7 @@ import uiState from '../uiState.js';
 import { getDecks } from '../api/getDecks.js';
 import { renderDeckSelection } from '../utils/collectFlashcardData/renderSelectDeck.js';
 import { getCardsByDeck } from '../api/getFlashcardsByDeck.js'; // You'll need to make this API endpoint
+import { runQuiz } from './runQuiz.js'
 
 
 export function startQuizMode() {
@@ -18,7 +19,6 @@ export function startQuizMode() {
 
   getDecks().then(decks => {
     renderDeckSelection(uiState.chooseDeckToQuizGUI, decks, (deckID, deckName) => {
-      console.log('deck selected:', deckName);
       uiState.deckToQuiz = deckID;
       uiState.deckToQuizInput.value = deckName;
     });
@@ -39,16 +39,23 @@ export function startQuizMode() {
     try {
       const cards = await getCardsByDeck(deckID);
       if (!cards.length) {
-        alert('No flashcards found in this deck or its sub-decks.');
-        return;
+        throw error('No flashcards found in this deck or its sub-decks.');
+      }
+      if (cards.length < 4) {
+        throw error('Must have (4) or more cards to quiz. Please add more cards or choose another deck.');
       }
 
       console.log('Starting quiz with cards:', cards);
-      runQuiz(cards); // ← You'll implement this next
+      closeSelectDeckMenu();
+      runQuiz(cards); 
 
     } catch (err) {
       console.error('Failed to load cards for quiz', err);
-      alert('Something went wrong loading flashcards.');
+      // alert('Something went wrong while loading flashcards.');
     }
   };
+}
+
+function closeSelectDeckMenu() {
+  uiState.chooseDeckToQuizContainer.style.display = 'none';
 }

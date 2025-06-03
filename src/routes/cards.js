@@ -34,7 +34,7 @@ router.get('/byDeck/:deckID', async (req, res) => {
 
   try {
     const cards = await getCardsRecursive(deckID);
-    res.status(200).json({ cards });
+    res.status(200).json( cards );
   } catch (err) {
     console.error('Error fetching cards recursively:', err);
     res.status(500).json({ error: 'Failed to fetch flashcards' });

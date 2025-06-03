@@ -87,3 +87,37 @@
   border-radius: 5px;
   font-family: sans-serif;
 }
+
+#quizOperationUI {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#quizOperationUI button {
+  background: #fff;
+  padding: 6px 12px;
+  margin-top: 10px;
+  border: 2px solid #111;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 9999;
+  font-family: sans-serif;
+  user-select: none;
+}
+
+#quizOperationUI label{
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  user-select: none;
+}
+
+#options-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}

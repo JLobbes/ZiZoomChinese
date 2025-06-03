@@ -75,6 +75,12 @@ const uiState = {
   deckToQuizInput: document.getElementById('deckToQuizInput'),
   quizMeBtn: document.getElementById('quitMeBtn'),
 
+  quizUI: document.getElementById('quizOperationUI'),
+  quizOptionOne: document.getElementById('option-one'),
+  quizOptionTwo: document.getElementById('option-two'),
+  quizOptionThree: document.getElementById('option-three'),
+  quizOptionFour: document.getElementById('option-four'),
+
 };
 
 export default uiState;

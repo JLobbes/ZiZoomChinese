@@ -14,7 +14,6 @@ export async function fetchFlashcardsData(imgPath) {
 
     const data = await response.json();
     console.log('received flashcards (given imgPath):', data.flashcards);
-    console.log('data type:', typeof data.flashcards);
 
     if (data.flashcards && Array.isArray(data.flashcards)) {
       return data.flashcards;

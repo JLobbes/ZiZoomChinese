@@ -3,6 +3,8 @@
 import { getImages } from '../../api/getImages.js';
 import uiState from '../../uiState.js';
 import { createMenuItem, appendAddSubfolderBtn } from './menuHelpers.js';
+import { fetchFlashcardsData } from '../../api/getFlashcards.js';
+import { displayFlashcardGhosts } from '../../utils/displayFlashcardGhosts.js';
 
 export async function renderImageSection(container) {
   try {
@@ -35,12 +37,19 @@ function appendFoldersToMenu(container, tree) {
 
     if (node.__file) {
       container.appendChild(
-        createMenuItem(node.name, () => {
-          uiState.viewedImg.src = `/${node.path}`;
+        createMenuItem(node.name, async () => {
+          const imgPath = `/${node.path}`;
+          uiState.viewedImg.src = imgPath;
           uiState.viewerContainer.style.display = 'flex';
           uiState.scale = 1;
           uiState.offsetX = 0;
           uiState.offsetY = 0;
+
+          // Wait for image to finish loading before placing ghosts
+          uiState.viewedImg.onload = async () => {
+            const cards = await fetchFlashcardsData(uiState.viewedImg.src);
+            displayFlashcardGhosts(cards);
+          };
         })
       );
     } else {

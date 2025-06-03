@@ -1,6 +1,7 @@
-// public/js/showFlashcardGhots.js
+// public/js/showFlashcardGhosts.js
 
 import uiState from "../uiState.js";
+import { imageCoordsToPercent } from './coordinateConverter.js'
 
 export function displayFlashcardGhosts(cards) {
   const existingGhosts = uiState.viewedImgWrapper.querySelectorAll('.flashCardGhost');

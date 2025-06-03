@@ -92,11 +92,11 @@ export function startCollectEnglish(card) {
     card.english = english;
 
     // Move to deck selection step
-    startSelectDeck(card);
+    startSelectDeckStep(card);
   };
 }
 
-export function startSelectDeck(card) {
+export function startSelectDeckStep(card) {
   uiState.collectEnglishStep.style.display = 'none';
   uiState.previewImg.style.display = 'none';
   uiState.collectDeckStep.style.display = 'flex';

@@ -1,5 +1,7 @@
 /* public/styles/forms.css */
 
+/* ==== CardDataCollection ==== */
+
 .inputStep {
   display: flex;
   flex-direction: column;
@@ -45,4 +47,43 @@
 #deckSelectionGUI {
   padding: 0 0 0 0;
   margin: 0 0 6em 0;
+}
+
+/* ==== Quiz Mode ==== */
+
+#chooseDeckToQuizGUI {
+  padding: 0 0 0 0;
+  margin: 0 0 4em 0;
+}
+
+#informationDisplay-Container .inputStep label{
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  user-select: none;
+}
+
+#informationDisplay-Container button {
+  background: #fff;
+  padding: 6px 12px;
+  margin-top: 10px;
+  border: 2px solid #111;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 9999;
+  font-family: sans-serif;
+  user-select: none;
+}
+
+#informationDisplay-Container input {
+  width: 150px;
+  background: #fff;
+  font-size: 18px;
+  padding: 10px 12px;
+  border: 2px solid #111;
+  border-radius: 5px;
+  font-family: sans-serif;
 }

@@ -36,19 +36,19 @@ export function showFlashcardOverlay(cardData) {
   uiState.cardDataPopup_Pinyin.innerText = cardData.FLASHCARD_PINYIN || '';
   uiState.cardDataPopup_English.innerText = cardData.FLASHCARD_ENG || '';
 
-  const container = uiState.infoDisplayContainer;
-  container.style.display = 'flex'; // ensure it's visible first
+  uiState.infoDisplayContainer.style.display = 'flex'; 
+  uiState.flashcardData_Popup.style.display = 'flex';
   requestAnimationFrame(() => {
-    container.classList.add('show');
+    uiState.infoDisplayContainer.classList.add('show');
   });
 }
 
 
 export function hideFlashcardOverlay() {
-  const container = uiState.infoDisplayContainer;
-  container.classList.remove('show');
+  uiState.infoDisplayContainer.classList.remove('show');
   setTimeout(() => {
-    container.style.display = 'none';
+    uiState.infoDisplayContainer.style.display = 'none';
+    uiState.flashcardData_Popup.style.display = 'none';
   }, 300); 
 }
 

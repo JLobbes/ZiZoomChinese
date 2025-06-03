@@ -62,10 +62,18 @@ const uiState = {
   // === Flashcard Ghosts and Data Elements ====
 
   infoDisplayContainer: document.getElementById('informationDisplay-Container'),
+  flashcardData_Popup: document.getElementById('flashcardData-Popup'),
   cardDataPopup_Chinese: document.getElementById('cardData-Popup-Chinese'), 
   cardDataPopup_English: document.getElementById('cardData-Popup-English'), 
   cardDataPopup_Pinyin: document.getElementById('cardData-Popup-Pinyin'), 
 
+  // === Quiz Mode Variable and Elements ====
+
+  chooseDeckToQuizContainer: document.getElementById('chooseDeckToQuiz-Container'),
+  chooseDeckToQuizGUI: document.getElementById('chooseDeckToQuizGUI'),
+  deckToQuiz: null,
+  deckToQuizInput: document.getElementById('deckToQuizInput'),
+  quizMeBtn: document.getElementById('quitMeBtn'),
 
 };
 

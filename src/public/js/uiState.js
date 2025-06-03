@@ -59,6 +59,13 @@ const uiState = {
 
   pinyinKeyboard: document.getElementById('pinyinKeyboard'),
 
+  // === Flashcard Ghosts and Data Elements ====
+
+  infoDisplayContainer: document.getElementById('informationDisplay-Container'),
+  cardDataPopup_Chinese: document.getElementById('cardData-Popup-Chinese'), 
+  cardDataPopup_English: document.getElementById('cardData-Popup-English'), 
+  cardDataPopup_Pinyin: document.getElementById('cardData-Popup-Pinyin'), 
+
 
 };
 

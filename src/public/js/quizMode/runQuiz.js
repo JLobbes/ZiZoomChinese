@@ -2,17 +2,18 @@
 
 import uiState from "../uiState.js";
 import { imageCoordsToPercent } from '../utils/coordinateConverter.js';
+import { updateImageTransform } from "../utils/zoomOrPanImage.js";
 
 export function runQuiz(cards) {
+  uiState.scale = 1;
   const shuffledCards = shuffleArray([...cards]); // randomize question order
   let currentIndex = 0;
 
-  // Start the first question
-  prepareQuiz();
+  runQuizQuestion();
 
-  function prepareQuiz() {
+  function runQuizQuestion() {
     if (currentIndex >= shuffledCards.length) {
-      console.log('Quiz complete!');
+      // console.log('Quiz complete!');
       return;
     }
 
@@ -20,17 +21,7 @@ export function runQuiz(cards) {
     const stages = ['CHN', 'PINYIN', 'ENG'];
     let currentStage = 0;
 
-    // Show image & apply crop box (stubbed)
-    const existingGhosts = uiState.viewedImgWrapper.querySelectorAll('.flashcardGhost');
-    existingGhosts.forEach(ghost => ghost.remove());  
-    
-    uiState.viewedImg.src = currentCard.FLASHCARD_SOURCE_IMG_PATH;
-    uiState.viewerContainer.style.display = 'flex';
-    uiState.scale = 1;
-    uiState.offsetX = 0;
-    uiState.offsetY = 0;
-
-    applyCropBox(currentCard); // black out quiz word area (your implementation)
+    handlQuizCardVisual(currentCard);
 
     askQuestionStage();
 
@@ -41,23 +32,23 @@ export function runQuiz(cards) {
       const choices = generateChoices(cards, field, correctAnswer, 4);
 
       // UI: render choices (stubbed)
-      console.log(`Question ${currentIndex + 1}, Stage: ${field}`);
-      console.log('Choices:', choices);
-      console.log('Correct Answer:', correctAnswer);
+      // console.log(`Question ${currentIndex + 1}, Stage: ${field}`);
+      // console.log('Choices:', choices);
+      // console.log('Correct Answer:', correctAnswer);
 
       renderChoices(choices, (selected) => {
 
         if (selected === correctAnswer) {
-          console.log(`Correct ${field}!`);
+          // console.log(`Correct ${field}!`);
           currentStage++;
           if (currentStage < stages.length) {
             askQuestionStage();
           } else {
             currentIndex++;
-            nextStepInQuiz();
+            runQuizQuestion();
           }
         } else {
-          console.log(`Incorrect ${field}. Try again or handle penalty.`);
+          // console.log(`Incorrect ${field}. Try again or handle penalty.`);
           // Optional: handle penalties or feedback here
         }
       });
@@ -81,6 +72,23 @@ function generateChoices(allCards, fieldKey, correctValue, count) {
   return shuffleArray(choices); // shuffle so correct isn't always last
 }
 
+function handlQuizCardVisual(card) {
+  const existingGhosts = uiState.viewedImgWrapper.querySelectorAll('.flashcardGhost');
+  existingGhosts.forEach(ghost => ghost.remove());
+
+  uiState.viewedImg.src = card.FLASHCARD_SOURCE_IMG_PATH;
+  uiState.viewerContainer.style.display = 'flex';
+  // uiState.scale = 1;
+  uiState.offsetX = 0;
+  uiState.offsetY = 0;
+
+  // Wait for image to load
+  uiState.viewedImg.onload = () => {
+    applyCropBox(card);
+    scaleAndFitImage(card);
+  };
+}
+
 function renderChoices(choices, callback) {
 
   uiState.quizUI.style.display = 'flex';
@@ -91,7 +99,7 @@ function renderChoices(choices, callback) {
     uiState.quizOptionThree,
     uiState.quizOptionFour,
   ];
-  console.log('buttons:', buttons);
+  // console.log('buttons:', buttons);
 
   // Fill each button and assign click handler
   buttons.forEach((btn, i) => {
@@ -99,7 +107,8 @@ function renderChoices(choices, callback) {
     btn.textContent = choice;
     btn.onclick = () => {
       // Disable buttons after click to prevent multiple answers
-      buttons.forEach(b => b.disabled = true);
+      buttons.forEach(b => b.disabled = false);
+      // buttons.forEach(b => b.disabled = true);
       callback(choice);
     };
     btn.disabled = false;
@@ -112,6 +121,7 @@ function applyCropBox(card) {
   const oldBox = uiState.viewedImgWrapper.querySelector('.quizCropBox');
   if (oldBox) oldBox.remove();
 
+  console.log('current card:', card);
   const { FLASHCARD_CROP_X, FLASHCARD_CROP_Y, FLASHCARD_CROP_WIDTH, FLASHCARD_CROP_HEIGHT } = card;
 
   const cropBox = document.createElement('div');
@@ -130,4 +140,58 @@ function applyCropBox(card) {
   cropBox.style.height = `${percentBox.height}%`;
 
   uiState.viewedImgWrapper.appendChild(cropBox);
+}
+
+function centerCropBoxWithPan(card) {
+  const {
+    FLASHCARD_CROP_X,
+    FLASHCARD_CROP_Y,
+    FLASHCARD_CROP_WIDTH,
+    FLASHCARD_CROP_HEIGHT
+  } = card;
+
+  const imgNaturalWidth = uiState.viewedImg.naturalWidth;
+  const imgNaturalHeight = uiState.viewedImg.naturalHeight;
+
+  const imgWrapperRect = uiState.viewedImgWrapper.getBoundingClientRect();
+  const imgWrapperHalfWidth = Math.round(imgWrapperRect.width / 2);
+  const imgWrapperHalfHeight = Math.round(imgWrapperRect.height / 2);
+
+  // --- Y-axis ---
+  const cropBoxMidY = Math.round(FLASHCARD_CROP_Y + FLASHCARD_CROP_HEIGHT / 2);
+  const adjMidY = Math.round((cropBoxMidY / imgNaturalHeight) * imgWrapperRect.height);
+  const distYFromCenter = adjMidY - imgWrapperHalfHeight;
+  const bufferOffset = 100; // px
+
+  // --- X-axis ---
+  const cropBoxMidX = Math.round(FLASHCARD_CROP_X + FLASHCARD_CROP_WIDTH / 2);
+  const adjMidX = Math.round((cropBoxMidX / imgNaturalWidth) * imgWrapperRect.width);
+  const distXFromCenter = adjMidX - imgWrapperHalfWidth;
+
+  uiState.offsetY = -distYFromCenter -bufferOffset;
+  uiState.offsetX = -distXFromCenter;
+
+  updateImageTransform(true);
+}
+
+function scaleAndFitImage(card) {
+
+  const { FLASHCARD_CROP_HEIGHT, FLASHCARD_CROP_WIDTH } = card;
+  console.log('FLASHCARD_CROP_HEIGHT :', FLASHCARD_CROP_HEIGHT);
+  const mainAxisLength = Math.min(FLASHCARD_CROP_HEIGHT, FLASHCARD_CROP_WIDTH);
+
+  const imgNaturalHeight = uiState.viewedImg.naturalHeight;
+  const imgWrapperHeight = uiState.viewedImgWrapper.getBoundingClientRect().height;
+  const naturalHeightAdjustment = Math.round((imgWrapperHeight / imgNaturalHeight) * mainAxisLength);
+  console.log('naturalHeightAdjustment :', naturalHeightAdjustment);
+
+  const targetLength = 100; // px  
+  const adjustmentRatio = (targetLength / naturalHeightAdjustment).toFixed(3);
+  console.log('adjustmentRatio :', adjustmentRatio);
+
+  uiState.scale = (uiState.scale * adjustmentRatio).toFixed(3);
+  updateImageTransform(true);
+  setTimeout(() => {
+    centerCropBoxWithPan(card);
+  }, 300)
 }

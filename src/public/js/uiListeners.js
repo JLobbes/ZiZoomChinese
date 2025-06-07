@@ -33,7 +33,6 @@ export function initUIListeners() {
   });
 
   document.addEventListener('mousedown', e => {
-    console.log('Entered 🐁 down!');
     const overlayVisible = uiState.cardCollectionOverlay.style.display === 'flex';
 
     if (uiState.selectionModeEnabled) {
@@ -43,7 +42,6 @@ export function initUIListeners() {
       // do nothing
       return;
     } else {
-      console.log('we should be panning!');
       startPan(e);
     }
   });

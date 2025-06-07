@@ -58,4 +58,5 @@ export function updateImageTransform(smooth = false) {
     const transition = smooth ? 'transform 0.3s ease' : '';
     uiState.viewedImgWrapper.style.transition = transition;
     uiState.viewedImgWrapper.style.transform = `translate(${uiState.offsetX}px, ${uiState.offsetY}px) scale(${uiState.scale})`;
+    console.log('uiState.scale :', uiState.scale);
 }

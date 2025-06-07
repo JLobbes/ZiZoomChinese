@@ -45,7 +45,7 @@ export function startQuizMode() {
         throw error('Must have (4) or more cards to quiz. Please add more cards or choose another deck.');
       }
 
-      console.log('Starting quiz with cards:', cards);
+      // console.log('Starting quiz with cards:', cards);
       closeSelectDeckMenu();
       runQuiz(cards); 
 

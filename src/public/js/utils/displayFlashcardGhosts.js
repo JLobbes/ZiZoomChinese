@@ -31,7 +31,7 @@ export function displayFlashcardGhosts(cards) {
   });
 }
 
-export function showFlashcardOverlay(cardData) {
+export function showFlashcardOverlay(cardData, currentMouseY) {
   uiState.cardDataPopup_Chinese.innerText = cardData.FLASHCARD_CHN || '';
   uiState.cardDataPopup_Pinyin.innerText = cardData.FLASHCARD_PINYIN || '';
   uiState.cardDataPopup_English.innerText = cardData.FLASHCARD_ENG || '';
@@ -40,17 +40,35 @@ export function showFlashcardOverlay(cardData) {
   uiState.flashcardData_Popup.style.display = 'flex';
   requestAnimationFrame(() => {
     uiState.infoDisplayContainer.classList.add('show');
+    
+    const mouseInTopHalf = determineMouseArea(currentMouseY);
+    if(mouseInTopHalf) {
+      // defaults to display on bottom
+    } else {
+      uiState.infoDisplayContainer.classList.add('position-top');
+    }
   });
 }
 
 export function hideFlashcardOverlay() {
   uiState.infoDisplayContainer.classList.remove('show');
   setTimeout(() => {
-    const differentPopUpOpened = uiState.infoDisplayContainer.style.display === 'flex';
+    const differentPopUpOpened = uiState.infoDisplayContainer.classList.contains('show');
+    
     if(!differentPopUpOpened) {
+      uiState.infoDisplayContainer.classList.remove('show');
+      uiState.infoDisplayContainer.classList.remove('position-top');
       uiState.infoDisplayContainer.style.display = 'none';
       uiState.flashcardData_Popup.style.display = 'none';
     }
   }, 300); 
 }
 
+export function determineMouseArea(currentMouseY) {
+  
+  const currentHeight = window.innerHeight;
+  const midwayMark = currentHeight / 2;
+
+  // Return true if the mouse is in the top half of the screen
+  return currentMouseY < midwayMark;
+}

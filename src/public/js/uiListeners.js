@@ -66,7 +66,8 @@ export function initUIListeners() {
     const ghost = e.target.closest('.flashcardGhost');
     if (ghost) {
       const cardData = JSON.parse(ghost.dataset.card);
-      showFlashcardOverlay(cardData);
+      const currentMouseY = e.clientY;
+      showFlashcardOverlay(cardData, currentMouseY);
     }
   });
 

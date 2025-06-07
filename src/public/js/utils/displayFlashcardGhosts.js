@@ -43,12 +43,14 @@ export function showFlashcardOverlay(cardData) {
   });
 }
 
-
 export function hideFlashcardOverlay() {
   uiState.infoDisplayContainer.classList.remove('show');
   setTimeout(() => {
-    uiState.infoDisplayContainer.style.display = 'none';
-    uiState.flashcardData_Popup.style.display = 'none';
+    const differentPopUpOpened = uiState.infoDisplayContainer.style.display === 'flex';
+    if(!differentPopUpOpened) {
+      uiState.infoDisplayContainer.style.display = 'none';
+      uiState.flashcardData_Popup.style.display = 'none';
+    }
   }, 300); 
 }
 

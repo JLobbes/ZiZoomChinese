@@ -67,7 +67,7 @@
   height: 45vh;
   background: rgba(0, 0, 0, 0.90);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, height 0.3s ease;
   z-index: 10000;
 }
 
@@ -84,6 +84,10 @@
 #informationDisplay-Container.show {
   display: flex;
   opacity: 1;
+}
+
+#informationDisplay-Container.quizRunning {
+  height: 25vh;
 }
 
 #flashcardData-Popup {

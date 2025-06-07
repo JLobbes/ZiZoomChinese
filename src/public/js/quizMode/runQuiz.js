@@ -5,7 +5,11 @@ import { imageCoordsToPercent } from '../utils/coordinateConverter.js';
 import { updateImageTransform } from "../utils/zoomOrPanImage.js";
 
 export function runQuiz(cards) {
+
+  uiState.quizRunning = true;
+  uiState.infoDisplayContainer.classList.add('quizRunning');
   uiState.scale = 1;
+
   const shuffledCards = shuffleArray([...cards]); // randomize question order
   let currentIndex = 0;
 
@@ -185,7 +189,7 @@ function scaleAndFitImage(card) {
   const naturalHeightAdjustment = Math.round((imgWrapperHeight / imgNaturalHeight) * mainAxisLength);
   console.log('naturalHeightAdjustment :', naturalHeightAdjustment);
 
-  const targetLength = 100; // px  
+  const targetLength = 75; // px  
   const adjustmentRatio = (targetLength / naturalHeightAdjustment).toFixed(3);
   console.log('adjustmentRatio :', adjustmentRatio);
 

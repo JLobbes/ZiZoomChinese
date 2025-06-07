@@ -69,6 +69,8 @@ const uiState = {
 
   // === Quiz Mode Variable and Elements ====
 
+  quizRunning: false,
+
   chooseDeckToQuizContainer: document.getElementById('chooseDeckToQuiz-Container'),
   chooseDeckToQuizGUI: document.getElementById('chooseDeckToQuizGUI'),
   deckToQuiz: null,

@@ -1,39 +1,25 @@
-// public/js/uiState.js
+// public/js/uiElements.js
 
-const uiState = {
-  
+const uiElements = {
+
   // ==== Image Viewer Elements ====
-  menu: document.getElementById('imageMenu'),
 
+  menu: document.getElementById('imageMenu'),
   viewedImgWrapper: document.getElementById('viewerWrapper'),
   viewedImg: document.getElementById('viewedImage'),
   viewerContainer: document.getElementById('viewerContainer'),
 
-  // ==== Zoom & Pan Variables ====
-  isDraggingImage: false,
-  scale: null,
-  dragStartX: null,
-  dragStartY: null,
-  offsetX: null,
-  offsetY: null,
+  // ==== Area Selection Elements ====
 
-  // ==== Area Selection Variables & Elements ====
   exitFlashcardCreationBtn: document.getElementById('exitFlashcardCreationBtn'),
-
-  selectionModeEnabled: false,
-  isDrawingSelection: false,
-  selectionStartX: null,
-  selectionStartY: null,
-
   makeFlashcardBtn: document.getElementById('makeFlashcardBtn'),
-  selectionBox: null,
-  selected_area: null,
-
-  // ==== Flashcard Creation Form Elements ====
   flashcardCreationOverlay: document.getElementById('flashcardCreationOverlay'),
   flashcardSnippitPreview: document.getElementById('flashcardSnippitPreview'),
   flashcardDeckSelectionGUI: document.getElementById('flashcardDeckSelectionGUI'),
+
   saveDataBtn: document.getElementById('saveDataBtn'),
+
+  // ==== Flashcard Creation Steps ====
 
   cardFrontInputStep: document.getElementById('cardFrontInputStep'),
   cardPinyinStep: document.getElementById('cardPinyinStep'),
@@ -51,29 +37,20 @@ const uiState = {
   reviewCardPinYin: document.getElementById('reviewCardPinYin'),
   reviewCardRearInput: document.getElementById('reviewCardRearInput'),
 
-  // ==== Pinyin Input Variables & Elements ====
-
-  currentVowel: '',
-  pinyinInputMode: false,
-  showingToneOptions: false,
-
   pinyinKeyboard: document.getElementById('pinyinKeyboard'),
 
-  // === Flashcard Ghosts and Data Elements ====
+  // ==== Flashcard Ghosts and Info Display ====
 
   infoDisplayContainer: document.getElementById('informationDisplay-Container'),
   flashcardData_Popup: document.getElementById('flashcardData-Popup'),
-  cardDataPopup_Chinese: document.getElementById('cardData-Popup-Chinese'), 
-  cardDataPopup_English: document.getElementById('cardData-Popup-English'), 
-  cardDataPopup_Pinyin: document.getElementById('cardData-Popup-Pinyin'), 
+  cardDataPopup_Chinese: document.getElementById('cardData-Popup-Chinese'),
+  cardDataPopup_English: document.getElementById('cardData-Popup-English'),
+  cardDataPopup_Pinyin: document.getElementById('cardData-Popup-Pinyin'),
 
-  // === Quiz Mode Variable and Elements ====
-
-  quizRunning: false,
-
+  // ==== Quiz UI ====
+  
   chooseDeckToQuizContainer: document.getElementById('chooseDeckToQuiz-Container'),
   chooseDeckToQuizGUI: document.getElementById('chooseDeckToQuizGUI'),
-  deckToQuiz: null,
   deckToQuizInput: document.getElementById('deckToQuizInput'),
   quizMeBtn: document.getElementById('quitMeBtn'),
 
@@ -82,7 +59,6 @@ const uiState = {
   quizOptionTwo: document.getElementById('option-two'),
   quizOptionThree: document.getElementById('option-three'),
   quizOptionFour: document.getElementById('option-four'),
-
 };
 
-export default uiState;
+export default uiElements;

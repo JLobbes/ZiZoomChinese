@@ -2,7 +2,7 @@
 
 import uiState from "../../uiState.js";
 import { getImageCoords, imageCoordsToPercent } from "../coordinateConverter.js";
-import { collectCardData } from "../collectFlashcardData/collectCardDataMain.js"; 
+import { collectFlashcardData } from "../collectFlashcardData/collectCardDataMain.js"; 
 
 // ==== IMAGE AREA SELECTION (FOR FLASHCARD)  ====
 
@@ -13,8 +13,8 @@ export function enableSelectionMode() {
   uiState.selectionModeEnabled = true;
   uiState.viewedImg.style.cursor = 'crosshair';
 
-  uiState.selectAreaBtn.style.backgroundColor = 'black';
-  uiState.selectAreaBtn.style.color = 'white';
+  uiState.makeFlashcardBtn.style.backgroundColor = 'black';
+  uiState.makeFlashcardBtn.style.color = 'white';
 }
 
 export function startSelection(e) {
@@ -82,8 +82,8 @@ export function finalizeSelection(e) {
     }
   }, 2000);
 
-  uiState.selectAreaBtn.style.backgroundColor = '';
-  uiState.selectAreaBtn.style.color = '';
+  uiState.makeFlashcardBtn.style.backgroundColor = '';
+  uiState.makeFlashcardBtn.style.color = '';
 
-  collectCardData(uiState.selected_area);
+  collectFlashcardData(uiState.selected_area);
 }

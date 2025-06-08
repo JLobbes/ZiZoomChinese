@@ -53,13 +53,13 @@ function showToneOptions(vowel) {
 }
 
 function insertTonedVowel(toneChar) {
-  const start = uiState.pinyinInput.selectionStart;
-  const end = uiState.pinyinInput.selectionEnd;
-  const currentValue = uiState.pinyinInput.value;
+  const start = uiState.cardPinyinInput.selectionStart;
+  const end = uiState.cardPinyinInput.selectionEnd;
+  const currentValue = uiState.cardPinyinInput.value;
 
-  uiState.pinyinInput.value = currentValue.slice(0, start) + toneChar + currentValue.slice(end);
-  uiState.pinyinInput.setSelectionRange(start + 1, start + 1);
-  uiState.pinyinInput.focus();
+  uiState.cardPinyinInput.value = currentValue.slice(0, start) + toneChar + currentValue.slice(end);
+  uiState.cardPinyinInput.setSelectionRange(start + 1, start + 1);
+  uiState.cardPinyinInput.focus();
 
   createPinyinKeyboard();
 }

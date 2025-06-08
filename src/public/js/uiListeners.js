@@ -4,8 +4,10 @@ import uiState from './uiState.js';
 import { renderMenu } from './utils/menuConstruction/renderMenuMain.js';
 import { showFlashcardOverlay, hideFlashcardOverlay } from './utils/displayFlashcardGhosts.js';
 import { keyPressZoomAndPan, startPan, panImage, endPan } from './utils/zoomOrPanImage.js';
-import { enableSelectionMode } from './utils/collectFlashcardData/selectImageArea.js';
-import { startSelection, drawSelectionBox, finalizeSelection } from './utils/collectFlashcardData/selectImageArea.js';
+import {
+  enableSelectionMode, startSelection,
+  drawSelectionBox, finalizeSelection
+} from './utils/collectFlashcardData/selectImageArea.js';
 import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashcardData/createPinYinKeyboard.js';
 import { resetCardOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
  
@@ -26,14 +28,14 @@ export function initUIListeners() {
       return;
     }
 
-    const overlayVisible = uiState.cardCollectionOverlay.style.display === 'flex';
+    const overlayVisible = uiState.flashcardCreationOverlay.style.display === 'flex';
     if (uiState.selectionModeEnabled || overlayVisible) return;
 
     keyPressZoomAndPan(e);
   });
 
   document.addEventListener('mousedown', e => {
-    const overlayVisible = uiState.cardCollectionOverlay.style.display === 'flex';
+    const overlayVisible = uiState.flashcardCreationOverlay.style.display === 'flex';
 
     if (uiState.selectionModeEnabled) {
       startSelection(e);
@@ -78,7 +80,7 @@ export function initUIListeners() {
     }
   });
 
-  uiState.selectAreaBtn.addEventListener('click', enableSelectionMode);
+  uiState.makeFlashcardBtn.addEventListener('click', enableSelectionMode);
 
   function handleEscapeKey(e) {
     // === Cancel tone selection ===
@@ -89,13 +91,13 @@ export function initUIListeners() {
     }
 
     // === Close overlay ===
-    const overlayVisible = uiState.cardCollectionOverlay.style.display === 'flex';
+    const overlayVisible = uiState.flashcardCreationOverlay.style.display === 'flex';
     if (overlayVisible) {
       e.preventDefault();
       resetCardOverlay();
     }
   }
 
-  uiState.exitCardDataCollectBtn.addEventListener('click', resetCardOverlay);
+  uiState.exitFlashcardCreationBtn.addEventListener('click', resetCardOverlay);
 
 }

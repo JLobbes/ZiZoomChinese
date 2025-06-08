@@ -1,0 +1,80 @@
+/* public/styles/flashcardCreation.css */
+
+/* ==== Flashcard Form ==== */
+
+#flashcardCreationOverlay {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10000;
+}
+
+#flashcardSnippitPreview {
+  margin: 0 0 20px 0;
+  border: 5px solid #111;
+  border-radius: 5px;
+  box-sizing: content-box;
+  max-width: 90%;
+  user-select: none;
+}
+
+.flashcardForm-Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flashcardForm-Container .inputStep label {
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.flashcardForm-Container input {
+  width: 150px;
+  background: #fff;
+  font-size: 18px;
+  padding: 10px 12px;
+  border: 2px solid #111;
+  border-radius: 5px;
+  font-family: sans-serif;
+}
+
+.flashcardForm-Container label {
+  user-select: none;
+}
+
+.flashcardForm-Container button {
+  background: #fff;
+  padding: 6px 12px;
+  margin-top: 10px;
+  border: 2px solid #111;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 9999;
+  font-family: sans-serif;
+  user-select: none;
+}
+
+#flashcardDeckSelectionGUI {
+  padding: 0 0 0 0;
+  margin: 0 0 6em 0;
+}

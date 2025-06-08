@@ -6,90 +6,69 @@ import { saveCardToDatabase } from '../../api/saveFlashcard.js';
 import { getDecks } from '../../api/getDecks.js'
 import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js'
 
-// ==== COLLECT FLASH CARD DATA ====
-
-export function collectCardData(selected_area) {
+export function collectFlashcardData(imageSnippit) {
   const newCard = {
-    selected_area,
-    deckID: null,
     imgPath: uiState.viewedImg.src,
+    imageSnippit,
+    deckID: null,
   };
 
-  showCardOverlay(selected_area);
-  startCollectChinese(newCard);
+  showFlashcardCreationOverlay(imageSnippit);
+  startCollectCardFront(newCard);
 }
 
-export function showCardOverlay(selected_area) {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  const { x, y, width, height } = selected_area;
+export function showFlashcardCreationOverlay(imageSnippit) {
+  const canvas = generateSnippitPreview(uiState.viewedImg, imageSnippit);
 
-  const targetShortSide = 100;
-  const aspectRatio = (width / height).toFixed(3);
-  let drawWidth, drawHeight;
-
-  if (width < height) {
-    drawWidth = targetShortSide;
-    drawHeight = Math.round(targetShortSide / aspectRatio);
-  } else {
-    drawHeight = targetShortSide;
-    drawWidth = Math.round(targetShortSide * aspectRatio);
-  }
-
-  canvas.width = drawWidth;
-  canvas.height = drawHeight;
-
-  ctx.drawImage(uiState.viewedImg, x, y, width, height, 0, 0, drawWidth, drawHeight);
-  uiState.previewImg.src = canvas.toDataURL();
-  uiState.previewImg.style.display = 'block';
-  uiState.cardCollectionOverlay.style.display = 'flex';
+  uiState.flashcardSnippitPreview.src = canvas.toDataURL();
+  uiState.flashcardSnippitPreview.style.display = 'block';
+  uiState.flashcardCreationOverlay.style.display = 'flex';
 }
 
-export function startCollectChinese(card) {
-  uiState.collectChineseStep.style.display = 'flex';
-  uiState.chineseInput.focus();
+export function startCollectCardFront(card) {
+  uiState.cardFrontInputStep.style.display = 'flex';
+  uiState.cardFrontInput.focus();
 
   uiState.saveDataBtn.textContent = 'Next';
   uiState.saveDataBtn.onclick = () => {
-    const term = uiState.chineseInput.value.trim();
-    if (!term) return alert('Please enter Chinese word.');
+    const term = uiState.cardFrontInput.value.trim();
+    if (!term) return alert('Please enter text for card front.');
     card.chinese = term;
     startCollectPinYin(card);
   };
 }
 
 export function startCollectPinYin(card) {
-  uiState.collectChineseStep.style.display = 'none';
-  uiState.collectPinYinStep.style.display = 'flex';
-  uiState.pinyinInput.focus();
+  uiState.cardFrontInputStep.style.display = 'none';
+  uiState.cardPinyinStep.style.display = 'flex';
+  uiState.cardPinyinInput.focus();
 
-  createPinyinKeyboard(); // Assuming defined globally
+  createPinyinKeyboard(); 
 
   uiState.saveDataBtn.textContent = 'Next';
   uiState.saveDataBtn.onclick = () => {
-    const pinyin = uiState.pinyinInput.value.trim();
+    const pinyin = uiState.cardPinyinInput.value.trim();
     if (!pinyin) return alert('Please enter Pinyin.');
     card.pinyin = pinyin;
 
-    startCollectEnglish(card);
+    startCollectCardRear(card);
   };
 }
 
-export function startCollectEnglish(card) {
+export function startCollectCardRear(card) {
 
-  // shut down items related to pinyin collection
   uiState.pinyinInputMode = false;
   uiState.showingToneOptions = false;
-  uiState.collectPinYinStep.style.display = 'none';
+  uiState.cardPinyinStep.style.display = 'none';
 
-  uiState.collectEnglishStep.style.display = 'flex';
-  uiState.englishInput.focus();
+  uiState.cardRearInputStep.style.display = 'flex';
+  uiState.cardRearInput.focus();
 
   uiState.saveDataBtn.textContent = 'Next';
   uiState.saveDataBtn.onclick = () => {
-    const english = uiState.englishInput.value.trim();
-    if (!english) return alert('Please enter English meaning.');
-    card.english = english;
+    const term = uiState.cardRearInput.value.trim();
+    if (!term) return alert('Please enter text for card rear.');
+    card.english = term;
 
     // Move to deck selection step
     startSelectDeckStep(card);
@@ -97,14 +76,14 @@ export function startCollectEnglish(card) {
 }
 
 export function startSelectDeckStep(card) {
-  uiState.collectEnglishStep.style.display = 'none';
-  uiState.previewImg.style.display = 'none';
+  uiState.cardRearInputStep.style.display = 'none';
+  uiState.flashcardSnippitPreview.style.display = 'none';
   uiState.collectDeckStep.style.display = 'flex';
 
   getDecks().then((decks) => {
     console.log('got decks:', decks);
 
-    renderDeckSelection(uiState.deckSelectionGUI, decks, (deckID, deckName) => {
+    renderDeckSelection(uiState.flashcardDeckSelectionGUI, decks, (deckID, deckName) => {
       card.deckID = deckID;
       card.deckName = deckName;
       uiState.deckInput.value = deckName;
@@ -118,8 +97,8 @@ export function startSelectDeckStep(card) {
       }
 
       uiState.collectDeckStep.style.display = 'none';
-      uiState.previewImg.style.display = 'block';
-      startReviewStep(card);
+      uiState.flashcardSnippitPreview.style.display = 'block';
+      startReviewInputStep(card);
     };
 
   }).catch((err) => {
@@ -129,14 +108,14 @@ export function startSelectDeckStep(card) {
   });
 }
 
-export function startReviewStep(card) {
-  uiState.collectEnglishStep.style.display = 'none';
-  uiState.reviewStep.style.display = 'flex';
+export function startReviewInputStep(card) {
+  uiState.cardRearInputStep.style.display = 'none';
+  uiState.cardReviewInputStep.style.display = 'flex';
 
-  uiState.reviewCardChinese.textContent = card.chinese;
+  uiState.reviewCardFrontInput.textContent = card.chinese;
   uiState.reviewCardPinYin.textContent = card.pinyin;
-  uiState.reviewCardEnglish.textContent = card.english;
-  uiState.reviewCardDeck.textContent = card.deckName;
+  uiState.reviewCardRearInput.textContent = card.english;
+  uiState.cardReviewInputStep.textContent = card.deckName;
 
   uiState.saveDataBtn.textContent = 'Save';
   uiState.saveDataBtn.onclick = () => {
@@ -151,20 +130,42 @@ export function startReviewStep(card) {
 
 
 export function resetCardOverlay() {
-  uiState.cardCollectionOverlay.style.display = 'none';
+  uiState.flashcardCreationOverlay.style.display = 'none';
 
-  uiState.chineseInput.value = '';
-  uiState.pinyinInput.value = '';
-  uiState.englishInput.value = '';
-  uiState.previewImg.src = '';
+  uiState.cardFrontInput.value = '';
+  uiState.cardPinyinInput.value = '';
+  uiState.cardRearInput.value = '';
+  uiState.flashcardSnippitPreview.src = '';
 
-  uiState.collectChineseStep.style.display = 'none';
-  uiState.collectEnglishStep.style.display = 'none';
+  uiState.cardFrontInputStep.style.display = 'none';
+  uiState.cardRearInputStep.style.display = 'none';
   uiState.collectDeckStep.style.display = 'none';
-  uiState.reviewStep.style.display = 'none';
+  uiState.cardReviewInputStep.style.display = 'none';
   
-  uiState.reviewCardChinese.textContent = '';
+  uiState.reviewCardFrontInput.textContent = '';
   uiState.reviewCardPinYin.textContent = '';
-  uiState.reviewCardEnglish.textContent = '';
+  uiState.reviewCardRearInput.textContent = '';
 }
 
+function generateSnippitPreview(image, cropRect, targetShortSide = 100) {
+  const { x, y, width, height } = cropRect;
+  const aspectRatio = width / height;
+  let drawWidth, drawHeight;
+
+  if (width < height) {
+    drawWidth = targetShortSide;
+    drawHeight = Math.round(targetShortSide / aspectRatio);
+  } else {
+    drawHeight = targetShortSide;
+    drawWidth = Math.round(targetShortSide * aspectRatio);
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = drawWidth;
+  canvas.height = drawHeight;
+
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(image, x, y, width, height, 0, 0, drawWidth, drawHeight);
+
+  return canvas;
+}

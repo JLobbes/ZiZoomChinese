@@ -5,9 +5,14 @@
   <head>
     <meta charset="UTF-8" />
     <title>Image Viewer</title>
+
     <link rel="stylesheet" href="/styles/base.css" />
     <link rel="stylesheet" href="/styles/menu.css" />
-    <link rel="stylesheet" href="/styles/viewer.css" />
+    <link rel="stylesheet" href="/styles/imageViewer.css" />
+    <link rel="stylesheet" href="/styles/flashcardCreation.css" />
+
+    
+
     <link rel="stylesheet" href="/styles/buttons.css" />
     <link rel="stylesheet" href="/styles/overlays.css" />
     <link rel="stylesheet" href="/styles/forms.css" />
@@ -15,59 +20,58 @@
     <link rel="stylesheet" href="/styles/cards.css" />
   </head>
   <body>
-    <div id="menuBar">
+    <div id="menuBtn">
       <div class="menu">Menu
         <div class="submenu" id="imageMenu"></div>
       </div>
     </div>
     
-    <input type="file" id="fileInput" accept="image/*" style="display:none" />
     <div id="viewerContainer">
       <div id="viewerWrapper">
         <img id="viewedImage" draggable="false" />
       </div>
     </div>
 
-    <button id="selectAreaBtn">Select Area</button> 
+    <button id="makeFlashcardBtn">Make Flashcard</button> 
 
-    <div id="cardDataCollection-Overlay" style="display:none;">
-      <button id="exitOverlayBtn" class="exit-btn">×</button>
-      <img id="croppedPreview" />
+    <div id="flashcardCreationOverlay" style="display:none;">
+      <button id="exitFlashcardCreationBtn" class="exit-btn">×</button>
+      <img id="flashcardSnippitPreview" />
     
-      <div class="cardDataCollection-Container">
-        <!-- Term Step -->
-        <div id="collectChineseStep" class="inputStep">
-          <label for="chineseInput">Enter Term:</label>
-          <input type="text" id="chineseInput" />
+      <div class="flashcardForm-Container">
+        <!-- Card Front Step -->
+        <div id="cardFrontInputStep" class="inputStep">
+          <label for="cardFrontInput">Enter Card Front:</label>
+          <input type="text" id="cardFrontInput" />
         </div>
     
         <!-- Pinyin Step -->
-        <div id="collectPinYinStep" class="inputStep" style="display:none;">
-          <label for="pinyinInput">Enter Pinyin:</label>
-          <input type="text" id="pinyinInput" />
+        <div id="cardPinyinStep" class="inputStep" style="display:none;">
+          <label for="cardPinyinInput">Enter Pinyin:</label>
+          <input type="text" id="cardPinyinInput" />
           <div id="pinyinKeyboard" class="pinyin-keyboard"></div>
         </div>
 
-        <!-- English Step -->
-        <div id="collectEnglishStep" class="inputStep" style="display:none;">
-          <label for="englishInput">Enter English:</label>
-          <input type="text" id="englishInput" />
+        <!-- Card Rear Step -->
+        <div id="cardRearInputStep" class="inputStep" style="display:none;">
+          <label for="cardRearInput">Enter Card Rear:</label>
+          <input type="text" id="cardRearInput" />
         </div>
 
         <!-- Deck Selection Step -->
         <div id="collectDeckStep" class="inputStep" style="display:none;">
-          <div id="deckSelectionGUI" class="menu"></div>
+          <div id="flashcardDeckSelectionGUI" class="menu"></div>
           <label for="deckInput">Select Deck:</label>
           <input type="text" id="deckInput" readonly style="user-select: none; cursor: not-allowed;" />
         </div>
         
         <!-- Review & Save Step -->
-        <div id="reviewStep" class="inputStep" style="display:none;">
-          <label for="reviewStep">Review Card:</label>
+        <div id="cardReviewInputStep" class="inputStep" style="display:none;">
+          <label for="cardReviewInputStep">Review Card:</label>
           <p id="reviewCardDeck" class="reviewCardItem"></p>
-          <p id="reviewCardChinese" class="reviewCardItem"></p>
+          <p id="reviewCardFrontInput" class="reviewCardItem"></p>
           <p id="reviewCardPinYin" class="reviewCardItem"></p>
-          <p id="reviewCardEnglish" class="reviewCardItem"></p>
+          <p id="reviewCardRearInput" class="reviewCardItem"></p>
         </div>
     
         <button id="saveDataBtn">Next</button>
@@ -84,7 +88,6 @@
         <div style="opacity: 0.85"></div>
         <div style="opacity: 1"></div>
       </div>
-
 
       <div id="flashcardData-Popup">
         <table id="flashcardData-Table">

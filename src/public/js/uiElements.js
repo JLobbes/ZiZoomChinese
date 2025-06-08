@@ -42,11 +42,11 @@ const uiElements = {
   // ==== Flashcard Ghosts and Info Display ====
 
   infoDisplayContainer: document.getElementById('informationDisplay-Container'),
-  flashcardData_Popup: document.getElementById('flashcardData-Popup'),
-  cardDataPopup_Chinese: document.getElementById('cardData-Popup-Chinese'),
-  cardDataPopup_English: document.getElementById('cardData-Popup-English'),
-  cardDataPopup_Pinyin: document.getElementById('cardData-Popup-Pinyin'),
-  cardDataPinyinTableRow: document.getElementById('cardDataPinyinTableRow'),
+  flashcardDataPopup: document.getElementById('flashcardData-Popup'),
+  cardDatapPopupFront: document.getElementById('cardDataPopupFront'),
+  cardDataPopupRear: document.getElementById('cardDataPopupRear'),
+  cardDataPopupPinyin: document.getElementById('cardDataPopupPinyin'),
+  cardDataPopupPinyinRow: document.getElementById('cardDataPopupPinyinRow'),
 
   // ==== Quiz UI ====
   

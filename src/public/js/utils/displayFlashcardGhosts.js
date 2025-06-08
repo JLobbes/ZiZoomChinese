@@ -33,17 +33,19 @@ export function displayFlashcardGhosts(cards) {
 }
 
 export function showFlashcardOverlay(cardData, currentMouseY) {
-  uiElements.cardDataPopup_Chinese.innerText = cardData.FLASHCARD_CHN || '';
-  uiElements.cardDataPopup_English.innerText = cardData.FLASHCARD_ENG || '';
+  if(uiState.isDraggingImage) return; // Prevents accidental popup while dragging image.
+
+  uiElements.cardDatapPopupFront.innerText = cardData.FLASHCARD_CHN || '';
+  uiElements.cardDataPopupRear.innerText = cardData.FLASHCARD_ENG || '';
 
   if(uiState.includePinyin) {
-    uiElements.cardDataPopup_Pinyin.innerText = cardData.FLASHCARD_PINYIN || '';
+    uiElements.cardDataPopupPinyin.innerText = cardData.FLASHCARD_PINYIN || '';
   } else {
-    uiElements.cardDataPinyinTableRow.style.display = 'none';
+    uiElements.cardDataPopupPinyinRow.style.display = 'none';
   }
 
   uiElements.infoDisplayContainer.style.display = 'flex'; 
-  uiElements.flashcardData_Popup.style.display = 'flex';
+  uiElements.flashcardDataPopup.style.display = 'flex';
   requestAnimationFrame(() => {
     uiElements.infoDisplayContainer.classList.add('show');
     
@@ -65,7 +67,7 @@ export function hideFlashcardOverlay() {
       uiElements.infoDisplayContainer.classList.remove('show');
       uiElements.infoDisplayContainer.classList.remove('position-top');
       uiElements.infoDisplayContainer.style.display = 'none';
-      uiElements.flashcardData_Popup.style.display = 'none';
+      uiElements.flashcardDataPopup.style.display = 'none';
     }
   }, 300); 
 }

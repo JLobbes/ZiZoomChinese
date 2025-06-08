@@ -1,6 +1,7 @@
 // public/js/utils/loadImages.js
 
 import uiState from '../uiState.js';
+import uiElements from '../uiElements.js';
 import { updateImageTransform } from './zoomOrPanImage.js';
 import { displayFlashcardGhosts } from '../utils/displayFlashcardGhosts.js'
 import { fetchFlashcardsData } from '../api/getFlashcards.js';
@@ -14,8 +15,8 @@ export function loadImages(files) {
     item.setAttribute('data-src', `/images/${file}`);
     item.addEventListener('click', () => {
 
-      uiState.viewedImg.src = `/images/${file}`;
-      uiState.viewerContainer.style.display = 'flex';
+      uiElements.viewedImg.src = `/images/${file}`;
+      uiElements.viewerContainer.style.display = 'flex';
       uiState.scale = 1;
       uiState.offsetX = 0;
       uiState.offsetY = 0;
@@ -23,6 +24,6 @@ export function loadImages(files) {
       const flashCardData = fetchFlashcardsData();
       displayFlashcardGhosts(flashCardData);
     });
-    uiState.menu.appendChild(item);
+    uiElements.menu.appendChild(item);
   });
 }

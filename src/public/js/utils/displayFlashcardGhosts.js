@@ -1,10 +1,10 @@
 // public/js/showFlashcardGhosts.js
 
-import uiState from "../uiState.js";
+import uiElements from "../uiElements.js";
 import { imageCoordsToPercent } from './coordinateConverter.js'
 
 export function displayFlashcardGhosts(cards) {
-  const existingGhosts = uiState.viewedImgWrapper.querySelectorAll('.flashcardGhost');
+  const existingGhosts = uiElements.viewedImgWrapper.querySelectorAll('.flashcardGhost');
   existingGhosts.forEach(ghost => ghost.remove());
 
   cards.forEach(card => {
@@ -27,39 +27,39 @@ export function displayFlashcardGhosts(cards) {
 
     ghost.dataset.card = JSON.stringify(card);
 
-    uiState.viewedImgWrapper.appendChild(ghost);
+    uiElements.viewedImgWrapper.appendChild(ghost);
   });
 }
 
 export function showFlashcardOverlay(cardData, currentMouseY) {
-  uiState.cardDataPopup_Chinese.innerText = cardData.FLASHCARD_CHN || '';
-  uiState.cardDataPopup_Pinyin.innerText = cardData.FLASHCARD_PINYIN || '';
-  uiState.cardDataPopup_English.innerText = cardData.FLASHCARD_ENG || '';
+  uiElements.cardDataPopup_Chinese.innerText = cardData.FLASHCARD_CHN || '';
+  uiElements.cardDataPopup_Pinyin.innerText = cardData.FLASHCARD_PINYIN || '';
+  uiElements.cardDataPopup_English.innerText = cardData.FLASHCARD_ENG || '';
 
-  uiState.infoDisplayContainer.style.display = 'flex'; 
-  uiState.flashcardData_Popup.style.display = 'flex';
+  uiElements.infoDisplayContainer.style.display = 'flex'; 
+  uiElements.flashcardData_Popup.style.display = 'flex';
   requestAnimationFrame(() => {
-    uiState.infoDisplayContainer.classList.add('show');
+    uiElements.infoDisplayContainer.classList.add('show');
     
     const mouseInTopHalf = determineMouseArea(currentMouseY);
     if(mouseInTopHalf) {
       // defaults to display on bottom
     } else {
-      uiState.infoDisplayContainer.classList.add('position-top');
+      uiElements.infoDisplayContainer.classList.add('position-top');
     }
   });
 }
 
 export function hideFlashcardOverlay() {
-  uiState.infoDisplayContainer.classList.remove('show');
+  uiElements.infoDisplayContainer.classList.remove('show');
   setTimeout(() => {
-    const differentPopUpOpened = uiState.infoDisplayContainer.classList.contains('show');
+    const differentPopUpOpened = uiElements.infoDisplayContainer.classList.contains('show');
     
     if(!differentPopUpOpened) {
-      uiState.infoDisplayContainer.classList.remove('show');
-      uiState.infoDisplayContainer.classList.remove('position-top');
-      uiState.infoDisplayContainer.style.display = 'none';
-      uiState.flashcardData_Popup.style.display = 'none';
+      uiElements.infoDisplayContainer.classList.remove('show');
+      uiElements.infoDisplayContainer.classList.remove('position-top');
+      uiElements.infoDisplayContainer.style.display = 'none';
+      uiElements.flashcardData_Popup.style.display = 'none';
     }
   }, 300); 
 }

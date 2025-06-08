@@ -1,6 +1,7 @@
 // public/js/utils/createPinYinKeyboard.js
 
 import uiState from "../../uiState.js";
+import uiElements from "../../uiElements.js";
 
 // ==== PinYin Input ====
 
@@ -15,7 +16,7 @@ const toneMapping = {
 };
 
 export function createPinyinKeyboard() {
-  uiState.pinyinKeyboard.innerHTML = '';
+  uiElements.pinyinKeyboard.innerHTML = '';
   uiState.showingToneOptions = false;
   uiState.pinyinInputMode = true;
 
@@ -24,12 +25,12 @@ export function createPinyinKeyboard() {
     btn.className = 'pinyin-key';
     btn.textContent = vowel;
     btn.onclick = () => showToneOptions(vowel);
-    uiState.pinyinKeyboard.appendChild(btn);
+    uiElements.pinyinKeyboard.appendChild(btn);
   });
 }
 
 function showToneOptions(vowel) {
-  uiState.pinyinKeyboard.innerHTML = '';
+  uiElements.pinyinKeyboard.innerHTML = '';
   uiState.currentVowel = vowel;
   uiState.showingToneOptions = true;
 
@@ -48,18 +49,18 @@ function showToneOptions(vowel) {
 
     container.appendChild(btn);
     container.appendChild(label);
-    uiState.pinyinKeyboard.appendChild(container);
+    uiElements.pinyinKeyboard.appendChild(container);
   });
 }
 
 function insertTonedVowel(toneChar) {
-  const start = uiState.cardPinyinInput.selectionStart;
-  const end = uiState.cardPinyinInput.selectionEnd;
-  const currentValue = uiState.cardPinyinInput.value;
+  const start = uiElements.cardPinyinInput.selectionStart;
+  const end = uiElements.cardPinyinInput.selectionEnd;
+  const currentValue = uiElements.cardPinyinInput.value;
 
-  uiState.cardPinyinInput.value = currentValue.slice(0, start) + toneChar + currentValue.slice(end);
-  uiState.cardPinyinInput.setSelectionRange(start + 1, start + 1);
-  uiState.cardPinyinInput.focus();
+  uiElements.cardPinyinInput.value = currentValue.slice(0, start) + toneChar + currentValue.slice(end);
+  uiElements.cardPinyinInput.setSelectionRange(start + 1, start + 1);
+  uiElements.cardPinyinInput.focus();
 
   createPinyinKeyboard();
 }

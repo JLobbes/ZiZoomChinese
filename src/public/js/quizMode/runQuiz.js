@@ -1,13 +1,14 @@
 // public/js/quizMode/runQuiz.js
 
 import uiState from "../uiState.js";
+import uiElements from "../uiElements.js";
 import { imageCoordsToPercent } from '../utils/coordinateConverter.js';
 import { updateImageTransform } from "../utils/zoomOrPanImage.js";
 
 export function runQuiz(cards) {
 
   uiState.quizRunning = true;
-  uiState.infoDisplayContainer.classList.add('quizRunning');
+  uiElements.infoDisplayContainer.classList.add('quizRunning');
   uiState.scale = 1;
 
   const shuffledCards = shuffleArray([...cards]); // randomize question order
@@ -77,17 +78,16 @@ function generateChoices(allCards, fieldKey, correctValue, count) {
 }
 
 function handlQuizCardVisual(card) {
-  const existingGhosts = uiState.viewedImgWrapper.querySelectorAll('.flashcardGhost');
+  const existingGhosts = uiElements.viewedImgWrapper.querySelectorAll('.flashcardGhost');
   existingGhosts.forEach(ghost => ghost.remove());
 
-  uiState.viewedImg.src = card.FLASHCARD_SOURCE_IMG_PATH;
-  uiState.viewerContainer.style.display = 'flex';
-  // uiState.scale = 1;
+  uiElements.viewedImg.src = card.FLASHCARD_SOURCE_IMG_PATH;
+  uiElements.viewerContainer.style.display = 'flex';
   uiState.offsetX = 0;
   uiState.offsetY = 0;
 
   // Wait for image to load
-  uiState.viewedImg.onload = () => {
+  uiElements.viewedImg.onload = () => {
     applyCropBox(card);
     scaleAndFitImage(card);
   };
@@ -95,13 +95,13 @@ function handlQuizCardVisual(card) {
 
 function renderChoices(choices, callback) {
 
-  uiState.quizUI.style.display = 'flex';
+  uiElements.quizUI.style.display = 'flex';
 
   const buttons = [
-    uiState.quizOptionOne,
-    uiState.quizOptionTwo,
-    uiState.quizOptionThree,
-    uiState.quizOptionFour,
+    uiElements.quizOptionOne,
+    uiElements.quizOptionTwo,
+    uiElements.quizOptionThree,
+    uiElements.quizOptionFour,
   ];
   // console.log('buttons:', buttons);
 
@@ -122,7 +122,7 @@ function renderChoices(choices, callback) {
 
 function applyCropBox(card) {
   // Remove existing crop box if any
-  const oldBox = uiState.viewedImgWrapper.querySelector('.quizCropBox');
+  const oldBox = uiElements.viewedImgWrapper.querySelector('.quizCropBox');
   if (oldBox) oldBox.remove();
 
   console.log('current card:', card);
@@ -143,7 +143,7 @@ function applyCropBox(card) {
   cropBox.style.width = `${percentBox.width}%`;
   cropBox.style.height = `${percentBox.height}%`;
 
-  uiState.viewedImgWrapper.appendChild(cropBox);
+  uiElements.viewedImgWrapper.appendChild(cropBox);
 }
 
 function centerCropBoxWithPan(card) {
@@ -154,10 +154,10 @@ function centerCropBoxWithPan(card) {
     FLASHCARD_CROP_HEIGHT
   } = card;
 
-  const imgNaturalWidth = uiState.viewedImg.naturalWidth;
-  const imgNaturalHeight = uiState.viewedImg.naturalHeight;
+  const imgNaturalWidth = uiElements.viewedImg.naturalWidth;
+  const imgNaturalHeight = uiElements.viewedImg.naturalHeight;
 
-  const imgWrapperRect = uiState.viewedImgWrapper.getBoundingClientRect();
+  const imgWrapperRect = uiElements.viewedImgWrapper.getBoundingClientRect();
   const imgWrapperHalfWidth = Math.round(imgWrapperRect.width / 2);
   const imgWrapperHalfHeight = Math.round(imgWrapperRect.height / 2);
 
@@ -184,8 +184,8 @@ function scaleAndFitImage(card) {
   console.log('FLASHCARD_CROP_HEIGHT :', FLASHCARD_CROP_HEIGHT);
   const mainAxisLength = Math.min(FLASHCARD_CROP_HEIGHT, FLASHCARD_CROP_WIDTH);
 
-  const imgNaturalHeight = uiState.viewedImg.naturalHeight;
-  const imgWrapperHeight = uiState.viewedImgWrapper.getBoundingClientRect().height;
+  const imgNaturalHeight = uiElements.viewedImg.naturalHeight;
+  const imgWrapperHeight = uiElements.viewedImgWrapper.getBoundingClientRect().height;
   const naturalHeightAdjustment = Math.round((imgWrapperHeight / imgNaturalHeight) * mainAxisLength);
   console.log('naturalHeightAdjustment :', naturalHeightAdjustment);
 

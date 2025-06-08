@@ -1,20 +1,21 @@
 // public/js/utils/selectImageArea.js
 
 import uiState from "../../uiState.js";
+import uiElements from "../../uiElements.js";
 import { getImageCoords, imageCoordsToPercent } from "../coordinateConverter.js";
 import { collectFlashcardData } from "../collectFlashcardData/collectCardDataMain.js"; 
 
-// ==== IMAGE AREA SELECTION (FOR FLASHCARD)  ====
+// ==== IMAGE SNIPPET SELECTION (FOR FLASHCARD)  ====
 
 export function enableSelectionMode() {
   if (uiState.selectionModeEnabled) return;
-  if (!uiState.viewedImg?.src) return alert("Please load an image first.");
+  if (!uiElements.viewedImg?.src) return alert("Please load an image first.");
 
   uiState.selectionModeEnabled = true;
-  uiState.viewedImg.style.cursor = 'crosshair';
+  uiElements.viewedImg.style.cursor = 'crosshair';
 
-  uiState.makeFlashcardBtn.style.backgroundColor = 'black';
-  uiState.makeFlashcardBtn.style.color = 'white';
+  uiElements.makeFlashcardBtn.style.backgroundColor = 'black';
+  uiElements.makeFlashcardBtn.style.color = 'white';
 }
 
 export function startSelection(e) {
@@ -34,7 +35,7 @@ export function startSelection(e) {
   box.style.zIndex = '9999';
 
   uiState.selectionBox = box;
-  uiState.viewedImgWrapper.appendChild(box);
+  uiElements.viewedImgWrapper.appendChild(box);
 }
 
 export function drawSelectionBox(e) {
@@ -63,7 +64,7 @@ export function finalizeSelection(e) {
 
   uiState.isDrawingSelection = false;
   uiState.selectionModeEnabled = false;
-  uiState.viewedImg.style.cursor = 'grab';
+  uiElements.viewedImg.style.cursor = 'grab';
 
   const { x: endX, y: endY } = getImageCoords(e.clientX, e.clientY);
 
@@ -82,8 +83,8 @@ export function finalizeSelection(e) {
     }
   }, 2000);
 
-  uiState.makeFlashcardBtn.style.backgroundColor = '';
-  uiState.makeFlashcardBtn.style.color = '';
+  uiElements.makeFlashcardBtn.style.backgroundColor = '';
+  uiElements.makeFlashcardBtn.style.color = '';
 
   collectFlashcardData(uiState.selected_area);
 }

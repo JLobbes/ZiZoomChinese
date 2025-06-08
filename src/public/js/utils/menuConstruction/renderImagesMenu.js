@@ -1,7 +1,9 @@
 // public/js/utils/menuConstruction/renderImagesMenu.js
 
-import { getImages } from '../../api/getImages.js';
 import uiState from '../../uiState.js';
+import uiElements from '../../uiElements.js';
+
+import { getImages } from '../../api/getImages.js';
 import { createMenuItem, appendAddSubfolderBtn } from './menuHelpers.js';
 import { fetchFlashcardsData } from '../../api/getFlashcards.js';
 import { displayFlashcardGhosts } from '../../utils/displayFlashcardGhosts.js';
@@ -39,15 +41,15 @@ function appendFoldersToMenu(container, tree) {
       container.appendChild(
         createMenuItem(node.name, async () => {
           const imgPath = `/${node.path}`;
-          uiState.viewedImg.src = imgPath;
-          uiState.viewerContainer.style.display = 'flex';
+          uiElements.viewedImg.src = imgPath;
+          uiElements.viewerContainer.style.display = 'flex';
           uiState.scale = 1;
           uiState.offsetX = 0;
           uiState.offsetY = 0;
 
           // Wait for image to finish loading before placing ghosts
-          uiState.viewedImg.onload = async () => {
-            const cards = await fetchFlashcardsData(uiState.viewedImg.src);
+          uiElements.viewedImg.onload = async () => {
+            const cards = await fetchFlashcardsData(uiElements.viewedImg.src);
             displayFlashcardGhosts(cards);
           };
         })

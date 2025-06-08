@@ -1,6 +1,7 @@
 // src/public/js/quizMode/startQuizMode.js
 
 import uiState from '../uiState.js';
+import uiElements from '../uiElements.js';
 import { getDecks } from '../api/getDecks.js';
 import { renderDeckSelection } from '../utils/collectFlashcardData/renderSelectDeck.js';
 import { getCardsByDeck } from '../api/getFlashcardsByDeck.js'; // You'll need to make this API endpoint
@@ -9,18 +10,18 @@ import { runQuiz } from './runQuiz.js'
 
 export function startQuizMode() {
   // Step 1: Show overlay
-  uiState.infoDisplayContainer.style.display = 'flex'; 
+  uiElements.infoDisplayContainer.style.display = 'flex'; 
   requestAnimationFrame(() => {
-    uiState.infoDisplayContainer.classList.add('show');
+    uiElements.infoDisplayContainer.classList.add('show');
   });
 
   // Step 2: Show GUI to select Deck
-  uiState.chooseDeckToQuizContainer.style.display = 'flex';
+  uiElements.chooseDeckToQuizContainer.style.display = 'flex';
 
   getDecks().then(decks => {
-    renderDeckSelection(uiState.chooseDeckToQuizGUI, decks, (deckID, deckName) => {
-      uiState.deckToQuiz = deckID;
-      uiState.deckToQuizInput.value = deckName;
+    renderDeckSelection(uiElements.chooseDeckToQuizGUI, decks, (deckID, deckName) => {
+      uiElements.deckToQuiz = deckID;
+      uiElements.deckToQuizInput.value = deckName;
     });
   }).catch(err => {
     console.error('Could not load decks for quiz', err);
@@ -30,7 +31,7 @@ export function startQuizMode() {
   // Step 3: Hook up the Quiz button
   const quizMeBtn = document.getElementById('quizMeBtn');
   quizMeBtn.onclick = async () => {
-    const deckID = uiState.deckToQuiz;
+    const deckID = uiElements.deckToQuiz;
     if (!deckID) {
       alert('Please select a deck.');
       return;
@@ -57,5 +58,5 @@ export function startQuizMode() {
 }
 
 function closeSelectDeckMenu() {
-  uiState.chooseDeckToQuizContainer.style.display = 'none';
+  uiElements.chooseDeckToQuizContainer.style.display = 'none';
 }

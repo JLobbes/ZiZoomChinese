@@ -1,6 +1,7 @@
 // public/js/utils/collectCardDataMain.js
 
 import uiState from "../../uiState.js";
+import uiElements from "../../uiElements.js";
 import { createPinyinKeyboard } from './createPinYinKeyboard.js';
 import { saveCardToDatabase } from '../../api/saveFlashcard.js';
 import { getDecks } from '../../api/getDecks.js'
@@ -8,7 +9,7 @@ import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js
 
 export function collectFlashcardData(imageSnippit) {
   const newCard = {
-    imgPath: uiState.viewedImg.src,
+    imgPath: uiElements.viewedImg.src,
     imageSnippit,
     deckID: null,
   };
@@ -18,20 +19,20 @@ export function collectFlashcardData(imageSnippit) {
 }
 
 export function showFlashcardCreationOverlay(imageSnippit) {
-  const canvas = generateSnippitPreview(uiState.viewedImg, imageSnippit);
+  const canvas = generateSnippitPreview(uiElements.viewedImg, imageSnippit);
 
-  uiState.flashcardSnippitPreview.src = canvas.toDataURL();
-  uiState.flashcardSnippitPreview.style.display = 'block';
-  uiState.flashcardCreationOverlay.style.display = 'flex';
+  uiElements.flashcardSnippitPreview.src = canvas.toDataURL();
+  uiElements.flashcardSnippitPreview.style.display = 'block';
+  uiElements.flashcardCreationOverlay.style.display = 'flex';
 }
 
 export function startCollectCardFront(card) {
-  uiState.cardFrontInputStep.style.display = 'flex';
-  uiState.cardFrontInput.focus();
+  uiElements.cardFrontInputStep.style.display = 'flex';
+  uiElements.cardFrontInput.focus();
 
-  uiState.saveDataBtn.textContent = 'Next';
-  uiState.saveDataBtn.onclick = () => {
-    const term = uiState.cardFrontInput.value.trim();
+  uiElements.saveDataBtn.textContent = 'Next';
+  uiElements.saveDataBtn.onclick = () => {
+    const term = uiElements.cardFrontInput.value.trim();
     if (!term) return alert('Please enter text for card front.');
     card.chinese = term;
     startCollectPinYin(card);
@@ -39,15 +40,15 @@ export function startCollectCardFront(card) {
 }
 
 export function startCollectPinYin(card) {
-  uiState.cardFrontInputStep.style.display = 'none';
-  uiState.cardPinyinStep.style.display = 'flex';
-  uiState.cardPinyinInput.focus();
+  uiElements.cardFrontInputStep.style.display = 'none';
+  uiElements.cardPinyinStep.style.display = 'flex';
+  uiElements.cardPinyinInput.focus();
 
   createPinyinKeyboard(); 
 
-  uiState.saveDataBtn.textContent = 'Next';
-  uiState.saveDataBtn.onclick = () => {
-    const pinyin = uiState.cardPinyinInput.value.trim();
+  uiElements.saveDataBtn.textContent = 'Next';
+  uiElements.saveDataBtn.onclick = () => {
+    const pinyin = uiElements.cardPinyinInput.value.trim();
     if (!pinyin) return alert('Please enter Pinyin.');
     card.pinyin = pinyin;
 
@@ -59,14 +60,14 @@ export function startCollectCardRear(card) {
 
   uiState.pinyinInputMode = false;
   uiState.showingToneOptions = false;
-  uiState.cardPinyinStep.style.display = 'none';
+  uiElements.cardPinyinStep.style.display = 'none';
 
-  uiState.cardRearInputStep.style.display = 'flex';
-  uiState.cardRearInput.focus();
+  uiElements.cardRearInputStep.style.display = 'flex';
+  uiElements.cardRearInput.focus();
 
-  uiState.saveDataBtn.textContent = 'Next';
-  uiState.saveDataBtn.onclick = () => {
-    const term = uiState.cardRearInput.value.trim();
+  uiElements.saveDataBtn.textContent = 'Next';
+  uiElements.saveDataBtn.onclick = () => {
+    const term = uiElements.cardRearInput.value.trim();
     if (!term) return alert('Please enter text for card rear.');
     card.english = term;
 
@@ -76,28 +77,28 @@ export function startCollectCardRear(card) {
 }
 
 export function startSelectDeckStep(card) {
-  uiState.cardRearInputStep.style.display = 'none';
-  uiState.flashcardSnippitPreview.style.display = 'none';
-  uiState.collectDeckStep.style.display = 'flex';
+  uiElements.cardRearInputStep.style.display = 'none';
+  uiElements.flashcardSnippitPreview.style.display = 'none';
+  uiElements.collectDeckStep.style.display = 'flex';
 
   getDecks().then((decks) => {
     console.log('got decks:', decks);
 
-    renderDeckSelection(uiState.flashcardDeckSelectionGUI, decks, (deckID, deckName) => {
+    renderDeckSelection(uiElements.flashcardDeckSelectionGUI, decks, (deckID, deckName) => {
       card.deckID = deckID;
       card.deckName = deckName;
-      uiState.deckInput.value = deckName;
+      uiElements.deckInput.value = deckName;
     });
 
-    uiState.saveDataBtn.textContent = 'Next';
-    uiState.saveDataBtn.onclick = () => {
+    uiElements.saveDataBtn.textContent = 'Next';
+    uiElements.saveDataBtn.onclick = () => {
       if (!card.deckID) {
         alert('Please select a deck.');
         return;
       }
 
-      uiState.collectDeckStep.style.display = 'none';
-      uiState.flashcardSnippitPreview.style.display = 'block';
+      uiElements.collectDeckStep.style.display = 'none';
+      uiElements.flashcardSnippitPreview.style.display = 'block';
       startReviewInputStep(card);
     };
 
@@ -109,16 +110,16 @@ export function startSelectDeckStep(card) {
 }
 
 export function startReviewInputStep(card) {
-  uiState.cardRearInputStep.style.display = 'none';
-  uiState.cardReviewInputStep.style.display = 'flex';
+  uiElements.cardRearInputStep.style.display = 'none';
+  uiElements.cardReviewInputStep.style.display = 'flex';
 
-  uiState.reviewCardFrontInput.textContent = card.chinese;
-  uiState.reviewCardPinYin.textContent = card.pinyin;
-  uiState.reviewCardRearInput.textContent = card.english;
-  uiState.cardReviewInputStep.textContent = card.deckName;
+  uiElements.reviewCardFrontInput.textContent = card.chinese;
+  uiElements.reviewCardPinYin.textContent = card.pinyin;
+  uiElements.reviewCardRearInput.textContent = card.english;
+  uiElements.cardReviewInputStep.textContent = card.deckName;
 
-  uiState.saveDataBtn.textContent = 'Save';
-  uiState.saveDataBtn.onclick = () => {
+  uiElements.saveDataBtn.textContent = 'Save';
+  uiElements.saveDataBtn.onclick = () => {
     if (!card.deckID) {
       alert('Please select a deck to save the card.');
       return;
@@ -130,21 +131,21 @@ export function startReviewInputStep(card) {
 
 
 export function resetCardOverlay() {
-  uiState.flashcardCreationOverlay.style.display = 'none';
+  uiElements.flashcardCreationOverlay.style.display = 'none';
 
-  uiState.cardFrontInput.value = '';
-  uiState.cardPinyinInput.value = '';
-  uiState.cardRearInput.value = '';
-  uiState.flashcardSnippitPreview.src = '';
+  uiElements.cardFrontInput.value = '';
+  uiElements.cardPinyinInput.value = '';
+  uiElements.cardRearInput.value = '';
+  uiElements.flashcardSnippitPreview.src = '';
 
-  uiState.cardFrontInputStep.style.display = 'none';
-  uiState.cardRearInputStep.style.display = 'none';
-  uiState.collectDeckStep.style.display = 'none';
-  uiState.cardReviewInputStep.style.display = 'none';
+  uiElements.cardFrontInputStep.style.display = 'none';
+  uiElements.cardRearInputStep.style.display = 'none';
+  uiElements.collectDeckStep.style.display = 'none';
+  uiElements.cardReviewInputStep.style.display = 'none';
   
-  uiState.reviewCardFrontInput.textContent = '';
-  uiState.reviewCardPinYin.textContent = '';
-  uiState.reviewCardRearInput.textContent = '';
+  uiElements.reviewCardFrontInput.textContent = '';
+  uiElements.reviewCardPinYin.textContent = '';
+  uiElements.reviewCardRearInput.textContent = '';
 }
 
 function generateSnippitPreview(image, cropRect, targetShortSide = 100) {

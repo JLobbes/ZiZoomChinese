@@ -1,6 +1,7 @@
 // public/js/zoomOrPanImage.js
 
 import uiState from '../uiState.js';
+import uiElements from '../uiElements.js';
 
 // ==== Zoom and Pan Via Keyboard ====
 
@@ -38,7 +39,7 @@ export function startPan(e) {
   uiState.isDraggingImage = true;
   uiState.dragStartX = e.clientX - uiState.offsetX;
   uiState.dragStartY = e.clientY - uiState.offsetY;
-  uiState.viewedImg.style.cursor = 'grabbing';
+  uiElements.viewedImg.style.cursor = 'grabbing';
   e.preventDefault();
 }
 
@@ -50,13 +51,12 @@ export function panImage(e) {
 
 export function endPan(e) {
   uiState.isDraggingImage = false;
-  uiState.viewedImg.style.cursor = 'grab';
+  uiElements.viewedImg.style.cursor = 'grab';
   updateImageTransform();
 }
 
 export function updateImageTransform(smooth = false) {
     const transition = smooth ? 'transform 0.3s ease' : '';
-    uiState.viewedImgWrapper.style.transition = transition;
-    uiState.viewedImgWrapper.style.transform = `translate(${uiState.offsetX}px, ${uiState.offsetY}px) scale(${uiState.scale})`;
-    console.log('uiState.scale :', uiState.scale);
+    uiElements.viewedImgWrapper.style.transition = transition;
+    uiElements.viewedImgWrapper.style.transform = `translate(${uiState.offsetX}px, ${uiState.offsetY}px) scale(${uiState.scale})`;
 }

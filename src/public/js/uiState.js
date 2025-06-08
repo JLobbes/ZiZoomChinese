@@ -1,15 +1,9 @@
 // public/js/uiState.js
 
 const uiState = {
-  
-  // ==== Image Viewer Elements ====
-  menu: document.getElementById('imageMenu'),
 
-  viewedImgWrapper: document.getElementById('viewerWrapper'),
-  viewedImg: document.getElementById('viewedImage'),
-  viewerContainer: document.getElementById('viewerContainer'),
+  // ==== Zoom & Pan ====
 
-  // ==== Zoom & Pan Variables ====
   isDraggingImage: false,
   scale: null,
   dragStartX: null,
@@ -17,72 +11,25 @@ const uiState = {
   offsetX: null,
   offsetY: null,
 
-  // ==== Area Selection Variables & Elements ====
-  exitFlashcardCreationBtn: document.getElementById('exitFlashcardCreationBtn'),
+  // ==== Img Area Selection (Flashcard Snippit) ====
 
   selectionModeEnabled: false,
   isDrawingSelection: false,
   selectionStartX: null,
   selectionStartY: null,
-
-  makeFlashcardBtn: document.getElementById('makeFlashcardBtn'),
   selectionBox: null,
   selected_area: null,
 
-  // ==== Flashcard Creation Form Elements ====
-  flashcardCreationOverlay: document.getElementById('flashcardCreationOverlay'),
-  flashcardSnippitPreview: document.getElementById('flashcardSnippitPreview'),
-  flashcardDeckSelectionGUI: document.getElementById('flashcardDeckSelectionGUI'),
-  saveDataBtn: document.getElementById('saveDataBtn'),
-
-  cardFrontInputStep: document.getElementById('cardFrontInputStep'),
-  cardPinyinStep: document.getElementById('cardPinyinStep'),
-  cardRearInputStep: document.getElementById('cardRearInputStep'),
-  collectDeckStep: document.getElementById('collectDeckStep'),
-  cardReviewInputStep: document.getElementById('cardReviewInputStep'),
-
-  cardFrontInput: document.getElementById('cardFrontInput'),
-  cardPinyinInput: document.getElementById('cardPinyinInput'),
-  cardRearInput: document.getElementById('cardRearInput'),
-  deckInput: document.getElementById('deckInput'),
-
-  reviewCardDeck: document.getElementById('reviewCardDeck'),
-  reviewCardFrontInput: document.getElementById('reviewCardFrontInput'),
-  reviewCardPinYin: document.getElementById('reviewCardPinYin'),
-  reviewCardRearInput: document.getElementById('reviewCardRearInput'),
-
-  // ==== Pinyin Input Variables & Elements ====
+  // ==== Pinyin Input State ====
 
   currentVowel: '',
   pinyinInputMode: false,
   showingToneOptions: false,
 
-  pinyinKeyboard: document.getElementById('pinyinKeyboard'),
-
-  // === Flashcard Ghosts and Data Elements ====
-
-  infoDisplayContainer: document.getElementById('informationDisplay-Container'),
-  flashcardData_Popup: document.getElementById('flashcardData-Popup'),
-  cardDataPopup_Chinese: document.getElementById('cardData-Popup-Chinese'), 
-  cardDataPopup_English: document.getElementById('cardData-Popup-English'), 
-  cardDataPopup_Pinyin: document.getElementById('cardData-Popup-Pinyin'), 
-
-  // === Quiz Mode Variable and Elements ====
-
+  // ==== Quiz State ====
+  
   quizRunning: false,
-
-  chooseDeckToQuizContainer: document.getElementById('chooseDeckToQuiz-Container'),
-  chooseDeckToQuizGUI: document.getElementById('chooseDeckToQuizGUI'),
   deckToQuiz: null,
-  deckToQuizInput: document.getElementById('deckToQuizInput'),
-  quizMeBtn: document.getElementById('quitMeBtn'),
-
-  quizUI: document.getElementById('quizOperationUI'),
-  quizOptionOne: document.getElementById('option-one'),
-  quizOptionTwo: document.getElementById('option-two'),
-  quizOptionThree: document.getElementById('option-three'),
-  quizOptionFour: document.getElementById('option-four'),
-
 };
 
 export default uiState;

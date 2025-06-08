@@ -1,6 +1,7 @@
 // public/js/uiListeners.js
 
 import uiState from './uiState.js';
+import uiElements from './uiElements.js';
 import { renderMenu } from './utils/menuConstruction/renderMenuMain.js';
 import { showFlashcardOverlay, hideFlashcardOverlay } from './utils/displayFlashcardGhosts.js';
 import { keyPressZoomAndPan, startPan, panImage, endPan } from './utils/zoomOrPanImage.js';
@@ -10,12 +11,18 @@ import {
 } from './utils/collectFlashcardData/selectImageArea.js';
 import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashcardData/createPinYinKeyboard.js';
 import { resetCardOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
- 
-export function initUIListeners() {
 
-  window.addEventListener('load', () => {
-    renderMenu();
-  });
+export function initUIListeners() {
+  initGlobalKeyListeners();
+  initMouseEvents();
+  initOverlayListeners();
+  initSelectionButton();
+}
+
+// === Global Key Listeners (keyboard shortcuts, pinyin, etc.)
+
+function initGlobalKeyListeners() {
+  window.addEventListener('load', renderMenu);
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
@@ -28,22 +35,22 @@ export function initUIListeners() {
       return;
     }
 
-    const overlayVisible = uiState.flashcardCreationOverlay.style.display === 'flex';
+    const overlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
     if (uiState.selectionModeEnabled || overlayVisible) return;
 
     keyPressZoomAndPan(e);
   });
+}
 
+// === Mouse Events (image panning and selection)
+
+function initMouseEvents() {
   document.addEventListener('mousedown', e => {
-    const overlayVisible = uiState.flashcardCreationOverlay.style.display === 'flex';
+    const overlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
 
     if (uiState.selectionModeEnabled) {
       startSelection(e);
-
-    } else if (overlayVisible) {
-      // do nothing
-      return;
-    } else {
+    } else if (!overlayVisible) {
       startPan(e);
     }
   });
@@ -63,8 +70,12 @@ export function initUIListeners() {
       endPan(e);
     }
   });
+}
 
-  uiState.viewedImgWrapper.addEventListener('mouseover', e => {
+// === Overlay Listeners (hover previews and exit button)
+
+function initOverlayListeners() {
+  uiElements.viewedImgWrapper.addEventListener('mouseover', e => {
     const ghost = e.target.closest('.flashcardGhost');
     if (ghost) {
       const cardData = JSON.parse(ghost.dataset.card);
@@ -73,31 +84,34 @@ export function initUIListeners() {
     }
   });
 
-  uiState.viewedImgWrapper.addEventListener('mouseout', e => {
+  uiElements.viewedImgWrapper.addEventListener('mouseout', e => {
     const ghost = e.target.closest('.flashcardGhost');
     if (ghost) {
       hideFlashcardOverlay();
     }
   });
 
-  uiState.makeFlashcardBtn.addEventListener('click', enableSelectionMode);
+  uiElements.exitFlashcardCreationBtn.addEventListener('click', resetCardOverlay);
+}
 
-  function handleEscapeKey(e) {
-    // === Cancel tone selection ===
-    if (uiState.showingToneOptions) {
-      e.preventDefault();
-      createPinyinKeyboard(); // Reset to base vowels
-      return;
-    }
+// === Flashcard Creation Button
 
-    // === Close overlay ===
-    const overlayVisible = uiState.flashcardCreationOverlay.style.display === 'flex';
-    if (overlayVisible) {
-      e.preventDefault();
-      resetCardOverlay();
-    }
+function initSelectionButton() {
+  uiElements.makeFlashcardBtn.addEventListener('click', enableSelectionMode);
+}
+
+// === Escape Key Handler
+
+function handleEscapeKey(e) {
+  if (uiState.showingToneOptions) {
+    e.preventDefault();
+    createPinyinKeyboard(); // Reset to base vowels
+    return;
   }
 
-  uiState.exitFlashcardCreationBtn.addEventListener('click', resetCardOverlay);
-
+  const overlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
+  if (overlayVisible) {
+    e.preventDefault();
+    resetCardOverlay();
+  }
 }

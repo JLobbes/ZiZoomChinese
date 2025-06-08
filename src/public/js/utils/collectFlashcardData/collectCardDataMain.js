@@ -101,7 +101,7 @@ export function startSelectDeckStep(card) {
 
     uiElements.saveDataBtn.textContent = 'Next';
     uiElements.saveDataBtn.onclick = () => {
-      if (!card.deckID) {
+      if (uiElements.deckInput.value === '') {
         alert('Please select a deck.');
         return;
       }

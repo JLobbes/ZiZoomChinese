@@ -1,9 +1,9 @@
 // public/js/quizMode/runQuiz.js
 
-import uiState from "../uiState.js";
-import uiElements from "../uiElements.js";
-import { imageCoordsToPercent } from '../utils/coordinateConverter.js';
-import { updateImageTransform } from "../utils/zoomOrPanImage.js";
+import uiState from "../../uiState.js";
+import uiElements from "../../uiElements.js";
+import { imageCoordsToPercent } from '../coordinateConverter.js';
+import { updateImageTransform } from "../zoomOrPanImage.js";
 
 export function runQuiz(cards) {
 
@@ -23,7 +23,7 @@ export function runQuiz(cards) {
     }
 
     const currentCard = shuffledCards[currentIndex];
-    const stages = ['CHN', 'PINYIN', 'ENG'];
+    const stages = ['CHN', ...(uiState.includePinyin ? ['PINYIN'] : []), 'ENG'];
     let currentStage = 0;
 
     handlQuizCardVisual(currentCard);

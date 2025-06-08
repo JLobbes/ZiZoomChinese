@@ -35,7 +35,11 @@ export function startCollectCardFront(card) {
     const term = uiElements.cardFrontInput.value.trim();
     if (!term) return alert('Please enter text for card front.');
     card.chinese = term;
-    startCollectPinYin(card);
+    if (uiState.includePinyin) {
+      startCollectPinYin(card);
+    } else {
+      startCollectCardRear(card);
+    }
   };
 }
 
@@ -58,10 +62,15 @@ export function startCollectPinYin(card) {
 
 export function startCollectCardRear(card) {
 
-  uiState.pinyinInputMode = false;
-  uiState.showingToneOptions = false;
-  uiElements.cardPinyinStep.style.display = 'none';
+  if (uiState.includePinyin) {
+    uiState.pinyinInputMode = false;
+    uiState.showingToneOptions = false;
+    uiElements.cardPinyinStep.style.display = 'none';
+  } else {
+    card.pinyin = null;
+  }
 
+  uiElements.cardFrontInputStep.style.display = 'none';
   uiElements.cardRearInputStep.style.display = 'flex';
   uiElements.cardRearInput.focus();
 
@@ -114,10 +123,14 @@ export function startReviewInputStep(card) {
   uiElements.cardReviewInputStep.style.display = 'flex';
 
   uiElements.reviewCardFrontInput.textContent = card.chinese;
-  uiElements.reviewCardPinYin.textContent = card.pinyin;
   uiElements.reviewCardRearInput.textContent = card.english;
-  uiElements.cardReviewInputStep.textContent = card.deckName;
+  uiElements.reviewCardDeck.textContent = card.deckName;
 
+  // Hide Pinyin Element if includePinyin setting = false;
+  uiElements.reviewCardPinYin.textContent = '';
+  if (!uiState.includePinyin) {
+    uiElements.reviewCardPinYin.style.display = 'none';
+  } 
   uiElements.saveDataBtn.textContent = 'Save';
   uiElements.saveDataBtn.onclick = () => {
     if (!card.deckID) {

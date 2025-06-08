@@ -30,6 +30,11 @@ const uiState = {
   
   quizRunning: false,
   deckToQuiz: null,
+
+  // ==== Settings ====
+
+  includePinyin: false,  
+
 };
 
 export default uiState;

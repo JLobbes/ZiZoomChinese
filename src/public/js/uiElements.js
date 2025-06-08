@@ -46,6 +46,7 @@ const uiElements = {
   cardDataPopup_Chinese: document.getElementById('cardData-Popup-Chinese'),
   cardDataPopup_English: document.getElementById('cardData-Popup-English'),
   cardDataPopup_Pinyin: document.getElementById('cardData-Popup-Pinyin'),
+  cardDataPinyinTableRow: document.getElementById('cardDataPinyinTableRow'),
 
   // ==== Quiz UI ====
   

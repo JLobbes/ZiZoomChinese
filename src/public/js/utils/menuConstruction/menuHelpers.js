@@ -1,6 +1,6 @@
 // public/js/utils/menuConstruction/menuHelpers.js
 
-import { startQuizMode } from '../../quizMode/startQuizMode.js';
+import { startQuizMode } from '../quizMode/startQuizMode.js';
 
 export function createMenuItem(text, onClick = null) {
   const el = document.createElement('div');

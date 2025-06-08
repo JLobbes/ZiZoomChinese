@@ -1,6 +1,7 @@
 // public/js/showFlashcardGhosts.js
 
 import uiElements from "../uiElements.js";
+import uiState from "../uiState.js";
 import { imageCoordsToPercent } from './coordinateConverter.js'
 
 export function displayFlashcardGhosts(cards) {
@@ -33,8 +34,13 @@ export function displayFlashcardGhosts(cards) {
 
 export function showFlashcardOverlay(cardData, currentMouseY) {
   uiElements.cardDataPopup_Chinese.innerText = cardData.FLASHCARD_CHN || '';
-  uiElements.cardDataPopup_Pinyin.innerText = cardData.FLASHCARD_PINYIN || '';
   uiElements.cardDataPopup_English.innerText = cardData.FLASHCARD_ENG || '';
+
+  if(uiState.includePinyin) {
+    uiElements.cardDataPopup_Pinyin.innerText = cardData.FLASHCARD_PINYIN || '';
+  } else {
+    uiElements.cardDataPinyinTableRow.style.display = 'none';
+  }
 
   uiElements.infoDisplayContainer.style.display = 'flex'; 
   uiElements.flashcardData_Popup.style.display = 'flex';

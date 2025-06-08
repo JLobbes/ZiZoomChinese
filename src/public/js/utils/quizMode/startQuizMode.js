@@ -1,10 +1,10 @@
 // src/public/js/quizMode/startQuizMode.js
 
-import uiState from '../uiState.js';
-import uiElements from '../uiElements.js';
-import { getDecks } from '../api/getDecks.js';
-import { renderDeckSelection } from '../utils/collectFlashcardData/renderSelectDeck.js';
-import { getCardsByDeck } from '../api/getFlashcardsByDeck.js'; // You'll need to make this API endpoint
+import uiState from '../../uiState.js';
+import uiElements from '../../uiElements.js';
+import { getDecks } from '../../api/getDecks.js';
+import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js';
+import { getCardsByDeck } from '../../api/getFlashcardsByDeck.js'; // You'll need to make this API endpoint
 import { runQuiz } from './runQuiz.js'
 
 

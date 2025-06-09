@@ -2,20 +2,40 @@
 
 import uiState from "../../uiState.js";
 import uiElements from "../../uiElements.js";
+import { ocrImageFromCanvas } from './OCR.js';
 import { createPinyinKeyboard } from './createPinYinKeyboard.js';
-import { saveCardToDatabase } from '../../api/saveFlashcard.js';
 import { getDecks } from '../../api/getDecks.js'
 import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js'
+import { saveCardToDatabase } from '../../api/saveFlashcard.js';
 
-export function collectFlashcardData(imageSnippit) {
+export async function collectFlashcardData(imageSnippit) {
   const newCard = {
     imgPath: uiElements.viewedImg.src,
     imageSnippit,
     deckID: null,
   };
 
-  showFlashcardCreationOverlay(imageSnippit);
-  startCollectCardFront(newCard);
+  const canvas = generateSnippitPreview(uiElements.viewedImg, imageSnippit);
+  uiElements.flashcardSnippitPreview.src = canvas.toDataURL();
+  uiElements.flashcardSnippitPreview.style.display = 'block';
+  uiElements.flashcardCreationOverlay.style.display = 'flex';
+
+  uiElements.ocrProgressBar.style.display = 'flex';
+  uiElements.ocrProgressText.textContent = '0%';
+
+  try {
+    const ocrText = await ocrImageFromCanvas(canvas, (percent) => {
+      uiElements.ocrProgressText.textContent = `${percent}%`;
+    });
+
+    uiElements.ocrProgressBar.style.display = 'none'; // hide progress bar after done
+    startCollectCardFront(newCard, ocrText);
+
+  } catch (err) {
+    uiElements.ocrProgressBar.style.display = 'none';
+    console.error('OCR failed:', err);
+    startCollectCardFront(newCard, '');
+  }
 }
 
 export function showFlashcardCreationOverlay(imageSnippit) {
@@ -26,8 +46,9 @@ export function showFlashcardCreationOverlay(imageSnippit) {
   uiElements.flashcardCreationOverlay.style.display = 'flex';
 }
 
-export function startCollectCardFront(card) {
+export function startCollectCardFront(card, initialText = '') {
   uiElements.cardFrontInputStep.style.display = 'flex';
+  uiElements.cardFrontInput.value = initialText;
   uiElements.cardFrontInput.focus();
 
   uiElements.saveDataBtn.textContent = 'Next';
@@ -142,7 +163,6 @@ export function startReviewInputStep(card) {
   };
 }
 
-
 export function resetCardOverlay() {
   uiElements.flashcardCreationOverlay.style.display = 'none';
 
@@ -151,7 +171,7 @@ export function resetCardOverlay() {
   uiElements.cardRearInput.value = '';
   uiElements.flashcardSnippitPreview.src = '';
 
-  uiElements.cardFrontInputStep.style.display = 'none';
+  uiElements.cardFrontInputStep.style.display = 'flex';
   uiElements.cardRearInputStep.style.display = 'none';
   uiElements.collectDeckStep.style.display = 'none';
   uiElements.cardReviewInputStep.style.display = 'none';

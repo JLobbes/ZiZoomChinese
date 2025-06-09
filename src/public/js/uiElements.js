@@ -27,6 +27,9 @@ const uiElements = {
   collectDeckStep: document.getElementById('collectDeckStep'),
   cardReviewInputStep: document.getElementById('cardReviewInputStep'),
 
+  ocrProgressBar: document.getElementById('ocrProgressBar'),
+  ocrProgressText: document.getElementById('ocrProgressText'),
+
   cardFrontInput: document.getElementById('cardFrontInput'),
   cardPinyinInput: document.getElementById('cardPinyinInput'),
   cardRearInput: document.getElementById('cardRearInput'),

@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="/styles/flashcardCreation.css" />
     <link rel="stylesheet" href="/styles/quizItems.css" />
 
-    
-
     <link rel="stylesheet" href="/styles/buttons.css" />
     <link rel="stylesheet" href="/styles/overlays.css" />
     <link rel="stylesheet" href="/styles/pinyinKeyboard.css" />
@@ -43,6 +41,10 @@
         <div id="cardFrontInputStep" class="inputStep">
           <label for="cardFrontInput">Enter Card Front:</label>
           <input type="text" id="cardFrontInput" />
+          <div id="ocrProgressBar" class="spinnerContainer">
+            <div class="spinner"></div>
+            <span id="ocrProgressText">0%</span>
+          </div>
         </div>
     
         <!-- Pinyin Step -->
@@ -126,6 +128,8 @@
       </div>
 
       <div id="quizOperationFeedback"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
     <script src="main.js" type="module"></script>
   </body>
   </html>

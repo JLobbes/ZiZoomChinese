@@ -18,6 +18,9 @@ export function handlQuizCardVisual(card) {
   uiElements.viewedImg.onload = () => {
     applyCropBox(card);
     scaleAndFitImage(card);
+    setTimeout(() => {
+      centerCropBoxWithPan(card);
+    }, 300);
   };
 }
 
@@ -94,7 +97,4 @@ export function scaleAndFitImage(card) {
 
   uiState.scale = (uiState.scale * adjustmentRatio).toFixed(3);
   updateImageTransform(true);
-  setTimeout(() => {
-    centerCropBoxWithPan(card);
-  }, 300);
 }

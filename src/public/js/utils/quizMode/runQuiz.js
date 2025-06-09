@@ -167,13 +167,16 @@ function centerCropBoxWithPan(card) {
   const distYFromCenter = adjMidY - imgWrapperHalfHeight;
   const bufferOffset = 100; // px
 
-  // --- X-axis ---
-  const cropBoxMidX = Math.round(FLASHCARD_CROP_X + FLASHCARD_CROP_WIDTH / 2);
-  const adjMidX = Math.round((cropBoxMidX / imgNaturalWidth) * imgWrapperRect.width);
-  const distXFromCenter = adjMidX - imgWrapperHalfWidth;
-
   uiState.offsetY = -distYFromCenter -bufferOffset;
-  uiState.offsetX = -distXFromCenter;
+
+  // --- X-axis ---
+  if(uiState.centerCropBoxHorizontally) {
+    const cropBoxMidX = Math.round(FLASHCARD_CROP_X + FLASHCARD_CROP_WIDTH / 2);
+    const adjMidX = Math.round((cropBoxMidX / imgNaturalWidth) * imgWrapperRect.width);
+    const distXFromCenter = adjMidX - imgWrapperHalfWidth;
+
+    uiState.offsetX = -distXFromCenter;
+  }
 
   updateImageTransform(true);
 }
@@ -189,7 +192,7 @@ function scaleAndFitImage(card) {
   const naturalHeightAdjustment = Math.round((imgWrapperHeight / imgNaturalHeight) * mainAxisLength);
   console.log('naturalHeightAdjustment :', naturalHeightAdjustment);
 
-  const targetLength = 75; // px  
+  const targetLength = 60; // px  
   const adjustmentRatio = (targetLength / naturalHeightAdjustment).toFixed(3);
   console.log('adjustmentRatio :', adjustmentRatio);
 

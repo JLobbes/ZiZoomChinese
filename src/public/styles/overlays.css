@@ -101,7 +101,7 @@
 
 .quizCropBox {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.95); 
+  background-color: #000; 
   pointer-events: none;
   border-radius: 5px;
   z-index: 10;

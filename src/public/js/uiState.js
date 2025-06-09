@@ -31,9 +31,10 @@ const uiState = {
   quizRunning: false,
   deckToQuiz: null,
 
-  // ==== Settings ====
+  // ==== Settings (User Adjustable) ====
 
-  includePinyin: false,  
+  includePinyin: false, 
+  centerCropBoxHorizontally: false,
 
 };
 

@@ -56,6 +56,7 @@ const uiElements = {
   quizMeBtn: document.getElementById('quitMeBtn'),
 
   quizUI: document.getElementById('quizOperationUI'),
+  quizOperationFeedback: document.getElementById('quizOperationFeedback'),  
   quizOptionOne: document.getElementById('option-one'),
   quizOptionTwo: document.getElementById('option-two'),
   quizOptionThree: document.getElementById('option-three'),

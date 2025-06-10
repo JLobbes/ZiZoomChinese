@@ -59,6 +59,7 @@ export function showFlashcardOverlay(cardData, currentMouseY) {
 }
 
 export function hideFlashcardOverlay() {
+  uiElements.flashcardDataPopup.display = 'none';
   uiElements.infoDisplayContainer.classList.remove('show');
   setTimeout(() => {
     const differentPopUpOpened = uiElements.infoDisplayContainer.classList.contains('show');

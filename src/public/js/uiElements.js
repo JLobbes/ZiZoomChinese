@@ -53,10 +53,13 @@ const uiElements = {
 
   // ==== Quiz UI ====
   
+  exitInformationDisplayBtn: document.getElementById('exitInformationDisplayBtn'),
   chooseDeckToQuizContainer: document.getElementById('chooseDeckToQuiz-Container'),
   chooseDeckToQuizGUI: document.getElementById('chooseDeckToQuizGUI'),
   deckToQuizInput: document.getElementById('deckToQuizInput'),
   quizMeBtn: document.getElementById('quizMeBtn'),
+
+  cropBox: null, // Created dynamically by applyCropBox(), see quizVisualHelpers.js
 
   quizUI: document.getElementById('quizOperationUI'),
   quizOperationFeedback: document.getElementById('quizOperationFeedback'),  

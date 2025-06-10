@@ -33,7 +33,8 @@ const uiState = {
 
   // ==== Quiz State ====
   
-  quizRunning: false,
+  quizModeOn: false,
+  quizRunning: false, // Indicates user has chosen deck & started quiz.
   deckToQuiz: null,
 
   // ==== Settings (User Adjustable) ====

@@ -7,6 +7,8 @@ import { getImages } from '../../api/getImages.js';
 import { createMenuItem, appendAddSubfolderBtn } from './menuHelpers.js';
 import { fetchFlashcardsData } from '../../api/getFlashcards.js';
 import { displayFlashcardGhosts } from '../../utils/displayFlashcardGhosts.js';
+import { closeDownQuizMode } from '../quizMode/quizUtils.js';
+import { updateImageTransform } from '../zoomOrPanImage.js';
 
 export async function renderImageSection(container) {
   try {
@@ -40,6 +42,8 @@ function appendFoldersToMenu(container, tree) {
     if (node.__file) {
       container.appendChild(
         createMenuItem(node.name, async () => {
+          if(uiState.quizModeOn) closeDownQuizMode();
+
           const imgPath = `/${node.path}`;
           uiElements.viewedImg.src = imgPath;
           uiElements.viewerContainer.style.display = 'flex';
@@ -52,6 +56,8 @@ function appendFoldersToMenu(container, tree) {
             const cards = await fetchFlashcardsData(uiElements.viewedImg.src);
             displayFlashcardGhosts(cards);
           };
+
+          updateImageTransform();
         })
       );
     } else {

@@ -3,6 +3,7 @@
 import uiElements from "../../uiElements.js";
 import uiState from "../../uiState.js";
 import { imageCoordsToPercent } from '../coordinateConverter.js';
+import { renderMenu } from "../menuConstruction/renderMenuMain.js";
 import { updateImageTransform } from "../zoomOrPanImage.js";
 
 export function handlQuizCardVisual(card) {
@@ -25,14 +26,13 @@ export function handlQuizCardVisual(card) {
 }
 
 export function applyCropBox(card) {
-  // Remove existing crop box if any
-  const oldBox = uiElements.viewedImgWrapper.querySelector('.quizCropBox');
-  if (oldBox) oldBox.remove();
+  removeOldCropBoxes();
 
   const { FLASHCARD_CROP_X, FLASHCARD_CROP_Y, FLASHCARD_CROP_WIDTH, FLASHCARD_CROP_HEIGHT } = card;
 
-  const cropBox = document.createElement('div');
-  cropBox.className = 'quizCropBox';
+  
+  uiElements.cropBox = document.createElement('div');
+  uiElements.cropBox.className = 'quizCropBox';
 
   const percentBox = imageCoordsToPercent(
     FLASHCARD_CROP_X,
@@ -41,12 +41,18 @@ export function applyCropBox(card) {
     FLASHCARD_CROP_HEIGHT
   );
 
-  cropBox.style.left = `${percentBox.left}%`;
-  cropBox.style.top = `${percentBox.top}%`;
-  cropBox.style.width = `${percentBox.width}%`;
-  cropBox.style.height = `${percentBox.height}%`;
+  uiElements.cropBox.style.left = `${percentBox.left}%`;
+  uiElements.cropBox.style.top = `${percentBox.top}%`;
+  uiElements.cropBox.style.width = `${percentBox.width}%`;
+  uiElements.cropBox.style.height = `${percentBox.height}%`;
 
-  uiElements.viewedImgWrapper.appendChild(cropBox);
+  uiElements.viewedImgWrapper.appendChild(uiElements.cropBox);
+}
+
+export function removeOldCropBoxes() {
+  uiElements.cropBox = null;
+  const oldBox = uiElements.viewedImgWrapper.querySelector('.quizCropBox');
+  if (oldBox) oldBox.remove(); 
 }
 
 export function centerCropBoxWithPan(card) {

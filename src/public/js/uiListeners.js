@@ -11,6 +11,7 @@ import {
 } from './utils/collectFlashcardData/selectImageArea.js';
 import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashcardData/createPinYinKeyboard.js';
 import { resetCardOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
+import { closeDownQuizMode } from './utils/quizMode/quizUtils.js';
 
 export function initUIListeners() {
   initGlobalKeyListeners();
@@ -72,7 +73,7 @@ function initMouseEvents() {
   });
 }
 
-// === Overlay Listeners (hover previews and exit button)
+// === Overlay Listeners (hover previews and exit buttons)
 
 function initOverlayListeners() {
   uiElements.viewedImgWrapper.addEventListener('mouseover', e => {
@@ -92,6 +93,7 @@ function initOverlayListeners() {
   });
 
   uiElements.exitFlashcardCreationBtn.addEventListener('click', resetCardOverlay);
+  uiElements.exitInformationDisplayBtn.addEventListener('click', closeDownQuizMode);
 }
 
 // === Flashcard Creation Button
@@ -109,9 +111,15 @@ function handleEscapeKey(e) {
     return;
   }
 
-  const overlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
-  if (overlayVisible) {
+  const createFlashcardOverlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
+  if (createFlashcardOverlayVisible) {
     e.preventDefault();
     resetCardOverlay();
+  }
+
+  const infoDisplayContainerVisible = uiElements.infoDisplayContainer.style.display = 'flex';
+  if(infoDisplayContainerVisible && uiState.quizModeOn) {
+    e.preventDefault();
+    closeDownQuizMode();
   }
 }

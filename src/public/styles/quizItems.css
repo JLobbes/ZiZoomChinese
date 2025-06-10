@@ -17,7 +17,7 @@
   user-select: none;
 }
 
-#informationDisplay-Container button {
+/* #informationDisplay-Container button {
   background: #fff;
   padding: 6px 12px;
   margin-top: 10px;
@@ -29,7 +29,7 @@
   z-index: 9999;
   font-family: sans-serif;
   user-select: none;
-}
+} */
 
 #informationDisplay-Container input {
   width: 150px;
@@ -41,10 +41,26 @@
   font-family: sans-serif;
 }
 
+
+
 #quizOperationUI {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#chooseDeckToQuiz-Container button {
+  background: #fff;
+  padding: 6px 12px;
+  margin-top: 10px;
+  border: 2px solid #111;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 9999;
+  font-family: sans-serif;
+  user-select: none;
 }
 
 #quizOperationUI button {

@@ -1,6 +1,8 @@
 // js/utils/quizMode/quizUtils.js
 
 import uiElements from "../../uiElements.js";
+import uiState from "../../uiState.js";
+import { removeOldCropBoxes } from "./quizVisualHelpers.js";
 
 export function shuffleArray(arr) {
   return arr.sort(() => Math.random() - 0.5);
@@ -30,4 +32,19 @@ export function showFeedbackMessage(text) {
   msg.addEventListener('animationend', () => {
     msg.remove();
   });
+}
+
+export function closeDownQuizMode() {
+  uiState.quizModeOn = false; 
+  uiState.quizRunning = false; 
+  uiState.deckToQuiz = null;
+
+  uiState.scale = 1;
+  uiElements.deckToQuizInput.value = '';
+  uiElements.quizUI.style.display = 'none';
+  uiElements.infoDisplayContainer.classList.remove('quizRunning');
+  uiElements.infoDisplayContainer.style.display = 'none';
+
+  uiElements.viewedImg.src = '';
+  removeOldCropBoxes();
 }

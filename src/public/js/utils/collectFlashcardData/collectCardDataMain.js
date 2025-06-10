@@ -112,11 +112,11 @@ export function startSelectDeckStep(card) {
   uiElements.collectDeckStep.style.display = 'flex';
 
   getDecks().then((decks) => {
-    console.log('got decks:', decks);
-
     renderDeckSelection(uiElements.flashcardDeckSelectionGUI, decks, (deckID, deckName) => {
-      card.deckID = deckID;
-      card.deckName = deckName;
+      uiState.globalDeckID = deckID;
+      uiState.globalDeckName = deckName;
+      card.deckID = uiState.globalDeckID;
+      card.deckName = uiState.globalDeckName;
       uiElements.deckInput.value = deckName;
     });
 
@@ -145,7 +145,7 @@ export function startReviewInputStep(card) {
 
   uiElements.reviewCardFrontInput.textContent = card.chinese;
   uiElements.reviewCardRearInput.textContent = card.english;
-  uiElements.reviewCardDeck.textContent = card.deckName;
+  uiElements.reviewCardDeck.textContent = uiState.globalDeckName; // Allows lazy select of deck during card creation
 
   // Hide Pinyin Element if includePinyin setting = false;
   uiElements.reviewCardPinYin.textContent = '';

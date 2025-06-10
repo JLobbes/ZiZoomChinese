@@ -20,6 +20,11 @@ const uiState = {
   selectionBox: null,
   selected_area: null,
 
+  // ==== Deck Selection (Global) ====
+
+  globalDeckName: null,
+  globalDeckID: null,
+
   // ==== Pinyin Input State ====
 
   currentVowel: '',

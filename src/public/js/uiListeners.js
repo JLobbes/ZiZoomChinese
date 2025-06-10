@@ -77,7 +77,7 @@ function initMouseEvents() {
 function initOverlayListeners() {
   uiElements.viewedImgWrapper.addEventListener('mouseover', e => {
     const ghost = e.target.closest('.flashcardGhost');
-    if (ghost) {
+    if (ghost && !uiState.selectionModeEnabled) {
       const cardData = JSON.parse(ghost.dataset.card);
       const currentMouseY = e.clientY;
       showFlashcardOverlay(cardData, currentMouseY);

@@ -39,7 +39,7 @@ const uiState = {
 
   // ==== Settings (User Adjustable) ====
 
-  includePinyin: false, 
+  includePinyin: true, 
   centerCropBoxHorizontally: false,
 
 };

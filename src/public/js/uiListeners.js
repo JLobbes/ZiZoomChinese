@@ -24,7 +24,7 @@ export function initUIListeners() {
 
 function initGlobalKeyListeners() {
   window.addEventListener('load', renderMenu);
-
+E
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       handleEscapeKey(e);
@@ -117,7 +117,7 @@ function handleEscapeKey(e) {
     resetCardOverlay();
   }
 
-  const infoDisplayContainerVisible = uiElements.infoDisplayContainer.style.display = 'flex';
+  const infoDisplayContainerVisible = uiElements.infoDisplayContainer.style.display === 'flex';
   if(infoDisplayContainerVisible && uiState.quizModeOn) {
     e.preventDefault();
     closeDownQuizMode();

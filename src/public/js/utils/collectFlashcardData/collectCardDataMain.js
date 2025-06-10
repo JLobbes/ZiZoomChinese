@@ -117,8 +117,7 @@ export function startSelectDeckStep(card) {
     renderDeckSelection(uiElements.flashcardDeckSelectionGUI, decks, (deckID, deckName) => {
       uiState.globalDeckID = deckID;
       uiState.globalDeckName = deckName;
-      card.deckID = uiState.globalDeckID;
-      card.deckName = uiState.globalDeckName;
+      
       uiElements.deckInput.value = deckName;
     });
 
@@ -134,11 +133,15 @@ export function startSelectDeckStep(card) {
       startReviewInputStep(card);
     };
 
+    
+
   }).catch((err) => {
     console.error('Failed to load decks', err);
     alert('Could not load decks. Please try again later.');
     resetCardOverlay();
   });
+  card.deckID = uiState.globalDeckID;
+  card.deckName = uiState.globalDeckName;
 }
 
 export function startReviewInputStep(card) {
@@ -150,7 +153,7 @@ export function startReviewInputStep(card) {
   uiElements.reviewCardDeck.textContent = uiState.globalDeckName; // Allows lazy select of deck during card creation
 
   // Hide Pinyin Element if includePinyin setting = false;
-  uiElements.reviewCardPinYin.textContent = '';
+  uiElements.reviewCardPinYin.textContent = card.pinyin;
   if (!uiState.includePinyin) {
     uiElements.reviewCardPinYin.style.display = 'none';
   } 

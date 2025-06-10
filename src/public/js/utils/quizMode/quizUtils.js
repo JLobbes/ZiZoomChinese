@@ -42,6 +42,7 @@ export function closeDownQuizMode() {
   uiState.scale = 1;
   uiElements.deckToQuizInput.value = '';
   uiElements.quizUI.style.display = 'none';
+  uiElements.chooseDeckToQuizContainer.style.display = 'none';
   uiElements.infoDisplayContainer.classList.remove('quizRunning');
   uiElements.infoDisplayContainer.style.display = 'none';
 

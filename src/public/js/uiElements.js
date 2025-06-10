@@ -56,7 +56,7 @@ const uiElements = {
   chooseDeckToQuizContainer: document.getElementById('chooseDeckToQuiz-Container'),
   chooseDeckToQuizGUI: document.getElementById('chooseDeckToQuizGUI'),
   deckToQuizInput: document.getElementById('deckToQuizInput'),
-  quizMeBtn: document.getElementById('quitMeBtn'),
+  quizMeBtn: document.getElementById('quizMeBtn'),
 
   quizUI: document.getElementById('quizOperationUI'),
   quizOperationFeedback: document.getElementById('quizOperationFeedback'),  

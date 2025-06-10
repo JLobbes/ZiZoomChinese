@@ -6,6 +6,8 @@ import { ocrImageFromCanvas } from './OCR.js';
 import { createPinyinKeyboard } from './createPinYinKeyboard.js';
 import { getDecks } from '../../api/getDecks.js'
 import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js'
+import { displayFlashcardGhosts } from "../displayFlashcardGhosts.js";
+import { fetchFlashcardsData } from "../../api/getFlashcards.js";
 import { saveCardToDatabase } from '../../api/saveFlashcard.js';
 
 export async function collectFlashcardData(imageSnippit) {
@@ -153,12 +155,14 @@ export function startReviewInputStep(card) {
     uiElements.reviewCardPinYin.style.display = 'none';
   } 
   uiElements.saveDataBtn.textContent = 'Save';
-  uiElements.saveDataBtn.onclick = () => {
+  uiElements.saveDataBtn.onclick = async () => {
     if (!card.deckID) {
       alert('Please select a deck to save the card.');
       return;
     }
     saveCardToDatabase(card);
+    const cards = await fetchFlashcardsData(uiElements.viewedImg.src);
+    displayFlashcardGhosts(cards);
     resetCardOverlay();
   };
 }

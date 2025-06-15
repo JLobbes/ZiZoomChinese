@@ -20,12 +20,11 @@ export function runQuiz(cards) {
 
   function runQuizQuestion() {
     if (currentIndex >= shuffledCards.length) {
-      // console.log('Quiz complete!');
       return;
     }
 
     const currentCard = shuffledCards[currentIndex];
-    const stages = ['FRONT', ...(uiState.includePinyin ? ['PINYIN'] : []), 'BACK'];
+    const stages = ['FRONT', ...(uiState.includePinyin ? ['PINYIN'] : []), 'REAR'];
     let currentStage = 0;
 
     handlQuizCardVisual(currentCard);
@@ -72,9 +71,9 @@ function renderChoices(choices, callback) {
     btn.textContent = choice;
     btn.onclick = () => {
       // Enable buttons after click
-      buttons.forEach(b => b.disabled = false);
+      // buttons.forEach(b => b.disabled = false);
       callback(choice);
     };
-    btn.disabled = false;
+    // btn.disabled = false;
   });
 }

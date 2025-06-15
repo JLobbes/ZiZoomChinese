@@ -99,8 +99,8 @@ export function scaleAndFitImage(card) {
   const naturalHeightAdjustment = Math.round((imgWrapperHeight / imgNaturalHeight) * mainAxisLength);
 
   const targetLength = 60; // px  
-  const adjustmentRatio = (targetLength / naturalHeightAdjustment).toFixed(3);
+  const adjustmentRatio = parseFloat((targetLength / naturalHeightAdjustment).toFixed(3));
 
-  uiState.scale = (uiState.scale * adjustmentRatio).toFixed(3);
+  uiState.scale = parseFloat((uiState.scale * adjustmentRatio).toFixed(3));
   updateImageTransform(true);
 }

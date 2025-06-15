@@ -1,6 +1,7 @@
 // public/js/utils/menuConstruction/menuHelpers.js
 
 import { startQuizMode } from '../quizMode/startQuizMode.js';
+import { openSettingsOverlay } from '../settingsOverlay.js';
 
 export function createMenuItem(text, onClick = null) {
   const el = document.createElement('div');
@@ -20,6 +21,6 @@ export function appendAddSubfolderBtn(container, label, onCreate) {
 }
 
 export function renderFixedMenuItems(container) {
-    container.appendChild(createMenuItem('🧠 Quiz Mode', startQuizMode));
-  container.appendChild(createMenuItem('⚙️ Settings', () => console.log('Settings')));
+  container.appendChild(createMenuItem('🧠 Quiz Mode', startQuizMode));
+  container.appendChild(createMenuItem('⚙️ Settings', openSettingsOverlay));
 }

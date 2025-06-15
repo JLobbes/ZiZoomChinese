@@ -67,6 +67,12 @@ const uiElements = {
   quizOptionTwo: document.getElementById('option-two'),
   quizOptionThree: document.getElementById('option-three'),
   quizOptionFour: document.getElementById('option-four'),
+
+  // ==== Settings Overlay ====
+  
+  settingsOverlay: document.getElementById('settingsOverlay'),
+  exitSettingsBtn: document.getElementById('exitSettingsBtn'),
+  togglePinyin: document.getElementById('togglePinyin'),
 };
 
 export default uiElements;

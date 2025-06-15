@@ -1,4 +1,4 @@
-  <!-- src/public/index.html -->
+<!-- src/public/index.html -->
   
   <!DOCTYPE html>
   <html lang="en">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/styles/imageViewer.css" />
     <link rel="stylesheet" href="/styles/flashcardCreation.css" />
     <link rel="stylesheet" href="/styles/quizItems.css" />
+    <link rel="stylesheet" href="/styles/settingsOverlay.css" />
 
     <link rel="stylesheet" href="/styles/buttons.css" />
     <link rel="stylesheet" href="/styles/overlays.css" />
@@ -130,6 +131,18 @@
       </div>
 
       <div id="quizOperationFeedback"></div>
+    </div>
+
+    <div id="settingsOverlay" style="display:none;">
+      <button id="exitSettingsBtn" class="exit-btn">×</button>
+      <div class="flashcardForm-Container">
+        <h2 style="color:#fff;">Settings</h2>
+        <div class="inputStep">
+          <label for="togglePinyin" style="color:#fff;font-size:20px;">Include Pinyin</label>
+          <input type="checkbox" id="togglePinyin" />
+        </div>
+      </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
     <script src="main.js" type="module"></script>

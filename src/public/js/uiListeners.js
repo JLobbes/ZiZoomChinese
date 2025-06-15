@@ -12,6 +12,7 @@ import {
 import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashcardData/createPinYinKeyboard.js';
 import { resetCardOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
 import { closeDownQuizMode } from './utils/quizMode/quizUtils.js';
+import { closeSettingsOverlay } from './utils/settingsOverlay.js';
 
 export function initUIListeners() {
   initGlobalKeyListeners();
@@ -94,6 +95,7 @@ function initOverlayListeners() {
 
   uiElements.exitFlashcardCreationBtn.addEventListener('click', resetCardOverlay);
   uiElements.exitInformationDisplayBtn.addEventListener('click', closeDownQuizMode);
+  uiElements.exitSettingsBtn.addEventListener('click', closeSettingsOverlay);
 }
 
 // === Flashcard Creation Button
@@ -121,5 +123,12 @@ function handleEscapeKey(e) {
   if(infoDisplayContainerVisible && uiState.quizModeOn) {
     e.preventDefault();
     closeDownQuizMode();
+  }
+
+  // Settings overlay
+  const settingsOverlayVisible = uiElements.settingsOverlay.style.display === 'flex';
+  if (settingsOverlayVisible) {
+    e.preventDefault();
+    uiElements.settingsOverlay.style.display = 'none';
   }
 }

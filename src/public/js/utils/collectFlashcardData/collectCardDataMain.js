@@ -140,7 +140,7 @@ export function startSelectDeckStep(card) {
   }).catch((err) => {
     console.error('Failed to load decks', err);
     alert('Could not load decks. Please try again later.');
-    resetCardOverlay();
+    closeFlashcardCreationOverlay();
   });
 }
 
@@ -162,11 +162,11 @@ export function startReviewInputStep(card) {
     saveCardToDatabase(card);
     const cards = await fetchFlashcardsData(uiElements.viewedImg.src);
     displayFlashcardGhosts(cards);
-    resetCardOverlay();
+    closeFlashcardCreationOverlay();
   };
 }
 
-export function resetCardOverlay() {
+export function closeFlashcardCreationOverlay() {
   uiElements.flashcardCreationOverlay.style.display = 'none';
 
   uiElements.cardFrontInput.value = '';
@@ -176,6 +176,7 @@ export function resetCardOverlay() {
 
   uiElements.cardFrontInputStep.style.display = 'flex';
   uiElements.cardRearInputStep.style.display = 'none';
+  uiElements.cardPinyinStep.style.display = 'none';
   uiElements.collectDeckStep.style.display = 'none';
   uiElements.cardReviewInputStep.style.display = 'none';
   

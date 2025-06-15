@@ -10,9 +10,11 @@ import {
   drawSelectionBox, finalizeSelection
 } from './utils/collectFlashcardData/selectImageArea.js';
 import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashcardData/createPinYinKeyboard.js';
+
 import { closeFlashcardCreationOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
 import { closeDownQuizMode } from './utils/quizMode/quizUtils.js';
 import { closeSettingsOverlay } from './utils/settingsOverlay.js';
+import { closeCreateDeckOverlay } from './utils/createDeckOverlay.js';
 
 export function initUIListeners() {
   initGlobalKeyListeners();
@@ -96,6 +98,7 @@ function initOverlayListeners() {
   uiElements.exitFlashcardCreationBtn.addEventListener('click', closeFlashcardCreationOverlay);
   uiElements.exitInformationDisplayBtn.addEventListener('click', closeDownQuizMode);
   uiElements.exitSettingsBtn.addEventListener('click', closeSettingsOverlay);
+  uiElements.exitCreateDeckBtn.addEventListener('click', closeCreateDeckOverlay);
 }
 
 // === Flashcard Creation Button

@@ -2,6 +2,7 @@
 
 import { getDecks } from '../../api/getDecks.js';
 import { createMenuItem, appendAddSubfolderBtn } from './menuHelpers.js';
+import { openCreateDeckOverlay } from '../createDeckOverlay.js';
 
 export async function renderDeckSection(container) {
   try {
@@ -45,9 +46,8 @@ function appendDecksToMenu(container, decks) {
       subMenu.className = 'submenu';
       appendDecksToMenu(subMenu, deck.children);
 
-      appendAddSubfolderBtn(subMenu, 'Deck', (name) => {
-        console.log(`Create deck "${name}" under "${deck.DECK_NAME}"`);
-        // TODO: backend integration
+      appendAddSubfolderBtn(subMenu, 'Deck', () => {
+        openCreateDeckOverlay(deck.DECK_ID);
       });
 
       item.appendChild(subMenu);

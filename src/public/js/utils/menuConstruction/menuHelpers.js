@@ -11,11 +11,8 @@ export function createMenuItem(text, onClick = null) {
   return el;
 }
 
-export function appendAddSubfolderBtn(container, label, onCreate) {
-  const addItem = createMenuItem(`+ New ${label}`, () => {
-    const name = prompt(`Enter new ${label.toLowerCase()} name:`);
-    if (name) onCreate(name);
-  });
+export function appendAddSubfolderBtn(container, label, onClick) {
+  const addItem = createMenuItem(`+ New ${label}`, onClick);
   addItem.classList.add('add-item');
   container.appendChild(addItem);
 }

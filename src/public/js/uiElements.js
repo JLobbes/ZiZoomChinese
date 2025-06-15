@@ -73,6 +73,14 @@ const uiElements = {
   settingsOverlay: document.getElementById('settingsOverlay'),
   exitSettingsBtn: document.getElementById('exitSettingsBtn'),
   togglePinyin: document.getElementById('togglePinyin'),
+
+  // ==== Create Deck Overlay ====
+
+  createDeckOverlay: document.getElementById('createDeckOverlay'),
+  exitCreateDeckBtn: document.getElementById('exitCreateDeckBtn'),
+  createDeckSubmitBtn: document.getElementById('createDeckSubmitBtn'),
+  newDeckNameInput: document.getElementById('newDeckNameInput'),
+
 };
 
 export default uiElements;

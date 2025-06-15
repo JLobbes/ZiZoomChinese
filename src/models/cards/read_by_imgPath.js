@@ -11,8 +11,8 @@ async function readByImgPath(imgPath) {
       SELECT 
         FLASHCARD_ID, 
         DECK_ID, 
-        FLASHCARD_ENG, 
-        FLASHCARD_CHN, 
+        FLASHCARD_REAR, 
+        FLASHCARD_FRONT, 
         FLASHCARD_PINYIN,
         FLASHCARD_SOURCE_IMG_PATH, 
         FLASHCARD_CROP_X, 

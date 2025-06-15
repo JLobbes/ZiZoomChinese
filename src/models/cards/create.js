@@ -11,8 +11,8 @@ async function createFlashCard(flashcard) {
     const query = `
       INSERT INTO FLASHCARDS (
         DECK_ID, 
-        FLASHCARD_ENG, 
-        FLASHCARD_CHN, 
+        FLASHCARD_REAR, 
+        FLASHCARD_FRONT, 
         FLASHCARD_PINYIN,
         FLASHCARD_SOURCE_IMG_PATH, 
         FLASHCARD_CROP_X, 
@@ -27,9 +27,9 @@ async function createFlashCard(flashcard) {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
-      flashcard.deckID, // Default Chinese deck, Languages is Deck 1 
-      flashcard.english,
-      flashcard.chinese, 
+      flashcard.deckID, // Default deck is 'Decks' 
+      flashcard.rear,
+      flashcard.front, 
       flashcard.pinyin,
       flashcard.imgPath, 
       flashcard.imageSnippit.x, 

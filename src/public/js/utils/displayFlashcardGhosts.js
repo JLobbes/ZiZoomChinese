@@ -35,8 +35,8 @@ export function displayFlashcardGhosts(cards) {
 export function showFlashcardOverlay(cardData, currentMouseY) {
   if(uiState.isDraggingImage) return; // Prevents accidental popup while dragging image.
 
-  uiElements.cardDatapPopupFront.innerText = cardData.FLASHCARD_CHN || '';
-  uiElements.cardDataPopupRear.innerText = cardData.FLASHCARD_ENG || '';
+  uiElements.cardDatapPopupFront.innerText = cardData.FLASHCARD_REAR || '';
+  uiElements.cardDataPopupRear.innerText = cardData.FLASHCARD_FRONT || '';
 
   if(uiState.includePinyin) {
     uiElements.cardDataPopupPinyin.innerText = cardData.FLASHCARD_PINYIN || '';

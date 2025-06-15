@@ -57,7 +57,7 @@ export function startCollectCardFront(card, initialText = '') {
   uiElements.saveDataBtn.onclick = () => {
     const term = uiElements.cardFrontInput.value.trim();
     if (!term) return alert('Please enter text for card front.');
-    card.chinese = term;
+    card.front = term;
     if (uiState.includePinyin) {
       startCollectPinYin(card);
     } else {
@@ -101,7 +101,7 @@ export function startCollectCardRear(card) {
   uiElements.saveDataBtn.onclick = () => {
     const term = uiElements.cardRearInput.value.trim();
     if (!term) return alert('Please enter text for card rear.');
-    card.english = term;
+    card.rear = term;
 
     // Move to deck selection step
     startSelectDeckStep(card);
@@ -128,28 +128,28 @@ export function startSelectDeckStep(card) {
         return;
       }
 
+      // Set the selected deck info to the card object here
+      card.deckID = uiState.globalDeckID;
+      card.deckName = uiState.globalDeckName;
+
       uiElements.collectDeckStep.style.display = 'none';
       uiElements.flashcardSnippitPreview.style.display = 'block';
       startReviewInputStep(card);
     };
-
-    
 
   }).catch((err) => {
     console.error('Failed to load decks', err);
     alert('Could not load decks. Please try again later.');
     resetCardOverlay();
   });
-  card.deckID = uiState.globalDeckID;
-  card.deckName = uiState.globalDeckName;
 }
 
 export function startReviewInputStep(card) {
   uiElements.cardRearInputStep.style.display = 'none';
   uiElements.cardReviewInputStep.style.display = 'flex';
 
-  uiElements.reviewCardFrontInput.textContent = card.chinese;
-  uiElements.reviewCardRearInput.textContent = card.english;
+  uiElements.reviewCardFrontInput.textContent = card.front;
+  uiElements.reviewCardRearInput.textContent = card.rear;
   uiElements.reviewCardDeck.textContent = uiState.globalDeckName; // Allows lazy select of deck during card creation
 
   // Hide Pinyin Element if includePinyin setting = false;
@@ -159,10 +159,6 @@ export function startReviewInputStep(card) {
   } 
   uiElements.saveDataBtn.textContent = 'Save';
   uiElements.saveDataBtn.onclick = async () => {
-    if (!card.deckID) {
-      alert('Please select a deck to save the card.');
-      return;
-    }
     saveCardToDatabase(card);
     const cards = await fetchFlashcardsData(uiElements.viewedImg.src);
     displayFlashcardGhosts(cards);

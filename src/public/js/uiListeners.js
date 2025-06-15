@@ -24,7 +24,7 @@ export function initUIListeners() {
 
 function initGlobalKeyListeners() {
   window.addEventListener('load', renderMenu);
-E
+
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       handleEscapeKey(e);

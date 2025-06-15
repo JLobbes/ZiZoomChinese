@@ -25,7 +25,7 @@ export function runQuiz(cards) {
     }
 
     const currentCard = shuffledCards[currentIndex];
-    const stages = ['CHN', ...(uiState.includePinyin ? ['PINYIN'] : []), 'ENG'];
+    const stages = ['FRONT', ...(uiState.includePinyin ? ['PINYIN'] : []), 'BACK'];
     let currentStage = 0;
 
     handlQuizCardVisual(currentCard);

@@ -124,15 +124,10 @@ export function startSelectDeckStep(card) {
       uiState.globalDeckID = deckID;
       uiState.globalDeckName = deckName;
       
-      uiElements.deckInput.value = deckName;
     });
 
     uiElements.saveDataBtn.textContent = 'Next';
     uiElements.saveDataBtn.onclick = () => {
-      if (uiElements.deckInput.value === '') {
-        alert('Please select a deck.');
-        return;
-      }
 
       // Set the selected deck info to the card object here
       card.deckID = uiState.globalDeckID;

@@ -28,7 +28,6 @@ export function startQuizMode() {
   getDecks().then(decks => {
     renderDeckSelection(uiElements.chooseDeckToQuizGUI, decks, (deckID, deckName) => {
       uiState.deckToQuiz = deckID;
-      uiElements.deckToQuizInput.value = deckName;
     });
   }).catch(err => {
     console.error('Could not load decks for quiz', err);

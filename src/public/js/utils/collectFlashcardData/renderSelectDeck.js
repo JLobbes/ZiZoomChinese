@@ -16,8 +16,9 @@ export function renderDeckSelection(container, decks, onSelect) {
   // Find root decks (no parent)
   const root = decks.filter(d => d.PARENT_DECK_ID === null);
 
-  // State: current deck ID (null = root)
-  let currentDeck = null;
+  // State
+  let currentDeck = null; // null = root
+  let selectedDeckId = null; // track which deck is selected
 
   function render() {
     container.innerHTML = '';
@@ -29,10 +30,26 @@ export function renderDeckSelection(container, decks, onSelect) {
         const deckTile = document.createElement('div');
         deckTile.className = 'deck-nav-parent-vertical deck-tile-vertical';
         deckTile.textContent = deck.DECK_NAME;
+
+        // Highlight if selected
+        if (selectedDeckId === deck.DECK_ID) {
+          deckTile.classList.add('selected-deck');
+        }
+
+        // Decide whether to go in or select
         deckTile.onclick = () => {
-          currentDeck = deck.DECK_ID;
-          render();
+          const deckInMap = deckMap.get(deck.DECK_ID);
+          if (deckInMap.children.length > 0) {
+            currentDeck = deck.DECK_ID;
+            render();
+          } else {
+            console
+            selectedDeckId = deck.DECK_ID;
+            onSelect(deck.DECK_ID, deck.DECK_NAME);
+            render();
+          }
         };
+
         container.appendChild(deckTile);
       });
     } else {
@@ -53,9 +70,16 @@ export function renderDeckSelection(container, decks, onSelect) {
       // Parent tile (select current deck)
       const parentTile = document.createElement('div');
       parentTile.className = 'deck-nav-parent-vertical deck-tile-vertical';
-      parentTile.textContent = deck.DECK_NAME + ''; // Can add more info if needed to mark for selection
+      parentTile.textContent = deck.DECK_NAME;
+
+      if (selectedDeckId === deck.DECK_ID) {
+        parentTile.classList.add('selected-deck');
+      }
+
       parentTile.onclick = () => {
+        selectedDeckId = deck.DECK_ID;
         onSelect(deck.DECK_ID, deck.DECK_NAME);
+        render();
       };
       container.appendChild(parentTile);
 
@@ -63,16 +87,31 @@ export function renderDeckSelection(container, decks, onSelect) {
       if (deck.children.length > 0) {
         const scrollContainer = document.createElement('div');
         scrollContainer.className = 'deck-children-scroll-container';
+
         deck.children.forEach(child => {
           const childTile = document.createElement('div');
           childTile.className = 'deck-nav-child-vertical deck-tile-vertical';
           childTile.textContent = child.DECK_NAME;
+
+          if (selectedDeckId === child.DECK_ID) {
+            childTile.classList.add('selected-deck');
+          }
+
           childTile.onclick = () => {
-            currentDeck = child.DECK_ID;
-            render();
+            const childDeck = deckMap.get(child.DECK_ID);
+            if (childDeck.children.length > 0) {
+              currentDeck = child.DECK_ID;
+              render();
+            } else {
+              selectedDeckId = child.DECK_ID;
+              onSelect(child.DECK_ID, child.DECK_NAME);
+              render();
+            }
           };
+
           scrollContainer.appendChild(childTile);
         });
+
         container.appendChild(scrollContainer);
       }
     }

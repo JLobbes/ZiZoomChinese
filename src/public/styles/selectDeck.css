@@ -1,11 +1,11 @@
 .deck-breadcrumb-container-vertical {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 8px;
   padding: 6px 0;
 }
 
-/* Shared styles for both parent and child tiles in vertical view */
 .deck-tile-vertical {
   min-width: 6em;
   width: fit-content;
@@ -19,7 +19,6 @@
   transition: background 0.2s;
 }
 
-/* Parent gets unique background and border */
 .deck-nav-parent-vertical {
   background: #b2ebf2;
   border-color: #111;
@@ -31,7 +30,6 @@
   color: #fff;
 }
 
-/* Child gets slightly thicker border */
 .deck-nav-child-vertical {
   border-width: 2px;
 }
@@ -41,7 +39,6 @@
   color: #fff;
 }
 
-/* Up arrow style */
 .deck-nav-arrow-vertical {
   font-size: 18px;
   cursor: pointer;
@@ -51,17 +48,30 @@
   font-weight: normal;
 }
 
-/* Scroll container for child decks */
 .deck-children-scroll-container {
-  max-height: 5em;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  max-height: 5em;
+  overflow-y: auto;
   gap: 8px;
 }
 
 .deck-children-scroll-container::-webkit-scrollbar {
   width: 4px;
+}
+
+.deck-children-scroll-container::-webkit-scrollbar-track {
   background-color: #b2ebf2;
-  transform: (-0.5em, 0em);
+  border-radius: 10px;
+}
+
+.deck-children-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #326b72;
+  border-radius: 10px;
+  width: 4px;
+}
+
+.selected-deck {
+  border: 2px solid rgb(255, 28, 187);
 }

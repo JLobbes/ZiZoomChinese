@@ -102,3 +102,11 @@
 .simple-switch input:checked + .simple-slider:before {
   transform: translateX(20px);
 }
+
+.toggle-status {
+  margin-left: 0.5em;
+  font-weight: bold;
+  color: #fff;
+  min-width: 2em;
+  display: inline-block;
+}

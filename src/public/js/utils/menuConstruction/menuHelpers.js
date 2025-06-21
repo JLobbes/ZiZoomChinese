@@ -1,7 +1,7 @@
 // public/js/utils/menuConstruction/menuHelpers.js
 
 import { startQuizMode } from '../quizMode/startQuizMode.js';
-import { openSettingsOverlay } from '../settingsOverlay.js';
+import { openSettingsOverlay } from '../userSettings/settingsMain.js';
 
 export function createMenuItem(text, onClick = null) {
   const el = document.createElement('div');

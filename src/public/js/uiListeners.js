@@ -13,7 +13,7 @@ import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashc
 
 import { closeFlashcardCreationOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
 import { closeDownQuizMode } from './utils/quizMode/quizUtils.js';
-import { closeSettingsOverlay } from './utils/settingsOverlay.js';
+import { closeSettingsOverlay } from './utils/userSettings/settingsMain.js';
 import { closeCreateDeckOverlay } from './utils/createDeckOverlay.js';
 
 export function initUIListeners() {
@@ -26,7 +26,7 @@ export function initUIListeners() {
 // === Global Key Listeners (keyboard shortcuts, pinyin, etc.)
 
 function initGlobalKeyListeners() {
-  window.addEventListener('load', renderMenu);
+  // window.addEventListener('load', renderMenu);
   
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {

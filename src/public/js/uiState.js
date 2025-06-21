@@ -41,6 +41,7 @@ const uiState = {
 
   includePinyin: true,
   centerCropBoxHorizontally: false,
+  enableOCR: true, 
 
 };
 

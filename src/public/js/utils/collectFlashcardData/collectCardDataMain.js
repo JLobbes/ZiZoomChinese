@@ -22,20 +22,26 @@ export async function collectFlashcardData(imageSnippit) {
   uiElements.flashcardSnippitPreview.style.display = 'block';
   uiElements.flashcardCreationOverlay.style.display = 'flex';
 
-  uiElements.ocrProgressBar.style.display = 'flex';
-  uiElements.ocrProgressText.textContent = '0%';
+  if (uiState.enableOCR) {
+    uiElements.ocrProgressBar.style.display = 'flex';
+    uiElements.ocrProgressText.textContent = '0%';
 
-  try {
-    const ocrText = await ocrImageFromCanvas(canvas, (percent) => {
-      uiElements.ocrProgressText.textContent = `${percent}%`;
-    });
+    try {
+      const ocrText = await ocrImageFromCanvas(canvas, (percent) => {
+        uiElements.ocrProgressText.textContent = `${percent}%`;
+      });
 
-    uiElements.ocrProgressBar.style.display = 'none'; // hide progress bar after done
-    startCollectCardFront(newCard, ocrText);
+      uiElements.ocrProgressBar.style.display = 'none'; // hide progress bar after done
+      startCollectCardFront(newCard, ocrText);
 
-  } catch (err) {
+    } catch (err) {
+      uiElements.ocrProgressBar.style.display = 'none';
+      console.error('OCR failed:', err);
+      startCollectCardFront(newCard, '');
+    }
+  } else {
+    // Hide OCR progress bar if OCR is disabled
     uiElements.ocrProgressBar.style.display = 'none';
-    console.error('OCR failed:', err);
     startCollectCardFront(newCard, '');
   }
 }

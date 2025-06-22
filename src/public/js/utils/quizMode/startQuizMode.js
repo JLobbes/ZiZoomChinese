@@ -3,7 +3,7 @@
 import uiState from '../../uiState.js';
 import uiElements from '../../uiElements.js';
 import { getDecks } from '../../api/getDecks.js';
-import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js';
+import { renderDeckSelection } from '../viewDecks/renderSelectDeck.js';
 import { getCardsByDeck } from '../../api/getFlashcardsByDeck.js'; // You'll need to make this API endpoint
 import { runQuiz } from './runQuiz.js';
 import { hideFlashcardOverlay } from '../displayFlashcardGhosts.js';

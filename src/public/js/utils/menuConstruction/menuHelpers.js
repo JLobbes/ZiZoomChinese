@@ -1,5 +1,6 @@
 // public/js/utils/menuConstruction/menuHelpers.js
 
+import { openViewDecksOverlay } from '../viewDecks/viewDecksOverlays.js';
 import { startQuizMode } from '../quizMode/startQuizMode.js';
 import { openSettingsOverlay } from '../userSettings/settingsMain.js';
 
@@ -18,6 +19,7 @@ export function appendAddSubfolderBtn(container, label, onClick) {
 }
 
 export function renderFixedMenuItems(container) {
+  container.appendChild(createMenuItem('Decks', openViewDecksOverlay));
   container.appendChild(createMenuItem('🧠 Quiz Mode', startQuizMode));
   container.appendChild(createMenuItem('⚙️ Settings', openSettingsOverlay));
 }

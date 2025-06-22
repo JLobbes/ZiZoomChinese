@@ -5,7 +5,7 @@ import uiElements from "../../uiElements.js";
 import { ocrImageFromCanvas } from './OCR.js';
 import { createPinyinKeyboard } from './createPinYinKeyboard.js';
 import { getDecks } from '../../api/getDecks.js'
-import { renderDeckSelection } from '../collectFlashcardData/renderSelectDeck.js'
+import { renderDeckSelection } from '../viewDecks/renderSelectDeck.js'
 import { displayFlashcardGhosts } from "../displayFlashcardGhosts.js";
 import { fetchFlashcardsData } from "../../api/getFlashcards.js";
 import { saveCardToDatabase } from '../../api/saveFlashcard.js';

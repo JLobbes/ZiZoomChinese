@@ -66,6 +66,7 @@ const uiElements = {
   quizOptionTwo: document.getElementById('option-two'),
   quizOptionThree: document.getElementById('option-three'),
   quizOptionFour: document.getElementById('option-four'),
+  quizProgressCounter: document.getElementById('quizProgressCounter'),
 
   // ==== Settings Overlay ====
   

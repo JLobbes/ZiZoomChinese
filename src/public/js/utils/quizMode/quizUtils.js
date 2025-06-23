@@ -44,6 +44,7 @@ export function closeDownQuizMode() {
   uiElements.chooseDeckToQuizContainer.style.display = 'none';
   uiElements.infoDisplayContainer.classList.remove('quizRunning');
   uiElements.infoDisplayContainer.style.display = 'none';
+  uiElements.quizProgressCounter.style.display = 'none';
 
   uiElements.viewedImg.src = '';
   removeOldCropBoxes();

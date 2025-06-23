@@ -114,3 +114,15 @@
     transform: translateX(-50%) translateY(-40px);
   }
 }
+
+#quizProgressCounter {
+  display: none;
+  position: absolute;
+  bottom: 1em;
+  right: 0.8em;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 1100;
+  opacity: 0.25;
+}

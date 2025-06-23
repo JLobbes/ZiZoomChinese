@@ -13,6 +13,10 @@ export function runQuiz(cards) {
   uiElements.infoDisplayContainer.classList.add('quizRunning');
   uiState.scale = 1;
 
+  // Show and initialize the counter
+  uiElements.quizProgressCounter.style.display = 'block';
+  updateQuizCounter(0, cards.length);
+
   const shuffledCards = shuffleArray([...cards]); // randomize question order
   let currentIndex = 0;
 
@@ -20,8 +24,13 @@ export function runQuiz(cards) {
 
   function runQuizQuestion() {
     if (currentIndex >= shuffledCards.length) {
+      // Hide counter at end of ???
+      uiElements.quizProgressCounter.style.display = 'none';
       return;
     }
+
+    // Update counter at the start of each card
+    updateQuizCounter(currentIndex, shuffledCards.length);
 
     const currentCard = shuffledCards[currentIndex];
     const stages = ['FRONT', ...(uiState.includePinyin ? ['PINYIN'] : []), 'REAR'];
@@ -76,4 +85,9 @@ function renderChoices(choices, callback) {
     };
     // btn.disabled = false;
   });
+}
+
+function updateQuizCounter(current, total) {
+  // uiElements.quizProgressCounter.textContent = `Card ${current + 1} of ${total}`;
+  uiElements.quizProgressCounter.textContent = `${current}`;
 }

@@ -14,7 +14,8 @@ export function renderDeckSelection(container, decks, onSelect) {
   });
 
   // Find root decks (no parent)
-  const root = decks.filter(d => d.PARENT_DECK_ID === null);
+  const root = decks.filter(d => d.PARENT_DECK_ID === null)
+    .sort((a, b) => a.DECK_NAME.localeCompare(b.DECK_NAME));
 
   // State
   let currentDeck = null; // null = root
@@ -88,29 +89,33 @@ export function renderDeckSelection(container, decks, onSelect) {
         const scrollContainer = document.createElement('div');
         scrollContainer.className = 'deck-children-scroll-container';
 
-        deck.children.forEach(child => {
-          const childTile = document.createElement('div');
-          childTile.className = 'deck-nav-child-vertical deck-tile-vertical';
-          childTile.textContent = child.DECK_NAME;
+        // Sort children alphabetically before rendering
+        deck.children
+          .slice() // copy to avoid mutating original
+          .sort((a, b) => a.DECK_NAME.localeCompare(b.DECK_NAME))
+          .forEach(child => {
+            const childTile = document.createElement('div');
+            childTile.className = 'deck-nav-child-vertical deck-tile-vertical';
+            childTile.textContent = child.DECK_NAME;
 
-          if (selectedDeckId === child.DECK_ID) {
-            childTile.classList.add('selected-deck');
-          }
-
-          childTile.onclick = () => {
-            const childDeck = deckMap.get(child.DECK_ID);
-            if (childDeck.children.length > 0) {
-              currentDeck = child.DECK_ID;
-              render();
-            } else {
-              selectedDeckId = child.DECK_ID;
-              onSelect(child.DECK_ID, child.DECK_NAME);
-              render();
+            if (selectedDeckId === child.DECK_ID) {
+              childTile.classList.add('selected-deck');
             }
-          };
 
-          scrollContainer.appendChild(childTile);
-        });
+            childTile.onclick = () => {
+              const childDeck = deckMap.get(child.DECK_ID);
+              if (childDeck.children.length > 0) {
+                currentDeck = child.DECK_ID;
+                render();
+              } else {
+                selectedDeckId = child.DECK_ID;
+                onSelect(child.DECK_ID, child.DECK_NAME);
+                render();
+              }
+            };
+
+            scrollContainer.appendChild(childTile);
+          });
 
         container.appendChild(scrollContainer);
       }

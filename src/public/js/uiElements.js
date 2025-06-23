@@ -75,12 +75,13 @@ const uiElements = {
   togglePinyin: document.getElementById('togglePinyin'),
   toggleOCR: document.getElementById('toggleOCR'), 
 
-  // ==== Create Deck Overlay ====
+  // ==== View Decks Overlay ====
 
-  createDeckOverlay: document.getElementById('createDeckOverlay'),
-  exitCreateDeckBtn: document.getElementById('exitCreateDeckBtn'),
-  createDeckSubmitBtn: document.getElementById('createDeckSubmitBtn'),
-  newDeckNameInput: document.getElementById('newDeckNameInput'),
+  viewDecksOverlay: document.getElementById('viewDecksOverlay'),
+  exitViewDecksBtn: document.getElementById('exitCreateDeckBtn'),
+  chooseDeckToViewContainer: document.getElementById('chooseDeckToView-Container'),
+  chooseDeckToViewGUI: document.getElementById('chooseDeckToViewGUI'),
+  deckFlashcardViewer: document.getElementById('deckFlashcardViewer'),
 
 };
 

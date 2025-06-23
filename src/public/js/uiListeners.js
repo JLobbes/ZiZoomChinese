@@ -14,7 +14,7 @@ import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashc
 import { closeFlashcardCreationOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
 import { closeDownQuizMode } from './utils/quizMode/quizUtils.js';
 import { closeSettingsOverlay } from './utils/userSettings/settingsMain.js';
-import { closeCreateDeckOverlay } from './utils/createDeckOverlay.js';
+import { closeViewDecksOverlay } from './utils/viewDecks/viewDecksOverlays.js';
 
 export function initUIListeners() {
   initGlobalKeyListeners();
@@ -98,7 +98,7 @@ function initOverlayListeners() {
   uiElements.exitFlashcardCreationBtn.addEventListener('click', closeFlashcardCreationOverlay);
   uiElements.exitInformationDisplayBtn.addEventListener('click', closeDownQuizMode);
   uiElements.exitSettingsBtn.addEventListener('click', closeSettingsOverlay);
-  uiElements.exitCreateDeckBtn.addEventListener('click', closeCreateDeckOverlay);
+  uiElements.exitViewDecksBtn.addEventListener('click', closeViewDecksOverlay);
 }
 
 // === Flashcard Creation Button
@@ -128,10 +128,15 @@ function handleEscapeKey(e) {
     closeDownQuizMode();
   }
 
-  // Settings overlay
   const settingsOverlayVisible = uiElements.settingsOverlay.style.display === 'flex';
   if (settingsOverlayVisible) {
     e.preventDefault();
     closeSettingsOverlay();
+  }
+
+  const viewDecksOverlayVisible = uiElements.viewDecksOverlay.style.display === 'flex';
+  if (viewDecksOverlayVisible) {
+    e.preventDefault();
+    closeViewDecksOverlay();
   }
 }

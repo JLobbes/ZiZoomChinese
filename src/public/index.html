@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/styles/menu.css" />
     <link rel="stylesheet" href="/styles/imageViewer.css" />
     <link rel="stylesheet" href="/styles/flashcardCreation.css" />
+    <link rel="stylesheet" href="/styles/viewDecksOverlay.css" />
     <link rel="stylesheet" href="/styles/quizItems.css" />
     <link rel="stylesheet" href="/styles/settingsOverlay.css" />
     <link rel="stylesheet" href="/styles/selectDeck.css" />
@@ -154,17 +155,15 @@
       </div>
     </div>
 
-    <div id="createDeckOverlay" style="display:none;">
+    <div id="viewDecksOverlay" style="display:none;">
       <button id="exitCreateDeckBtn" class="exit-btn">×</button>
-      <div class="flashcardForm-Container">
-        <h2 style="color:#fff;">Create New Deck</h2>
-        <div class="inputStep">
-          <label for="newDeckNameInput">Deck Name:</label>
-          <input type="text" id="newDeckNameInput" />
-        </div>
-        <button id="createDeckSubmitBtn">Create</button>
+      <div id="chooseDeckToView-Container" class="inputStep" style="display:none;">
+        <label for="deckToViewInput">Select Deck:</label>
+        <div id="chooseDeckToViewGUI" class="menu"></div>
       </div>
     </div>
+
+    <div id="deckFlashcardViewer" style="width:100%;margin-top:20px;"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
     <script src="main.js" type="module"></script>

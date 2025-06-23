@@ -25,6 +25,11 @@ const uiState = {
   globalDeckName: null,
   globalDeckID: null,
 
+  // ==== Deck View State ====
+
+  deckToView: null, 
+  deckToViewName: null, 
+
   // ==== Pinyin Input State ====
 
   currentVowel: '',

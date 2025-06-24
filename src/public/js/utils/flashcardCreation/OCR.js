@@ -1,4 +1,4 @@
-// // public/js/utils/collectFlashcardData/OCR.js
+// public/js/utils/flashcardCreation/OCR.js
 
 const progressSteps = [
   "loading tesseract core",

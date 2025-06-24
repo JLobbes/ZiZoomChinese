@@ -17,9 +17,11 @@ const uiElements = {
   flashcardSnippitPreview: document.getElementById('flashcardSnippitPreview'),
   flashcardDeckSelectionGUI: document.getElementById('flashcardDeckSelectionGUI'),
 
-  saveDataBtn: document.getElementById('saveDataBtn'),
 
   // ==== Flashcard Creation Steps ====
+
+  saveDataBtn: document.getElementById('saveDataBtn'), // Also functions as 'next'
+  goBackOneStepBtn: document.getElementById('goBackOneStepBtn'),
 
   cardFrontInputStep: document.getElementById('cardFrontInputStep'),
   cardPinyinStep: document.getElementById('cardPinyinStep'),

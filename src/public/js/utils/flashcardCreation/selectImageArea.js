@@ -1,9 +1,9 @@
-// public/js/utils/selectImageArea.js
+// public/js/utils/flashcardCreation/selectImageArea.js
 
 import uiState from "../../uiState.js";
 import uiElements from "../../uiElements.js";
 import { getImageCoords, imageCoordsToPercent } from "../coordinateConverter.js";
-import { collectFlashcardData } from "../collectFlashcardData/collectCardDataMain.js"; 
+import { collectFlashcardData } from "./createFlashcardMain.js"; 
 
 // ==== IMAGE SNIPPET SELECTION (FOR FLASHCARD)  ====
 

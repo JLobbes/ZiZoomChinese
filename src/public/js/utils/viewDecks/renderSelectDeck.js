@@ -1,4 +1,4 @@
-// public/js/utils/collectFlashCardData.js/renderSelectDeck.js
+// public/js/utils/viewDecks/renderSelectDeck.js
 
 export function renderDeckSelection(container, decks, onSelect) {
   container.innerHTML = '';

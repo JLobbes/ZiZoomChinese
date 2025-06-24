@@ -40,7 +40,7 @@
         <!-- Card Front Step -->
         <div id="cardFrontInputStep" class="inputStep">
           <label for="cardFrontInput">Enter Card Front:</label>
-          <input type="text" id="cardFrontInput" />
+          <input type="text" id="cardFrontInput" tabindex="1"/>
           <div id="ocrProgressBar" class="spinnerContainer">
             <div class="spinner"></div>
             <span id="ocrProgressText">0%</span>
@@ -50,14 +50,14 @@
         <!-- Pinyin Step -->
         <div id="cardPinyinStep" class="inputStep" style="display:none;">
           <label for="cardPinyinInput">Enter Pinyin:</label>
-          <input type="text" id="cardPinyinInput" />
+          <input type="text" id="cardPinyinInput" tabindex="1"/>
           <div id="pinyinKeyboard" class="pinyin-keyboard"></div>
         </div>
 
         <!-- Card Rear Step -->
         <div id="cardRearInputStep" class="inputStep" style="display:none;">
           <label for="cardRearInput">Enter Card Rear:</label>
-          <input type="text" id="cardRearInput" />
+          <input type="text" id="cardRearInput" tabindex="1"/>
         </div>
 
         <!-- Deck Selection Step -->
@@ -74,8 +74,15 @@
           <p id="reviewCardPinYin" class="reviewCardItem"></p>
           <p id="reviewCardRearInput" class="reviewCardItem"></p>
         </div>
-    
-        <button id="saveDataBtn">Next</button>
+        
+
+        <div id="flashcardCreation-buttonWrapper">
+          <button id="goBackOneStepBtn" style="display:none;" tabindex="3">
+            <img id="doubleCaretIconWhite" src="icons/downward_caret_double_icon_white.png" alt="">
+            <img id="doubleCaretIconBlack" src="icons/downward_caret_double_icon_black.png" alt="">
+          </button>
+          <button id="saveDataBtn" tabindex="2"></button>
+        </div>
       </div>
     </div>
     

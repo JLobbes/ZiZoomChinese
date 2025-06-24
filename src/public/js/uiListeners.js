@@ -8,10 +8,10 @@ import { keyPressZoomAndPan, startPan, panImage, endPan } from './utils/zoomOrPa
 import {
   enableSelectionMode, startSelection,
   drawSelectionBox, finalizeSelection
-} from './utils/collectFlashcardData/selectImageArea.js';
-import { handlePinyinKeydown, createPinyinKeyboard } from './utils/collectFlashcardData/createPinYinKeyboard.js';
+} from './utils/flashcardCreation/selectImageArea.js';
+import { handlePinyinKeydown, createPinyinKeyboard } from './utils/flashcardCreation/createPinYinKeyboard.js';
 
-import { closeFlashcardCreationOverlay } from './utils/collectFlashcardData/collectCardDataMain.js';
+import { closeFlashcardCreationOverlay } from './utils/flashcardCreation/createFlashcardMain.js';
 import { closeDownQuizMode } from './utils/quizMode/quizUtils.js';
 import { closeSettingsOverlay } from './utils/userSettings/settingsMain.js';
 import { closeViewDecksOverlay } from './utils/viewDecks/viewDecksOverlays.js';

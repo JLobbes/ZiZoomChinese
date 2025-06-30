@@ -83,7 +83,16 @@ const uiElements = {
   exitViewDecksBtn: document.getElementById('exitCreateDeckBtn'),
   chooseDeckToViewContainer: document.getElementById('chooseDeckToView-Container'),
   chooseDeckToViewGUI: document.getElementById('chooseDeckToViewGUI'),
-  deckFlashcardViewer: document.getElementById('deckFlashcardViewer'),
+
+  // ==== Flashcard Editor Controls ====
+  
+  flashcardEditor: document.getElementById('flashcardEditor'),
+  flashcardSearchBar: document.getElementById('flashcardSearchBar'),
+  filterAllBtn: document.getElementById('filterAllBtn'),
+  filterHasPinyinBtn: document.getElementById('filterHasPinyinBtn'),
+  filterNoPinyinBtn: document.getElementById('filterNoPinyinBtn'),
+  filterRecentlyAddedBtn: document.getElementById('filterRecentlyAddedBtn'),
+  flashcardListWrapper: document.getElementById('flashcardListWrapper'),
 
 };
 

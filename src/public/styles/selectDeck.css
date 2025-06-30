@@ -11,7 +11,7 @@
   width: fit-content;
   padding: 6px 12px;
   background: #fff;
-  border: 1px solid #111;
+  border: 2px solid #111;
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
@@ -27,6 +27,7 @@
 
 .deck-nav-parent-vertical:hover {
   background: #499ca7;
+  border: 2px solid #fff;
   color: #fff;
 }
 
@@ -36,6 +37,7 @@
 
 .deck-nav-child-vertical:hover {
   background: #499ca7;
+  border: 2px solid #fff;
   color: #fff;
 }
 

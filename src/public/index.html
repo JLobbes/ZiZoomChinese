@@ -89,6 +89,7 @@
     <div id="informationDisplay-Container">
       <button id="exitInformationDisplayBtn" class="exit-btn">×</button>
       
+      <!-- FadeSteps form a gradient for the container -->
       <div id="infoDisplay-FadeSteps">
         <div style="opacity: 0.1"></div>
         <div style="opacity: 0.25"></div>
@@ -164,13 +165,27 @@
 
     <div id="viewDecksOverlay" style="display:none;">
       <button id="exitCreateDeckBtn" class="exit-btn">×</button>
-      <div id="chooseDeckToView-Container" class="inputStep" style="display:none;">
-        <label for="deckToViewInput">Select Deck:</label>
-        <div id="chooseDeckToViewGUI" class="menu"></div>
-      </div>
-    </div>
+      <div id="mainContentWrapper">
+        <div id="chooseDeckToView-Container" class="inputStep" style="display:none;">
+          <label for="deckToViewInput">Select Deck:</label>
+          <div id="chooseDeckToViewGUI" class="menu"></div>
+        </div>
 
-    <div id="deckFlashcardViewer" style="width:100%;margin-top:20px;"></div>
+        <div id="flashcardEditor">
+          <div class="flashcard-controls-wrapper">
+            <input type="text" id="flashcardSearchBar" class="flashcard-search-bar" placeholder="Search flashcards..." />
+            <div class="flashcard-filter-bar">
+              <button id="filterAllBtn" class="flashcard-filter-btn">All</button>
+              <button id="filterHasPinyinBtn" class="flashcard-filter-btn">Has Pinyin</button>
+              <button id="filterNoPinyinBtn" class="flashcard-filter-btn">No Pinyin</button>
+              <button id="filterRecentlyAddedBtn" class="flashcard-filter-btn">Recently Added</button>
+            </div>
+          </div>
+          <div id="flashcardListWrapper" class="flashcard-list-wrapper"></div>
+        </div>
+      </div>
+
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
     <script src="main.js" type="module"></script>

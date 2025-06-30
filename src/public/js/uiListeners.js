@@ -50,11 +50,12 @@ function initGlobalKeyListeners() {
 
 function initMouseEvents() {
   document.addEventListener('mousedown', e => {
-    const overlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
+    const flashcardCreationOverlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
+    const viewDecksOverlayVisible = uiElements.viewDecksOverlay.style.display === 'flex';
 
     if (uiState.selectionModeEnabled) {
       startSelection(e);
-    } else if (!overlayVisible) {
+    } else if (!flashcardCreationOverlayVisible && !viewDecksOverlayVisible) {
       startPan(e);
     }
   });

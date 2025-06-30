@@ -42,9 +42,10 @@ export function renderDeckSelection(container, decks, onSelect) {
           const deckInMap = deckMap.get(deck.DECK_ID);
           if (deckInMap.children.length > 0) {
             currentDeck = deck.DECK_ID;
+            selectedDeckId = deck.DECK_ID; // Auto-select parent
+            onSelect(deck.DECK_ID, deck.DECK_NAME); // Auto-select parent
             render();
           } else {
-            console
             selectedDeckId = deck.DECK_ID;
             onSelect(deck.DECK_ID, deck.DECK_NAME);
             render();
@@ -106,6 +107,8 @@ export function renderDeckSelection(container, decks, onSelect) {
               const childDeck = deckMap.get(child.DECK_ID);
               if (childDeck.children.length > 0) {
                 currentDeck = child.DECK_ID;
+                selectedDeckId = child.DECK_ID; // Auto-select parent
+                onSelect(child.DECK_ID, child.DECK_NAME); // Auto-select parent
                 render();
               } else {
                 selectedDeckId = child.DECK_ID;

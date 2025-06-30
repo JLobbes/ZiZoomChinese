@@ -17,9 +17,169 @@
 }
 
 #viewDecksOverlay label {
-    color: #fff;
-    font-size: 22px;
-    font-weight: bold;
-    padding-bottom: 10px;
-    user-select: none;
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  user-select: none;
+}
+
+#viewDecksOverlay #mainContentWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#mainContentWrapper #chooseDeckToView-Container {
+  margin: 0 4em 0 0;
+}
+
+#mainContentWrapper #flashcardEditor {
+  width: 60%;
+  height: 80vh;
+  background-color: none;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+#flashcardEditor .flashcard-controls-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#flashcardEditor .flashcard-search-bar {
+  width: 100%;
+  padding: 0.5em 1em;
+  color: #fff;
+  font-size: 1.2em;
+  border-radius: 6px;
+  background: none;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+}
+
+#flashcardEditor .flashcard-search-bar:hover {
+  background-color: rgb(178, 235, 242, 0.2);
+}
+
+ #flashcardEditor .flashcard-search-bar:focus {
+  background-color: rgb(178, 235, 242, 0.4);
+  outline: none;
+}
+
+#flashcardEditor .flashcard-search-bar::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+#flashcardEditor .flashcard-filter-bar {
+  display: flex;
+  gap: 0.5em;
+}
+
+#flashcardEditor .flashcard-filter-btn {
+  background:none;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  padding: 0.3em 1em;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background 0.2s;
+}
+
+#flashcardEditor .flashcard-filter-btn:hover {
+  background: rgb(178, 235, 242, 0.2);;
+}
+
+#flashcardEditor .flashcard-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  min-height: 0;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  border-top: 1px solid rgba(255,255,255,0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+
+#flashcardEditor .flashcard-list-wrapper::-webkit-scrollbar {
+  width: 0px;
+}
+
+#flashcardEditor .flashcard-bubble-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  min-width: 0;
+  padding: 0.3em 1em;
+  border-radius: 12px;
+  background: rgb(178, 235, 242, 0.1);
+}
+
+#flashcardEditor .bubble {
+  display: inline-block;
+  width: fit-content;
+  padding: 0.3em 0.8em;
+  margin-right: 0.2em;
+  border-radius: 999px;
+  background: #fff;
+  color: #222;
+  font-size: 1em;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 10em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#flashcardEditor .img-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3em;
+  height: 1.3em;
+  padding: 0.2em 0.2em 0.2em 0.2em;
+  font-size: 1.2em;
+  background: #fff;
+  color: #333;
+}
+
+#flashcardEditor .deck-bubble { 
+  background: #499ca7; 
+  color: #fff; 
+}
+
+#flashcardEditor .front-bubble { 
+  background: rgb(178, 235, 242); 
+}
+
+#flashcardEditor .pinyin-bubble { 
+  background: rgb(240, 240, 240); 
+}
+
+#flashcardEditor .rear-bubble { 
+  background: rgb(253, 240, 253); 
+  /* background: rgb(255, 227, 254);  */
+}
+
+#flashcardEditor .snippit-preview-popup {
+  position: absolute;
+  z-index: 9999;
+  width: 120px;
+  height: auto;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  background: #222;
+  top: 2em;
+  left: 0;
+  pointer-events: none;
 }

@@ -6,6 +6,7 @@ import { createDeck } from '../../api/createDeck.js';
 import { getDecks } from '../../api/getDecks.js';
 import { renderDeckSelection } from './renderSelectDeck.js';
 import { getCardsByDeck } from '../../api/getFlashcardsByDeck.js';
+import { renderFlashcardList } from './flashcardEditor.js';
 
 let parentDeckId = null;
 
@@ -19,12 +20,17 @@ export function openViewDecksOverlay(parentId) {
   uiElements.chooseDeckToViewContainer.style.display = 'flex';
 
   getDecks().then(decks => {
+    // Build deckMap for name lookup
+    const deckMap = {};
+    decks.forEach(d => deckMap[d.DECK_ID] = d);
+
     renderDeckSelection(uiElements.chooseDeckToViewGUI, decks, (deckID, deckName) => {
-      // deckName currently not used, but can be used for display purposes
       uiState.deckToView = deckID;
       getCardsByDeck(deckID).then(flashcards => {
-        console.log('Loaded flashcards for deck:', deckID, flashcards);
-        // renderFlashcardList(uiElements.deckFlashcardViewer, flashcards);
+        renderFlashcardList(
+          flashcards,
+          deckMap
+        );
       });
     });
   }).catch(err => {

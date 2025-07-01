@@ -48,7 +48,7 @@ export function renderFlashcardList(flashcards, deckMap) {
     // Image icon bubble
     const imgBubble = document.createElement('img');
     imgBubble.className = 'bubble img-bubble';
-    imgBubble.src = 'icons/show_source_screen.png';
+    imgBubble.src = 'icons/show_source_screen_white.png';
     imgBubble.style.cursor = 'pointer';
 
     imgBubble.onmouseenter = () => {

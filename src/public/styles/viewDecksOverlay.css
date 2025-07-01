@@ -117,11 +117,20 @@
 #flashcardEditor .flashcard-bubble-row {
   display: flex;
   align-items: center;
+  height: 1.8em;
+  min-height: 1.8em;;
   gap: 0.5em;
   min-width: 0;
-  padding: 0.3em 1em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 1em;
   border-radius: 12px;
   background: rgb(178, 235, 242, 0.1);
+}
+
+#flashcardEditor .flashcard-bubble-row::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 
 #flashcardEditor .bubble {
@@ -135,7 +144,7 @@
   font-size: 1.2em;
   font-weight: 500;
   white-space: nowrap;
-  max-width: 10em;
+  flex-shrink: 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -144,11 +153,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 1.3em;
   height: 1.3em;
-  padding: 0.2em 0.2em 0.2em 0.2em;
-  font-size: 1.2em;
-  background: #fff;
+  padding: 0em 0em 0em 0em;
+  background: none;
+  border-radius: 0px;
   color: #333;
 }
 

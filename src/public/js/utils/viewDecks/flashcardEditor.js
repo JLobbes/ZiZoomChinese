@@ -2,6 +2,7 @@
 
 import uiElements from '../../uiElements.js';
 import { updateCardInDatabase } from '../../api/updateFlashcard.js';
+import uiState from '../../uiState.js';
 
 export function renderFlashcardList(flashcards, deckMap) {
   const {
@@ -45,7 +46,7 @@ export function renderFlashcardList(flashcards, deckMap) {
     if (card.FLASHCARD_PINYIN) cardDiv.appendChild(pinyinBubble);
     cardDiv.appendChild(rearBubble);
 
-    // Image icon bubble
+    // Image icon bubble to show source 
     const imgBubble = document.createElement('img');
     imgBubble.className = 'bubble img-bubble';
     imgBubble.src = 'icons/show_source_screen_white.png';
@@ -67,12 +68,16 @@ export function renderFlashcardList(flashcards, deckMap) {
     const editBtn = document.createElement('button');
     editBtn.textContent = '✎';
     editBtn.title = 'Edit';
-    editBtn.style.marginLeft = '0.5em';
     editBtn.className = 'flashcard-edit-btn';
     cardDiv.appendChild(editBtn);
 
     // --- Edit mode handler ---
     editBtn.onclick = () => {
+      if (uiState.isEditingFlashcard) {
+        // Optionally, show a warning/toast here
+        return;
+      }
+      uiState.isEditingFlashcard = true;
       // Replace bubbles with inputs
       const frontInput = document.createElement('input');
       frontInput.type = 'text';
@@ -96,19 +101,25 @@ export function renderFlashcardList(flashcards, deckMap) {
 
       // Hide edit button, show check button
       editBtn.style.display = 'none';
+
+      // Save button
       const checkBtn = document.createElement('button');
       checkBtn.textContent = '✔';
       checkBtn.title = 'Save';
       checkBtn.className = 'flashcard-save-btn';
-      checkBtn.style.marginLeft = '0.5em';
       cardDiv.appendChild(checkBtn);
 
+      // Cancel button
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = '✖';
+      cancelBtn.title = 'Cancel';
+      cancelBtn.className = 'flashcard-cancel-btn';
+      cardDiv.appendChild(cancelBtn);
+
       checkBtn.onclick = () => {
-        // Save logic here (call API or update state as needed)
         card.FLASHCARD_FRONT = frontInput.value;
         card.FLASHCARD_PINYIN = pinyinInput.value;
         card.FLASHCARD_REAR = rearInput.value;
-        console.log('Card to Update:', card);
         updateCardInDatabase(card).then(() => {
           // Update bubbles with new values
           console.log('Card updated successfully:', card);
@@ -126,7 +137,11 @@ export function renderFlashcardList(flashcards, deckMap) {
           // editBtn.style.display = '';
         });
 
-        // Re-render the list (simple way)
+        uiState.isEditingFlashcard = false;
+        renderFlashcardList(flashcards, deckMap);
+      };
+      cancelBtn.onclick = () => {
+        uiState.isEditingFlashcard = false;
         renderFlashcardList(flashcards, deckMap);
       };
     };

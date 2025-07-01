@@ -48,6 +48,10 @@ const uiState = {
   centerCropBoxHorizontally: false,
   enableOCR: true, 
 
+  // ==== Flashcard Editing ====
+
+  isEditingFlashcard: false,
+
 };
 
 export default uiState;

@@ -147,6 +147,7 @@
   flex-shrink: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: not-allowed;
 }
 
 #flashcardEditor .img-bubble {
@@ -192,4 +193,26 @@
   top: 2em;
   left: 0;
   pointer-events: none;
+}
+
+#flashcardEditor .flashcard-edit-btn,
+#flashcardEditor .flashcard-cancel-btn,
+#flashcardEditor .flashcard-save-btn
+ {
+  background: none;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0 0.2em;
+  font-size: 1.5em;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+#flashcardEditor .flashcard-edit-btn:hover,
+#flashcardEditor .flashcard-cancel-btn:hover,
+#flashcardEditor .flashcard-save-btn:hover {
+  background-color: #fff;
+  color: #111;
+  transition: background 0.2s;
 }

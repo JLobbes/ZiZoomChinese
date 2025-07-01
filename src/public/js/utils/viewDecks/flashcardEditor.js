@@ -73,10 +73,7 @@ export function renderFlashcardList(flashcards, deckMap) {
 
     // --- Edit mode handler ---
     editBtn.onclick = () => {
-      if (uiState.isEditingFlashcard) {
-        // Optionally, show a warning/toast here
-        return;
-      }
+
       uiState.isEditingFlashcard = true;
       // Replace bubbles with inputs
       const frontInput = document.createElement('input');
@@ -123,26 +120,25 @@ export function renderFlashcardList(flashcards, deckMap) {
         updateCardInDatabase(card).then(() => {
           // Update bubbles with new values
           console.log('Card updated successfully:', card);
-          // frontBubble.textContent = card.FLASHCARD_FRONT;
-          // pinyinBubble.textContent = card.FLASHCARD_PINYIN || '';
-          // rearBubble.textContent = card.FLASHCARD_REAR;
+          frontBubble.textContent = card.FLASHCARD_FRONT;
+          pinyinBubble.textContent = card.FLASHCARD_PINYIN || '';
+          rearBubble.textContent = card.FLASHCARD_REAR;
 
-          // // Replace inputs with updated bubbles
-          // cardDiv.replaceChild(frontBubble, frontInput);
-          // if (card.FLASHCARD_PINYIN) cardDiv.replaceChild(pinyinBubble, pinyinInput);
-          // cardDiv.replaceChild(rearBubble, rearInput);
+          // Replace inputs with updated bubbles
+          cardDiv.replaceChild(frontBubble, frontInput);
+          if (card.FLASHCARD_PINYIN) cardDiv.replaceChild(pinyinBubble, pinyinInput);
+          cardDiv.replaceChild(rearBubble, rearInput);
 
-          // // Remove check button, show edit button again
-          // checkBtn.remove();
-          // editBtn.style.display = '';
+          // Remove check button, show edit button again
+          checkBtn.remove();
+          cancelBtn.remove();
+          editBtn.style.display = '';
         });
 
         uiState.isEditingFlashcard = false;
-        renderFlashcardList(flashcards, deckMap);
       };
       cancelBtn.onclick = () => {
         uiState.isEditingFlashcard = false;
-        renderFlashcardList(flashcards, deckMap);
       };
     };
 

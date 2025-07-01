@@ -150,6 +150,12 @@
   cursor: not-allowed;
 }
 
+#flashcardEditor input.bubble {
+  width: 6em;
+  cursor: text;
+  text-align: center;
+}
+
 #flashcardEditor .img-bubble {
   display: flex;
   align-items: center;

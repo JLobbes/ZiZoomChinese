@@ -39,8 +39,11 @@ function initGlobalKeyListeners() {
       return;
     }
 
-    const overlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
-    if (uiState.selectionModeEnabled || overlayVisible) return;
+    const flashcardCreationOverlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
+    if (uiState.selectionModeEnabled || flashcardCreationOverlayVisible) return;
+
+    const viewDecksOverlayVisible = uiElements.viewDecksOverlay.style.display === 'flex';
+    if (uiState.isEditingFlashcard || viewDecksOverlayVisible) return;
 
     keyPressZoomAndPan(e);
   });

@@ -75,69 +75,67 @@ export function renderFlashcardList(flashcards, deckMap) {
     editBtn.onclick = () => {
 
       uiState.isEditingFlashcard = true;
+      const editContext = {
+        cardDiv,
+        frontBubble,
+        pinyinBubble,
+        rearBubble,
+        editBtn,
+        frontInput: null,
+        pinyinInput: null,
+        rearInput: null,
+        checkBtn: null,
+        cancelBtn: null
+      };
+
+      // Create inputs and update context
+      editContext.frontInput = document.createElement('input');
+      editContext.frontInput.type = 'text';
+      editContext.frontInput.value = frontBubble.textContent;
+      editContext.frontInput.className = 'bubble front-bubble';
+
+      editContext.pinyinInput = document.createElement('input');
+      editContext.pinyinInput.type = 'text';
+      editContext.pinyinInput.value = pinyinBubble.textContent;
+      editContext.pinyinInput.className = 'bubble pinyin-bubble';
+
+      editContext.rearInput = document.createElement('input');
+      editContext.rearInput.type = 'text';
+      editContext.rearInput.value = rearBubble.textContent;
+      editContext.rearInput.className = 'bubble rear-bubble';
+
       // Replace bubbles with inputs
-      const frontInput = document.createElement('input');
-      frontInput.type = 'text';
-      frontInput.value = frontBubble.textContent;
-      frontInput.className = 'bubble front-bubble';
+      cardDiv.replaceChild(editContext.frontInput, frontBubble);
+      if (card.FLASHCARD_PINYIN) cardDiv.replaceChild(editContext.pinyinInput, pinyinBubble);
+      cardDiv.replaceChild(editContext.rearInput, rearBubble);
 
-      const pinyinInput = document.createElement('input');
-      pinyinInput.type = 'text';
-      pinyinInput.value = pinyinBubble.textContent;
-      pinyinInput.className = 'bubble pinyin-bubble';
-
-      const rearInput = document.createElement('input');
-      rearInput.type = 'text';
-      rearInput.value = rearBubble.textContent;
-      rearInput.className = 'bubble rear-bubble';
-
-      // Replace bubbles with inputs
-      cardDiv.replaceChild(frontInput, frontBubble);
-      if (card.FLASHCARD_PINYIN) cardDiv.replaceChild(pinyinInput, pinyinBubble);
-      cardDiv.replaceChild(rearInput, rearBubble);
-
-      // Hide edit button, show check button
+      // Hide edit button, show check/cancel
       editBtn.style.display = 'none';
 
-      // Save button
-      const checkBtn = document.createElement('button');
-      checkBtn.textContent = '✔';
-      checkBtn.title = 'Save';
-      checkBtn.className = 'flashcard-save-btn';
-      cardDiv.appendChild(checkBtn);
+      editContext.checkBtn = document.createElement('button');
+      editContext.checkBtn.textContent = '✔';
+      editContext.checkBtn.title = 'Save';
+      editContext.checkBtn.className = 'flashcard-save-btn';
+      cardDiv.appendChild(editContext.checkBtn);
 
-      // Cancel button
-      const cancelBtn = document.createElement('button');
-      cancelBtn.textContent = '✖';
-      cancelBtn.title = 'Cancel';
-      cancelBtn.className = 'flashcard-cancel-btn';
-      cardDiv.appendChild(cancelBtn);
+      editContext.cancelBtn = document.createElement('button');
+      editContext.cancelBtn.textContent = '✖';
+      editContext.cancelBtn.title = 'Cancel';
+      editContext.cancelBtn.className = 'flashcard-cancel-btn';
+      cardDiv.appendChild(editContext.cancelBtn);
 
-      checkBtn.onclick = () => {
-        card.FLASHCARD_FRONT = frontInput.value;
-        card.FLASHCARD_PINYIN = pinyinInput.value;
-        card.FLASHCARD_REAR = rearInput.value;
+      // Pass editContext to exitEditFlashcardMode
+      editContext.checkBtn.onclick = () => {
+        card.FLASHCARD_FRONT = editContext.frontInput.value;
+        card.FLASHCARD_PINYIN = editContext.pinyinInput.value;
+        card.FLASHCARD_REAR = editContext.rearInput.value;
         updateCardInDatabase(card).then(() => {
-          // Update bubbles with new values
-          console.log('Card updated successfully:', card);
-          frontBubble.textContent = card.FLASHCARD_FRONT;
-          pinyinBubble.textContent = card.FLASHCARD_PINYIN || '';
-          rearBubble.textContent = card.FLASHCARD_REAR;
-
-          // Replace inputs with updated bubbles
-          cardDiv.replaceChild(frontBubble, frontInput);
-          if (card.FLASHCARD_PINYIN) cardDiv.replaceChild(pinyinBubble, pinyinInput);
-          cardDiv.replaceChild(rearBubble, rearInput);
-
-          // Remove check button, show edit button again
-          checkBtn.remove();
-          cancelBtn.remove();
-          editBtn.style.display = '';
+          exitEditFlashcardMode(card, editContext);
         });
-
         uiState.isEditingFlashcard = false;
       };
-      cancelBtn.onclick = () => {
+      editContext.cancelBtn.onclick = () => {
+        exitEditFlashcardMode(card, editContext);
         uiState.isEditingFlashcard = false;
       };
     };
@@ -183,4 +181,26 @@ function fuzzyMatch(needle, haystack) {
     hIdx++;
   }
   return true;
+}
+
+function exitEditFlashcardMode(card, editContext) {
+  uiState.isEditingFlashcard = false;
+
+  // Logic to exit edit mode, e.g. revert UI changes
+  editContext.frontBubble.textContent = card.FLASHCARD_FRONT;
+  editContext.pinyinBubble.textContent = card.FLASHCARD_PINYIN || '';
+  editContext.rearBubble.textContent = card.FLASHCARD_REAR;
+
+  // Replace inputs with updated bubbles
+  editContext.cardDiv.replaceChild(editContext.frontBubble, editContext.frontInput);
+  if (card.FLASHCARD_PINYIN) editContext.cardDiv.replaceChild(editContext.pinyinBubble, editContext.pinyinInput);
+  editContext.cardDiv.replaceChild(editContext.rearBubble, editContext.rearInput);
+
+  // Remove check & cancel buttons, show edit button again
+  editContext.checkBtn.remove();
+  editContext.cancelBtn.remove();
+  editContext.editBtn.style.display = '';
+  
+  // This function can be expanded as needed
+  console.log('Exiting edit mode for card:', card);
 }

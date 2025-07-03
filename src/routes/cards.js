@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post('/create', async (req, res) => {
   try {
-    const id = await createFlashCard(req.body.card);
+    const id = await createFlashcard(req.body.card);
     res.status(201).json({ flashcardId: id });
   } catch (err) {
     console.error('Error adding flashcard:', err);
@@ -45,7 +45,7 @@ router.get('/byDeck/:deckID', async (req, res) => {
 
 router.put('/update', async (req, res) => {
   try {
-    const updated = await updateFlashCard(req.body.card);
+    const updated = await updateFlashcard(req.body.card);
     if (updated) {
       res.status(200).json({ success: true, flashcardId: req.body.card.id });
     } else {

@@ -2,7 +2,7 @@
 
 const db = require('../../lib/db');
 
-async function updateFlashCard(flashcard) {
+async function updateFlashcard(flashcard) {
   const conn = await db.getConnection();
 
   console.log('received flashcard data for update:', flashcard);
@@ -41,4 +41,4 @@ async function updateFlashCard(flashcard) {
   }
 }
 
-module.exports = { updateFlashCard };
+module.exports = { updateFlashcard };

@@ -2,6 +2,7 @@
 
 import uiElements from '../../uiElements.js';
 import { updateCardInDatabase } from '../../api/updateFlashcard.js';
+import { deleteFlashcard } from '../../api/deleteFlashcard.js';
 import uiState from '../../uiState.js';
 
 export function renderFlashcardList(flashcards, deckMap) {
@@ -85,7 +86,8 @@ export function renderFlashcardList(flashcards, deckMap) {
         pinyinInput: null,
         rearInput: null,
         checkBtn: null,
-        cancelBtn: null
+        cancelBtn: null,
+        deleteBtn: null
       };
 
       // Create inputs and update context
@@ -124,7 +126,12 @@ export function renderFlashcardList(flashcards, deckMap) {
       editContext.cancelBtn.className = 'flashcard-cancel-btn';
       cardDiv.appendChild(editContext.cancelBtn);
 
-      // Pass editContext to exitEditFlashcardMode
+      editContext.deleteBtn = document.createElement('button');
+      editContext.deleteBtn.innerHTML = '🗑️'; // Unicode trashcan
+      editContext.deleteBtn.title = 'Delete';
+      editContext.deleteBtn.className = 'flashcard-delete-btn';
+      cardDiv.appendChild(editContext.deleteBtn);
+
       editContext.checkBtn.onclick = () => {
         card.FLASHCARD_FRONT = editContext.frontInput.value;
         card.FLASHCARD_PINYIN = editContext.pinyinInput.value;
@@ -137,6 +144,17 @@ export function renderFlashcardList(flashcards, deckMap) {
       editContext.cancelBtn.onclick = () => {
         exitEditFlashcardMode(card, editContext);
         uiState.isEditingFlashcard = false;
+      };
+      editContext.deleteBtn.onclick = async () => {
+        if (confirm('Delete this flashcard?')) {
+          try {
+            await deleteFlashcard(card.FLASHCARD_ID);
+            cardDiv.remove();
+            uiState.isEditingFlashcard = false;
+          } catch (e) {
+            alert('Failed to delete flashcard.');
+          }
+        }
       };
     };
 
@@ -199,6 +217,7 @@ function exitEditFlashcardMode(card, editContext) {
   // Remove check & cancel buttons, show edit button again
   editContext.checkBtn.remove();
   editContext.cancelBtn.remove();
+  editContext.deleteBtn.remove();
   editContext.editBtn.style.display = '';
   
   // This function can be expanded as needed

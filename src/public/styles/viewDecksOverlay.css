@@ -203,6 +203,7 @@
 
 #flashcardEditor .flashcard-edit-btn,
 #flashcardEditor .flashcard-cancel-btn,
+#flashcardEditor .flashcard-delete-btn,
 #flashcardEditor .flashcard-save-btn
  {
   background: none;
@@ -217,6 +218,7 @@
 
 #flashcardEditor .flashcard-edit-btn:hover,
 #flashcardEditor .flashcard-cancel-btn:hover,
+#flashcardEditor .flashcard-delete-btn:hover,
 #flashcardEditor .flashcard-save-btn:hover {
   background-color: #fff;
   color: #111;

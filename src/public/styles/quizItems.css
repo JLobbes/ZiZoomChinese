@@ -126,3 +126,12 @@
   z-index: 1100;
   opacity: 0.25;
 }
+
+.quizCropBox {
+  position: absolute;
+  padding: 0.1em;
+  background-color: #000; 
+  pointer-events: none;
+  border-radius: 3px;
+  z-index: 10;
+}

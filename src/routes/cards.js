@@ -1,8 +1,8 @@
 // src/routes/cards.js
 
 const express = require('express');
-const { createFlashCard } = require('../models/cards/create');
-const { updateFlashCard } = require('../models/cards/update'); // Add this import
+const { createFlashcard } = require('../models/cards/create');
+const { updateFlashcard } = require('../models/cards/update'); // Add this import
 const { deleteFlashcard } = require('../models/cards/delete'); // <-- Add this import
 const { getCardsRecursive } = require('../models/cards/read_by_deck_recursive');
 const { readByImgPath } = require('../models/cards/read_by_imgPath');

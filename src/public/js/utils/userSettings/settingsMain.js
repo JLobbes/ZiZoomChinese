@@ -7,8 +7,9 @@ import { saveSettings, loadSettings } from './settingsStorage.js';
 export function openSettingsOverlay() {
   uiElements.settingsOverlay.style.display = 'flex';
   uiElements.togglePinyin.checked = uiState.includePinyin;
-  uiElements.toggleTrickyPinyin.checked = uiState.trickyPinyin; // <-- Fix: use toggleTrickyPinyin, not trickyPinyin
-  uiElements.toggleOCR.checked = uiState.enableOCR; 
+  uiElements.toggleTrickyPinyin.checked = uiState.trickyPinyin;
+  uiElements.toggleOCR.checked = uiState.enableOCR;
+  uiElements.toggleFillInTheBlank.checked = uiState.fillInTheBlank; // <-- Add this line
   // Call after overlay is visible and all elements are in DOM
   updateToggleStatus();
 }
@@ -30,6 +31,9 @@ export function applyPersistedSettings() {
   if (typeof persisted.enableOCR === 'boolean') {
     uiState.enableOCR = persisted.enableOCR;
   }
+  if (typeof persisted.fillInTheBlank === 'boolean') { // <-- Add this block
+    uiState.fillInTheBlank = persisted.fillInTheBlank;
+  }
   // Add more settings here as needed
 }
 
@@ -43,6 +47,9 @@ function updateToggleStatus() {
 
   const ocrStatusSpan = document.getElementById('toggleOCRStatus');
   ocrStatusSpan.textContent = uiState.enableOCR ? 'On' : 'Off';
+
+  const fillInBlankStatusSpan = document.getElementById('toggleFillInTheBlankStatus');
+  fillInBlankStatusSpan.textContent = uiState.fillInTheBlank ? 'On' : 'Off';
 }
 
 // Helper to gather current settings and save them
@@ -50,6 +57,7 @@ function saveCurrentSettings() {
   saveSettings({
     includePinyin: uiState.includePinyin,
     trickyPinyin: uiState.trickyPinyin,
+    fillInTheBlank: uiState.fillInTheBlank, 
     enableOCR: uiState.enableOCR,
     // Add more settings here as needed
   });
@@ -67,8 +75,14 @@ uiElements.toggleTrickyPinyin.onchange = (e) => {
   updateToggleStatus();
 };
 
+uiElements.toggleFillInTheBlank.onchange = (e) => {
+  uiState.fillInTheBlank = e.target.checked;
+  saveCurrentSettings();
+  updateToggleStatus();
+};
 uiElements.toggleOCR.onchange = (e) => {
   uiState.enableOCR = e.target.checked;
   saveCurrentSettings();
   updateToggleStatus();
 };
+

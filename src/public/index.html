@@ -126,12 +126,23 @@
       </div>
         
       <div id="quizOperationUI" style="display: none;">
-        <label>Choose an Answer:</label>
-        <div id="options-container">
-          <button id="option-one"></button>
-          <button id="option-two"></button>
-          <button id="option-three"></button>
-          <button id="option-four"></button>
+
+        <div id="multipleChoiceQuizContainer">
+          <label>Choose an Answer:</label>
+          <div id="options-container">
+            <button id="option-one"></button>
+            <button id="option-two"></button>
+            <button id="option-three"></button>
+            <button id="option-four"></button>
+          </div>
+        </div>
+
+        <div id="fillQuizBlankContainer" style="display:none;">
+          <div id="fillQuizBlankInputWrapper">
+            <input id="fillQuizBlankInput" type="text" autocomplete="off" />
+            <div id="fillBlankStrikeCounter"></div>
+          </div>
+          <button id="fillBlankGoBtn">Check Answer</button>
         </div>
       </div>
 
@@ -169,6 +180,15 @@
             <span class="simple-slider"></span>
           </label>
           <span id="toggleOCRStatus" class="toggle-status"></span>
+        </div>
+
+        <div class="settingContainer">
+          <span class="toggle-label">Fill In The Blank</span>
+          <label class="simple-switch">
+            <input type="checkbox" id="toggleFillInTheBlank" />
+            <span class="simple-slider"></span>
+          </label>
+          <span id="toggleFillInTheBlankStatus" class="toggle-status"></span>
         </div>
       </div>
     </div>

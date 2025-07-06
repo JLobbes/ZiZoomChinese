@@ -40,12 +40,14 @@ const uiState = {
   
   quizModeOn: false,
   quizRunning: false, // Indicates user has chosen deck & started quiz.
+  userFillingInQuizBlank: false, // Indicates user is filling in a blank answer.
   deckToQuiz: null,
 
   // ==== Settings (User Adjustable) ====
 
   includePinyin: true,
   trickyPinyin: true,
+  fillInTheBlank: true,
   centerCropBoxHorizontally: false,
   enableOCR: true, 
 

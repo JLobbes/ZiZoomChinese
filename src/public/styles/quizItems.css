@@ -70,6 +70,14 @@
   user-select: none;
 }
 
+#multipleChoiceQuizContainer {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 0 0;
+}
+
 #options-container {
   display: flex;
   flex-direction: row;
@@ -134,4 +142,52 @@
   pointer-events: none;
   border-radius: 3px;
   z-index: 10;
+}
+
+#fillQuizBlankContainer {
+  position: relative;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+#fillQuizBlankInputWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#fillBlankInput {
+  width: 10em;
+  padding: 6px;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#fillBlankGoBtn {
+  font-size: 18px;
+  padding: 6px 16px;
+  border-radius: 5px;
+  background: #fff;
+  border: 2px solid #111;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#fillBlankStrikeCounter {
+  position: absolute;
+  right: -1.6em;
+  min-width: 2em;
+  margin-left: 0.25em;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  opacity: 0.25;
 }

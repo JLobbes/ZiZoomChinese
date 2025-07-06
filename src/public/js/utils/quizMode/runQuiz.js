@@ -44,6 +44,34 @@ export function runQuiz(cards) {
       const field = stages[currentStage];
       const correctAnswer = currentCard[`FLASHCARD_${field}`];
 
+      // Fill in the blank for FRONT if enabled
+      if (field === 'FRONT' && uiState.fillInTheBlank) {
+        renderFillInBlank(correctAnswer, (userInput) => {
+          if (userInput && userInput.trim() === correctAnswer.trim()) {
+            showFeedbackMessage('Correct! ✅');
+            currentStage++;
+            if (currentStage < stages.length) {
+              askQuestionStage();
+            } else {
+              currentIndex++;
+              runQuizQuestion();
+            }
+          } else if (userInput === null) {
+            // Out of strikes, advance
+            currentStage++;
+            if (currentStage < stages.length) {
+              askQuestionStage();
+            } else {
+              currentIndex++;
+              runQuizQuestion();
+            }
+          } else {
+            showFeedbackMessage('❌ Try Again!');
+          }
+        });
+        return;
+      }
+
       const choices = generateChoices(cards, field, correctAnswer, 4);
 
       renderChoices(choices, (selected) => {
@@ -67,6 +95,9 @@ export function runQuiz(cards) {
 
 function renderChoices(choices, callback) {
   uiElements.quizUI.style.display = 'flex';
+  uiElements.multipleChoiceQuizContainer.style.display = 'flex';
+  document.getElementById('options-container').style.display = 'flex'; // <-- Add this!
+  uiElements.fillQuizBlankContainer.style.display = 'none';
 
   const buttons = [
     uiElements.quizOptionOne,
@@ -79,15 +110,67 @@ function renderChoices(choices, callback) {
     const choice = choices[i];
     btn.textContent = choice;
     btn.onclick = () => {
-      // Enable buttons after click
-      // buttons.forEach(b => b.disabled = false);
       callback(choice);
     };
-    // btn.disabled = false;
   });
 }
 
 function updateQuizCounter(current, total) {
   // uiElements.quizProgressCounter.textContent = `Card ${current + 1} of ${total}`;
   uiElements.quizProgressCounter.textContent = `${current}`;
+}
+
+// Add this helper function:
+const MAX_FILL_BLANK_STRIKES = 3;
+
+function renderFillInBlank(correctAnswer, callback) {
+  uiElements.quizUI.style.display = 'flex';
+  document.getElementById('options-container').style.display = 'none';
+  uiElements.fillQuizBlankContainer.style.display = 'flex';
+
+  uiElements.fillQuizBlankInput.value = '';
+  uiElements.fillQuizBlankInput.focus();
+
+  // Strike logic
+  let strikesLeft = MAX_FILL_BLANK_STRIKES;
+  const strikeCounterDiv = document.getElementById('fillBlankStrikeCounter');
+  updateStrikeCounter();
+
+  function updateStrikeCounter() {
+    strikeCounterDiv.textContent = `${strikesLeft}`;
+  }
+
+  // Remove previous listeners
+  uiElements.fillBlankGoBtn.onclick = null;
+  uiElements.fillQuizBlankInput.onkeydown = null;
+
+  function handleAttempt() {
+    const userInput = uiElements.fillQuizBlankInput.value;
+    if (userInput.trim() === correctAnswer.trim()) {
+      callback(userInput); // Correct, handled in askQuestionStage
+    } else {
+      strikesLeft--;
+      updateStrikeCounter();
+      if (strikesLeft <= 0) {
+        // Out of strikes, auto-advance
+        showFeedbackMessage(`Out of strikes! :( The answer was: ${correctAnswer}`);
+        callback(null); // Pass null to indicate failure
+      } else {
+        showFeedbackMessage('❌ Try Again!');
+      }
+    }
+  }
+
+  uiElements.fillBlankGoBtn.onclick = handleAttempt;
+  uiElements.fillQuizBlankInput.onkeydown = (e) => {
+    if (e.key === 'Enter') handleAttempt();
+  };
+
+  uiElements.fillQuizBlankInput.addEventListener('focus', () => {
+    uiState.userFillingInQuizBlank = true;
+  });
+
+  uiElements.fillQuizBlankInput.addEventListener('blur', () => {
+    uiState.userFillingInQuizBlank = false;
+  });
 }

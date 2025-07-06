@@ -64,11 +64,18 @@ const uiElements = {
 
   quizUI: document.getElementById('quizOperationUI'),
   quizOperationFeedback: document.getElementById('quizOperationFeedback'),  
+
+  multipleChoiceQuizContainer: document.getElementById('multipleChoiceQuizContainer'),
   quizOptionOne: document.getElementById('option-one'),
   quizOptionTwo: document.getElementById('option-two'),
   quizOptionThree: document.getElementById('option-three'),
   quizOptionFour: document.getElementById('option-four'),
+
   quizProgressCounter: document.getElementById('quizProgressCounter'),
+
+  fillQuizBlankContainer: document.getElementById('fillQuizBlankContainer'),
+  fillQuizBlankInput: document.getElementById('fillQuizBlankInput'),
+  fillBlankGoBtn: document.getElementById('fillBlankGoBtn'),
 
   // ==== Settings Overlay ====
   
@@ -76,6 +83,7 @@ const uiElements = {
   exitSettingsBtn: document.getElementById('exitSettingsBtn'),
   togglePinyin: document.getElementById('togglePinyin'),
   toggleTrickyPinyin: document.getElementById('toggleTrickyPinyin'),
+  toggleFillInTheBlank: document.getElementById('toggleFillInTheBlank'),
   toggleOCR: document.getElementById('toggleOCR'), 
 
   // ==== View Decks Overlay ====

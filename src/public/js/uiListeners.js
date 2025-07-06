@@ -21,6 +21,7 @@ export function initUIListeners() {
   initMouseEvents();
   initOverlayListeners();
   initSelectionButton();
+  initFillBlankListeners();
 }
 
 // === Global Key Listeners (keyboard shortcuts, pinyin, etc.)
@@ -39,6 +40,9 @@ function initGlobalKeyListeners() {
       return;
     }
 
+    // Prevent zoom/pan shortcuts while filling in blank
+    if (uiState.userFillingInQuizBlank) return;
+
     const flashcardCreationOverlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
     if (uiState.selectionModeEnabled || flashcardCreationOverlayVisible) return;
 
@@ -53,6 +57,14 @@ function initGlobalKeyListeners() {
 
 function initMouseEvents() {
   document.addEventListener('mousedown', e => {
+    // Prevent pan/selection while filling in blank
+    if (e.target.id =='fillQuizBlankInput' || e.target.closest('#fillQuizBlankInput')) {
+      console.log('Preventing pan/selection while filling in quiz blank');
+      uiState.userFillingInQuizBlank = true;
+      return;
+    }
+    if (uiState.userFillingInQuizBlank) return;
+
     const flashcardCreationOverlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
     const viewDecksOverlayVisible = uiElements.viewDecksOverlay.style.display === 'flex';
 
@@ -72,6 +84,7 @@ function initMouseEvents() {
   });
 
   document.addEventListener('mouseup', e => {
+
     if (uiState.selectionModeEnabled && uiState.isDrawingSelection) {
       finalizeSelection(e);
     } else if (uiState.isDraggingImage) {
@@ -143,4 +156,13 @@ function handleEscapeKey(e) {
     e.preventDefault();
     closeViewDecksOverlay();
   }
+}
+
+function initFillBlankListeners() {
+  uiElements.fillQuizBlankInput.addEventListener('focus', () => {
+    uiState.userFillingInQuizBlank = true;
+  });
+  uiElements.fillQuizBlankInput.addEventListener('blur', () => {
+    uiState.userFillingInQuizBlank = false;
+  });
 }

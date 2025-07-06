@@ -45,6 +45,15 @@ export function runQuiz(cards) {
       const field = stages[currentStage];
       const correctAnswer = currentCard[`FLASHCARD_${field}`];
 
+      // Show FRONT answer on PINYIN and REAR stages
+      if (field === 'PINYIN' || field === 'REAR') {
+        uiElements.quizFrontAnswer.style.display = 'block';
+        uiElements.quizFrontAnswer.textContent = `${currentCard.FLASHCARD_FRONT}`;
+      } else {
+        uiElements.quizFrontAnswer.style.display = 'none';
+        uiElements.quizFrontAnswer.textContent = '';
+      }
+
       // Fill in the blank for FRONT if enabled
       if (field === 'FRONT' && uiState.fillInTheBlank) {
         renderFillInBlank(correctAnswer, (userInput) => {

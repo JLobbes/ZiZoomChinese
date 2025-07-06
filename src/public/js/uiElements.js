@@ -72,6 +72,7 @@ const uiElements = {
   quizOptionFour: document.getElementById('option-four'),
 
   quizProgressCounter: document.getElementById('quizProgressCounter'),
+  quizFrontAnswer: document.getElementById('quizFrontAnswer'),
 
   fillQuizBlankContainer: document.getElementById('fillQuizBlankContainer'),
   fillQuizBlankInput: document.getElementById('fillQuizBlankInput'),
@@ -102,6 +103,7 @@ const uiElements = {
   filterNoPinyinBtn: document.getElementById('filterNoPinyinBtn'),
   filterRecentlyAddedBtn: document.getElementById('filterRecentlyAddedBtn'),
   flashcardListWrapper: document.getElementById('flashcardListWrapper'),
+
 
 };
 

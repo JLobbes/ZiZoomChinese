@@ -75,6 +75,7 @@ const uiElements = {
   settingsOverlay: document.getElementById('settingsOverlay'),
   exitSettingsBtn: document.getElementById('exitSettingsBtn'),
   togglePinyin: document.getElementById('togglePinyin'),
+  toggleTrickyPinyin: document.getElementById('toggleTrickyPinyin'),
   toggleOCR: document.getElementById('toggleOCR'), 
 
   // ==== View Decks Overlay ====

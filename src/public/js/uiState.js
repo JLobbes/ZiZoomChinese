@@ -45,6 +45,7 @@ const uiState = {
   // ==== Settings (User Adjustable) ====
 
   includePinyin: true,
+  trickyPinyin: true,
   centerCropBoxHorizontally: false,
   enableOCR: true, 
 

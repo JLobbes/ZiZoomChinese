@@ -95,7 +95,6 @@ export function generateChoices(allCards, fieldKey, correctValue, count) {
 }
 
 export function showFeedbackMessage(message, delay = 0) {
-  console.log('delay:', delay);
   const feedbackDiv = document.getElementById('quizOperationFeedback');
   const msg = document.createElement('div');
   msg.className = 'quiz-feedback-message';

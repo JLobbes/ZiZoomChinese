@@ -133,28 +133,32 @@ function handleEscapeKey(e) {
     return;
   }
 
-  const createFlashcardOverlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
-  if (createFlashcardOverlayVisible) {
-    e.preventDefault();
-    closeFlashcardCreationOverlay();
-  }
-
-  const infoDisplayContainerVisible = uiElements.infoDisplayContainer.style.display === 'flex';
-  if(infoDisplayContainerVisible && uiState.quizModeOn) {
-    e.preventDefault();
-    closeDownQuizMode();
-  }
-
   const settingsOverlayVisible = uiElements.settingsOverlay.style.display === 'flex';
   if (settingsOverlayVisible) {
     e.preventDefault();
     closeSettingsOverlay();
+    return;
   }
 
   const viewDecksOverlayVisible = uiElements.viewDecksOverlay.style.display === 'flex';
   if (viewDecksOverlayVisible) {
     e.preventDefault();
     closeViewDecksOverlay();
+    return;
+  }
+
+  const createFlashcardOverlayVisible = uiElements.flashcardCreationOverlay.style.display === 'flex';
+  if (createFlashcardOverlayVisible) {
+    e.preventDefault();
+    closeFlashcardCreationOverlay();
+    return;
+  }
+
+  const infoDisplayContainerVisible = uiElements.infoDisplayContainer.style.display === 'flex';
+  if(infoDisplayContainerVisible && uiState.quizModeOn) {
+    e.preventDefault();
+    closeDownQuizMode();
+    return;
   }
 }
 

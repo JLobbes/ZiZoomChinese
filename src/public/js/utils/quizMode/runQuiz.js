@@ -23,6 +23,7 @@ export function runQuiz(cards) {
   runQuizQuestion();
 
   function runQuizQuestion() {
+    uiState.questionCompletionTime = 0; // Reset for each question
     if (currentIndex >= shuffledCards.length) {
       uiElements.quizProgressCounter.style.display = 'none';
       return;
@@ -106,6 +107,7 @@ export function runQuiz(cards) {
           }
         } else {
           showFeedbackMessage('❌ Try Again!');
+          uiState.questionCompletionTime += 20; // Add 20 seconds penalty for incorrect attempt
         }
       });
     }
@@ -148,7 +150,7 @@ function renderFillInBlank(correctAnswer, callback) {
   uiElements.fillQuizBlankContainer.style.display = 'flex';
 
   uiElements.fillQuizBlankInput.value = '';
-  uiElements.fillQuizBlankInput.focus();
+  // uiElements.fillQuizBlankInput.focus();
 
   // Strike logic
   let strikesLeft = MAX_FILL_BLANK_STRIKES;

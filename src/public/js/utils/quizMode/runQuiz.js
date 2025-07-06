@@ -24,12 +24,13 @@ export function runQuiz(cards) {
 
   function runQuizQuestion() {
     if (currentIndex >= shuffledCards.length) {
-      // Hide counter at end of ???
       uiElements.quizProgressCounter.style.display = 'none';
       return;
     }
 
-    // Update counter at the start of each card
+    // Start timing for this question
+    const questionStartTime = Date.now();
+
     updateQuizCounter(currentIndex, shuffledCards.length);
 
     const currentCard = shuffledCards[currentIndex];
@@ -53,6 +54,9 @@ export function runQuiz(cards) {
             if (currentStage < stages.length) {
               askQuestionStage();
             } else {
+              // Question complete: calculate duration
+              uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
+              showFeedbackMessage(`Question time: ${uiState.questionCompletionTime}s`);
               currentIndex++;
               runQuizQuestion();
             }
@@ -62,6 +66,8 @@ export function runQuiz(cards) {
             if (currentStage < stages.length) {
               askQuestionStage();
             } else {
+              uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
+              showFeedbackMessage(`Question time: ${uiState.questionCompletionTime}s`);
               currentIndex++;
               runQuizQuestion();
             }
@@ -81,12 +87,13 @@ export function runQuiz(cards) {
           if (currentStage < stages.length) {
             askQuestionStage();
           } else {
+            uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
+            showFeedbackMessage(`Question time: ${uiState.questionCompletionTime}s`);
             currentIndex++;
             runQuizQuestion();
           }
         } else {
           showFeedbackMessage('❌ Try Again!');
-          // Optional: handle penalties here
         }
       });
     }

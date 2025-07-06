@@ -42,6 +42,7 @@ const uiState = {
   quizRunning: false, // Indicates user has chosen deck & started quiz.
   userFillingInQuizBlank: false, // Indicates user is filling in a blank answer.
   deckToQuiz: null,
+  questionCompletionTime: 0, // Time taken to complete the current question
 
   // ==== Settings (User Adjustable) ====
 

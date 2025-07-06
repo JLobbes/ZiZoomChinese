@@ -64,8 +64,9 @@ export function runQuiz(cards) {
               askQuestionStage();
             } else {
               // Question complete: calculate duration
-              uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
-              showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
+              uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
+              uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
+              showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}+s`, 1000);
               currentIndex++;
               runQuizQuestion();
             }
@@ -75,7 +76,8 @@ export function runQuiz(cards) {
             if (currentStage < stages.length) {
               askQuestionStage();
             } else {
-              uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
+              uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
+              uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
               showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
               currentIndex++;
               runQuizQuestion();
@@ -96,7 +98,8 @@ export function runQuiz(cards) {
           if (currentStage < stages.length) {
             askQuestionStage();
           } else {
-            uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
+            uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
+            uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
             showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
             currentIndex++;
             runQuizQuestion();
@@ -166,6 +169,9 @@ function renderFillInBlank(correctAnswer, callback) {
       callback(userInput); // Correct, handled in askQuestionStage
     } else {
       strikesLeft--;
+      uiState.questionCompletionTime += 20; // Add 20 seconds penalty for incorrect attempt
+      console.log("uiState.questionCompletionTime", uiState.questionCompletionTime);
+
       updateStrikeCounter();
       if (strikesLeft <= 0) {
         // Out of strikes, auto-advance

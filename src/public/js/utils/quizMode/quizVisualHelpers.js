@@ -3,7 +3,6 @@
 import uiElements from "../../uiElements.js";
 import uiState from "../../uiState.js";
 import { imageCoordsToPercent } from '../coordinateConverter.js';
-import { renderMenu } from "../menuConstruction/renderMenuMain.js";
 import { updateImageTransform } from "../zoomOrPanImage.js";
 
 export function handlQuizCardVisual(card) {

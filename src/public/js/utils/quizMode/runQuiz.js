@@ -56,7 +56,7 @@ export function runQuiz(cards) {
             } else {
               // Question complete: calculate duration
               uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
-              showFeedbackMessage(`Question time: ${uiState.questionCompletionTime}s`);
+              showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
               currentIndex++;
               runQuizQuestion();
             }
@@ -67,7 +67,7 @@ export function runQuiz(cards) {
               askQuestionStage();
             } else {
               uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
-              showFeedbackMessage(`Question time: ${uiState.questionCompletionTime}s`);
+              showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
               currentIndex++;
               runQuizQuestion();
             }
@@ -88,7 +88,7 @@ export function runQuiz(cards) {
             askQuestionStage();
           } else {
             uiState.questionCompletionTime = ((Date.now() - questionStartTime) / 1000).toFixed(2);
-            showFeedbackMessage(`Question time: ${uiState.questionCompletionTime}s`);
+            showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
             currentIndex++;
             runQuizQuestion();
           }

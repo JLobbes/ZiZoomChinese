@@ -94,20 +94,24 @@ export function generateChoices(allCards, fieldKey, correctValue, count) {
   return shuffleArray(choices); // shuffle so correct isn't always last
 }
 
-export function showFeedbackMessage(text) {
-  const container = uiElements.quizOperationFeedback;
-  if (!container) return;
-
+export function showFeedbackMessage(message, delay = 0) {
+  console.log('delay:', delay);
+  const feedbackDiv = document.getElementById('quizOperationFeedback');
   const msg = document.createElement('div');
   msg.className = 'quiz-feedback-message';
-  msg.textContent = text;
+  msg.textContent = message;
 
-  container.appendChild(msg);
+  // Randomize horizontal position (between 10% and 80%)
+  const leftPercent = 10 + Math.random() * 70;
+  msg.style.left = `${leftPercent}%`;
+  msg.style.transform = `translateX(-50%)`;
 
-  // Remove after animation completes (2s)
-  msg.addEventListener('animationend', () => {
-    msg.remove();
-  });
+  setTimeout(() => {
+    feedbackDiv.appendChild(msg);
+    setTimeout(() => {
+      msg.remove();
+    }, 3000);
+  }, delay);
 }
 
 export function closeDownQuizMode() {

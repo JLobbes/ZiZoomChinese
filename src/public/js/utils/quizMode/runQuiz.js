@@ -69,12 +69,7 @@ export function runQuiz(cards) {
             if (currentStage < stages.length) {
               askQuestionStage();
             } else {
-              // Question complete: calculate duration
-              uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
-              uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
-              showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}+s`, 1000);
-              currentIndex++;
-              runQuizQuestion();
+              completeQuestionAndContinue(questionStartTime, true);
             }
           } else if (userInput === null) {
             // Out of strikes, advance
@@ -82,11 +77,7 @@ export function runQuiz(cards) {
             if (currentStage < stages.length) {
               askQuestionStage();
             } else {
-              uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
-              uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
-              showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
-              currentIndex++;
-              runQuizQuestion();
+              completeQuestionAndContinue(questionStartTime);
             }
           } else {
             showFeedbackMessage('❌ Try Again!');
@@ -104,11 +95,7 @@ export function runQuiz(cards) {
           if (currentStage < stages.length) {
             askQuestionStage();
           } else {
-            uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
-            uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
-            showFeedbackMessage(`⏱️ ${uiState.questionCompletionTime}s`, 1000);
-            currentIndex++;
-            runQuizQuestion();
+            completeQuestionAndContinue(questionStartTime);
           }
         } else {
           showFeedbackMessage('❌ Try Again!');
@@ -116,6 +103,17 @@ export function runQuiz(cards) {
         }
       });
     }
+  }
+
+  function completeQuestionAndContinue(questionStartTime, showPlus = false) {
+    uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
+    uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
+    showFeedbackMessage(
+      `⏱️ ${uiState.questionCompletionTime}${showPlus ? '+' : ''}s`,
+      1000
+    );
+    currentIndex++;
+    runQuizQuestion();
   }
 }
 

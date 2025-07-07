@@ -59,7 +59,6 @@ function initMouseEvents() {
   document.addEventListener('mousedown', e => {
     // Prevent pan/selection while filling in blank
     if (e.target.id =='fillQuizBlankInput' || e.target.closest('#fillQuizBlankInput')) {
-      console.log('Preventing pan/selection while filling in quiz blank');
       uiState.userFillingInQuizBlank = true;
       return;
     }

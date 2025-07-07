@@ -12,6 +12,11 @@ export function runQuiz(cards) {
   uiState.quizRunning = true;
   uiElements.infoDisplayContainer.classList.add('quizRunning');
   uiState.scale = 1;
+  
+  if (uiState.quizPresenterMode) {
+    document.getElementById('options-container').classList.add('presenterMode');
+    uiElements.infoDisplayContainer.classList.add('presenterMode');
+  }
 
   // Show and initialize the counter
   uiElements.quizProgressCounter.style.display = 'block';

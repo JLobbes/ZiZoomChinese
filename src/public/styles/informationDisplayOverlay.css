@@ -59,6 +59,9 @@
 #informationDisplay-Container.quizRunning {
   height: 25vh;
 }
+#informationDisplay-Container.presenterMode {
+  height: 35vh;
+}
 
 #flashcardData-Popup {
   display: none;

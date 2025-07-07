@@ -40,7 +40,7 @@
   margin-top: 10px;
   border: 2px solid #111;
   border-radius: 15px;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
   cursor: pointer;
   z-index: 9999;
@@ -84,11 +84,17 @@
   gap: 1em;
 }
 
+#options-container.presenterMode button {
+  padding: 20px 25px;
+  border-radius: 50px;
+  font-size: 50px;
+}
+
 #quizOperationFeedback {
   position: absolute;
   top: 0px;
   left: 0;
-  width: 100%;      /* Make it full width */
+  width: 100%;
   height: 0px;
   overflow: visible;
   pointer-events: none;

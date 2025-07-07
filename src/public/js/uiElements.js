@@ -66,6 +66,7 @@ const uiElements = {
   quizOperationFeedback: document.getElementById('quizOperationFeedback'),  
 
   multipleChoiceQuizContainer: document.getElementById('multipleChoiceQuizContainer'),
+  quizOptionsContainer: document.getElementById('options-container'),
   quizOptionOne: document.getElementById('option-one'),
   quizOptionTwo: document.getElementById('option-two'),
   quizOptionThree: document.getElementById('option-three'),
@@ -86,6 +87,7 @@ const uiElements = {
   toggleTrickyPinyin: document.getElementById('toggleTrickyPinyin'),
   toggleFillInTheBlank: document.getElementById('toggleFillInTheBlank'),
   toggleOCR: document.getElementById('toggleOCR'), 
+  toggleQuizPresenterMode: document.getElementById('toggleQuizPresenterMode'),
 
   // ==== View Decks Overlay ====
 

@@ -9,7 +9,8 @@ export function openSettingsOverlay() {
   uiElements.togglePinyin.checked = uiState.includePinyin;
   uiElements.toggleTrickyPinyin.checked = uiState.trickyPinyin;
   uiElements.toggleOCR.checked = uiState.enableOCR;
-  uiElements.toggleFillInTheBlank.checked = uiState.fillInTheBlank; // <-- Add this line
+  uiElements.toggleFillInTheBlank.checked = uiState.fillInTheBlank;
+  uiElements.toggleQuizPresenterMode.checked = uiState.quizPresenterMode; // <-- Add this line
   // Call after overlay is visible and all elements are in DOM
   updateToggleStatus();
 }
@@ -31,8 +32,11 @@ export function applyPersistedSettings() {
   if (typeof persisted.enableOCR === 'boolean') {
     uiState.enableOCR = persisted.enableOCR;
   }
-  if (typeof persisted.fillInTheBlank === 'boolean') { // <-- Add this block
+  if (typeof persisted.fillInTheBlank === 'boolean') {
     uiState.fillInTheBlank = persisted.fillInTheBlank;
+  }
+  if (typeof persisted.quizPresenterMode === 'boolean') {
+    uiState.quizPresenterMode = persisted.quizPresenterMode;
   }
   // Add more settings here as needed
 }
@@ -50,6 +54,9 @@ function updateToggleStatus() {
 
   const fillInBlankStatusSpan = document.getElementById('toggleFillInTheBlankStatus');
   fillInBlankStatusSpan.textContent = uiState.fillInTheBlank ? 'On' : 'Off';
+
+  const presenterModeStatusSpan = document.getElementById('toggleQuizPresenterModeStatus');
+  presenterModeStatusSpan.textContent = uiState.quizPresenterMode ? 'On' : 'Off';
 }
 
 // Helper to gather current settings and save them
@@ -59,7 +66,7 @@ function saveCurrentSettings() {
     trickyPinyin: uiState.trickyPinyin,
     fillInTheBlank: uiState.fillInTheBlank, 
     enableOCR: uiState.enableOCR,
-    // Add more settings here as needed
+    quizPresenterMode: uiState.quizPresenterMode, 
   });
 }
 
@@ -80,8 +87,15 @@ uiElements.toggleFillInTheBlank.onchange = (e) => {
   saveCurrentSettings();
   updateToggleStatus();
 };
+
 uiElements.toggleOCR.onchange = (e) => {
   uiState.enableOCR = e.target.checked;
+  saveCurrentSettings();
+  updateToggleStatus();
+};
+
+uiElements.toggleQuizPresenterMode.onchange = (e) => { 
+  uiState.quizPresenterMode = e.target.checked;
   saveCurrentSettings();
   updateToggleStatus();
 };

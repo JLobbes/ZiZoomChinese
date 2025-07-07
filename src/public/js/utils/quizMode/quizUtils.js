@@ -2,12 +2,13 @@
 
 import uiElements from "../../uiElements.js";
 import uiState from "../../uiState.js";
-import { removeOldCropBoxes } from "./quizVisualHelpers.js";
 
+/** Shuffle an array in place. */
 export function shuffleArray(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
+/** Generate plausible pinyin variations for tricky mode. */
 function getPlausiblePinyinVariations(originalPinYin) {
   const toneVariations = {
     'ā': ['á', 'ǎ', 'à', 'ā'],
@@ -41,20 +42,14 @@ function getPlausiblePinyinVariations(originalPinYin) {
   };
 
   const targetVowels = [];
-
-  // Identify and store target vowels
   for (let i = 0; i < originalPinYin.length; i++) {
     const char = originalPinYin[i];
     if (toneVariations[char]) {
       targetVowels.push({ character: char, index: i });
     }
   }
-
   let alteredPinYin = originalPinYin;
-
-  // Perform tone swaps
-  if (targetVowels.length === 0) return originalPinYin; // No tones to swap
-
+  if (targetVowels.length === 0) return originalPinYin;
   do {
     alteredPinYin = originalPinYin.split('');
     for (const vowel of targetVowels) {
@@ -66,65 +61,29 @@ function getPlausiblePinyinVariations(originalPinYin) {
     }
     alteredPinYin = alteredPinYin.join('');
   } while (alteredPinYin === originalPinYin);
-
   return alteredPinYin;
 }
 
+/** Generate choices for a quiz question. */
 export function generateChoices(allCards, fieldKey, correctValue, count) {
-  // Special logic for PINYIN field with includePinyin enabled
   if (uiState.trickyPinyin && fieldKey.toUpperCase() === "PINYIN") {
     const choices = new Set();
     choices.add(correctValue);
-
     while (choices.size < count) {
       const variation = getPlausiblePinyinVariations(correctValue);
       choices.add(variation);
     }
-
     return shuffleArray(Array.from(choices));
   }
-
-  // Default logic for other fields
   const pool = allCards
     .map(c => c[`FLASHCARD_${fieldKey}`])
     .filter(v => v && v !== correctValue);
-
   const shuffledPool = shuffleArray(pool);
   const choices = [...shuffledPool.slice(0, count - 1), correctValue];
-  return shuffleArray(choices); // shuffle so correct isn't always last
+  return shuffleArray(choices);
 }
 
-export function showFeedbackMessage(message, delay = 0) {
-  const feedbackDiv = document.getElementById('quizOperationFeedback');
-  const msg = document.createElement('div');
-  msg.className = 'quiz-feedback-message';
-  msg.textContent = message;
-
-  // Randomize horizontal position (between 10% and 80%)
-  const leftPercent = 10 + Math.random() * 70;
-  msg.style.left = `${leftPercent}%`;
-  msg.style.transform = `translateX(-50%)`;
-
-  setTimeout(() => {
-    feedbackDiv.appendChild(msg);
-    setTimeout(() => {
-      msg.remove();
-    }, 3000);
-  }, delay);
-}
-
-export function closeDownQuizMode() {
-  uiState.quizModeOn = false; 
-  uiState.quizRunning = false; 
-  uiState.deckToQuiz = null;
-
-  uiState.scale = 1;
-  uiElements.quizUI.style.display = 'none';
-  uiElements.chooseDeckToQuizContainer.style.display = 'none';
-  uiElements.infoDisplayContainer.classList.remove('quizRunning');
-  uiElements.infoDisplayContainer.style.display = 'none';
-  uiElements.quizProgressCounter.style.display = 'none';
-
-  uiElements.viewedImg.src = '';
-  removeOldCropBoxes();
+/** Update the quiz progress counter. */
+export function updateQuizCounter(current, total) {
+  uiElements.quizProgressCounter.textContent = `${current}`;
 }

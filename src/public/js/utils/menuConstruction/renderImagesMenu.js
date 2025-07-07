@@ -7,7 +7,7 @@ import { getImages } from '../../api/getImages.js';
 import { createMenuItem, appendAddSubfolderBtn } from './menuHelpers.js';
 import { fetchFlashcardsData } from '../../api/getFlashcards.js';
 import { displayFlashcardGhosts } from '../../utils/displayFlashcardGhosts.js';
-import { closeDownQuizMode } from '../quizMode/quizUtils.js';
+import { closeDownQuizMode } from '../quizMode/quizVisualHelpers.js';
 import { updateImageTransform } from '../zoomOrPanImage.js';
 
 export async function renderImageSection(container) {

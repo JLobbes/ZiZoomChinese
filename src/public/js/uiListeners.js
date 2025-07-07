@@ -12,7 +12,7 @@ import {
 import { handlePinyinKeydown, createPinyinKeyboard } from './utils/flashcardCreation/createPinYinKeyboard.js';
 
 import { closeFlashcardCreationOverlay } from './utils/flashcardCreation/createFlashcardMain.js';
-import { closeDownQuizMode } from './utils/quizMode/quizUtils.js';
+import { closeDownQuizMode } from './utils/quizMode/quizVisualHelpers.js';
 import { closeSettingsOverlay } from './utils/userSettings/settingsMain.js';
 import { closeViewDecksOverlay } from './utils/viewDecks/viewDecksOverlays.js';
 

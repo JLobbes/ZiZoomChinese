@@ -85,6 +85,7 @@ const uiElements = {
   exitSettingsBtn: document.getElementById('exitSettingsBtn'),
   togglePinyin: document.getElementById('togglePinyin'),
   toggleTrickyPinyin: document.getElementById('toggleTrickyPinyin'),
+  togglePerformanceAdaptiveReview: document.getElementById('togglePerformanceAdaptiveReview'),
   toggleFillInTheBlank: document.getElementById('toggleFillInTheBlank'),
   toggleOCR: document.getElementById('toggleOCR'), 
   toggleQuizPresenterMode: document.getElementById('toggleQuizPresenterMode'),

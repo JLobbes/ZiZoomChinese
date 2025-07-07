@@ -51,6 +51,7 @@ const uiState = {
 
   includePinyin: true,
   trickyPinyin: true,
+  performanceAdaptiveReview: true, // Sort cards by last review duration
   fillInTheBlank: true,
   centerCropBoxHorizontally: false,
   enableOCR: true, 

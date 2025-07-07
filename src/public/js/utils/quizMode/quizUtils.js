@@ -3,8 +3,13 @@
 import uiElements from "../../uiElements.js";
 import uiState from "../../uiState.js";
 
-/** Shuffle an array in place. */
 export function shuffleArray(arr) {
+  if (uiState.performanceAdaptiveReview) {
+    // Sort descending by FLASHCARD_LAST_REVIEW_DURATION (highest first)
+    return arr.slice().sort((a, b) => 
+      (b.FLASHCARD_LAST_REVIEW_DURATION || 0) - (a.FLASHCARD_LAST_REVIEW_DURATION || 0)
+    );
+  }
   return arr.sort(() => Math.random() - 0.5);
 }
 

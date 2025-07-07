@@ -10,6 +10,7 @@ import {
   showFeedbackMessage,
   closeDownQuizMode
 } from "./quizVisualHelpers.js";
+import { updateCardInDatabase } from "../../api/updateFlashcard.js";
 
 export function runQuiz(cards) {
   uiState.quizRunning = true;
@@ -110,9 +111,25 @@ export function runQuiz(cards) {
       `⏱️ ${uiState.questionCompletionTime}${showPlus ? '+' : ''}s`,
       1000
     );
+    pushNewFlashCardDuration(shuffledCards[currentIndex], uiState.questionCompletionTime);
     currentIndex++;
     runQuizQuestion();
   }
+}
+
+function pushNewFlashCardDuration(card, duration) {
+  const newDurationInMilliseconds = duration * 1000; 
+  const previousDuration = card.FLASHCARD_LAST_REVIEW_DURATION || 0;
+  const alpha = 0.2; // recent value weight — increase to make it more responsive
+
+  const exponentialMovingAverage = Math.floor(previousDuration * (1 - alpha) + newDurationInMilliseconds * alpha);
+
+  console.log('Old Duration:', (previousDuration / 1000).toFixed(2), 'New Duration:', (exponentialMovingAverage / 1000).toFixed(2));
+
+  card.FLASHCARD_LAST_REVIEW_DURATION = Number(exponentialMovingAverage.toFixed(2));
+
+  // TO-DO: Create dedicated API call for updating card duration ALONE, currently updating the whole card
+  updateCardInDatabase(card); // API call
 }
 
 function renderChoices(choices, callback) {

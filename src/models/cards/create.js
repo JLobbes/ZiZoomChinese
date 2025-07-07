@@ -34,7 +34,7 @@ async function createFlashcard(flashcard) {
       flashcard.imageSnippit.width, 
       flashcard.imageSnippit.height,
       null, // FLASHCARD_LAST_REVIEWED
-      null  // FLASHCARD_LAST_REVIEW_DURATION
+      Number(500000)  // FLASHCARD_LAST_REVIEW_DURATION, start outrageusly high to force first review
     ];
 
     const result = await conn.query(query, values);

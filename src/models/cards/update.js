@@ -18,7 +18,9 @@ async function updateFlashcard(flashcard) {
         FLASHCARD_CROP_X = ?,
         FLASHCARD_CROP_Y = ?,
         FLASHCARD_CROP_WIDTH = ?,
-        FLASHCARD_CROP_HEIGHT = ?
+        FLASHCARD_CROP_HEIGHT = ?,
+        FLASHCARD_LAST_REVIEWED = ?,
+        FLASHCARD_LAST_REVIEW_DURATION = ?
       WHERE FLASHCARD_ID = ?`; 
 
     const values = [
@@ -31,6 +33,8 @@ async function updateFlashcard(flashcard) {
       flashcard.FLASHCARD_CROP_Y,
       flashcard.FLASHCARD_CROP_WIDTH,
       flashcard.FLASHCARD_CROP_HEIGHT,
+      flashcard.FLASHCARD_LAST_REVIEWED,
+      flashcard.FLASHCARD_LAST_REVIEW_DURATION,
       flashcard.FLASHCARD_ID 
     ];
 

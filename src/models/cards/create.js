@@ -20,14 +20,11 @@ async function createFlashcard(flashcard) {
         FLASHCARD_CROP_WIDTH, 
         FLASHCARD_CROP_HEIGHT,
         FLASHCARD_LAST_REVIEWED, 
-        FLASHCARD_NEXT_REVIEW,
-        FLASHCARD_REVIEW_COUNT, 
-        FLASHCARD_INCORRECT_COUNT,
-        FLASHCARD_EASE_FACTOR
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        FLASHCARD_LAST_REVIEW_DURATION
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
-      flashcard.deckID, // Default deck is 'Decks' 
+      flashcard.deckID,
       flashcard.rear,
       flashcard.front, 
       flashcard.pinyin,
@@ -36,11 +33,8 @@ async function createFlashcard(flashcard) {
       flashcard.imageSnippit.y,
       flashcard.imageSnippit.width, 
       flashcard.imageSnippit.height,
-      null, 
-      null,
-      null, 
-      null,
-      null,
+      null, // FLASHCARD_LAST_REVIEWED
+      null  // FLASHCARD_LAST_REVIEW_DURATION
     ];
 
     const result = await conn.query(query, values);

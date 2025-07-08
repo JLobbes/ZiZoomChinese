@@ -35,6 +35,8 @@ export function renderDeckSelection(container, decks, onSelect) {
         // Highlight if selected
         if (selectedDeckId === deck.DECK_ID) {
           deckTile.classList.add('selected-deck');
+
+          // TO-DO: Nothing happens here, diag and clean house
         }
 
         // Decide whether to go in or select
@@ -76,6 +78,7 @@ export function renderDeckSelection(container, decks, onSelect) {
 
       if (selectedDeckId === deck.DECK_ID) {
         parentTile.classList.add('selected-deck');
+        addEditButton(parentTile, deck);
       }
 
       parentTile.onclick = () => {
@@ -101,6 +104,7 @@ export function renderDeckSelection(container, decks, onSelect) {
 
             if (selectedDeckId === child.DECK_ID) {
               childTile.classList.add('selected-deck');
+              addEditButton(childTile, child);
             }
 
             childTile.onclick = () => {
@@ -125,5 +129,14 @@ export function renderDeckSelection(container, decks, onSelect) {
     }
   }
 
+  function addEditButton(deckTile, deck) {
+    // --- Add edit button ---
+    const editBtn = document.createElement('button');
+    editBtn.textContent = '✎';
+    editBtn.title = 'Edit Deck';
+    editBtn.className = 'deck-edit-btn';
+    // TODO: Add edit handler here
+    deckTile.appendChild(editBtn);
+  }
   render();
 }

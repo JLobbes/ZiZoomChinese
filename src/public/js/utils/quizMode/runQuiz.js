@@ -1,9 +1,10 @@
 import uiState from "../../uiState.js";
 import uiElements from "../../uiElements.js";
 import { 
-  shuffleArray, 
+  // shuffleArray, 
   generateChoices, 
-  updateQuizCounter
+  updateQuizCounter,
+  getPerformanceAdaptiveStack
 } from "./quizUtils.js";
 import {  
   handlQuizCardVisual,
@@ -25,7 +26,7 @@ export function runQuiz(cards) {
   uiElements.quizProgressCounter.style.display = 'block';
   updateQuizCounter(0, cards.length);
 
-  const shuffledCards = shuffleArray([...cards]);
+  const shuffledCards = getPerformanceAdaptiveStack([...cards], 100);
   let currentIndex = 0;
 
   runQuizQuestion();

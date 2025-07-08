@@ -3,14 +3,42 @@
 import uiElements from "../../uiElements.js";
 import uiState from "../../uiState.js";
 
-export function shuffleArray(arr) {
+
+export function getPerformanceAdaptiveStack(cards, quantity) {
   if (uiState.performanceAdaptiveReview) {
-    // Sort descending by FLASHCARD_LAST_REVIEW_DURATION (highest first)
-    return arr.slice().sort((a, b) => 
-      (b.FLASHCARD_LAST_REVIEW_DURATION || 0) - (a.FLASHCARD_LAST_REVIEW_DURATION || 0)
-    );
+    // Get half from hardest (by review duration), half random, no duplicates
+    const half = Math.floor(quantity / 2);
+    const sorted = sortCardsByReviewDuration(cards);
+    const hardest = sorted.slice(0, half);
+
+    // Remove already picked cards from pool for random selection
+    const hardestIds = new Set(hardest.map(card => card.FLASHCARD_ID));
+    const remaining = cards.filter(card => !hardestIds.has(card.FLASHCARD_ID));
+    const randoms = shuffleArray(remaining).slice(0, quantity - hardest.length);
+
+    // Combine and shuffle the final stack
+    const combined = hardest.concat(randoms);
+    return shuffleArray(combined);
+  } else {
+    // Pure random selection
+    return shuffleArray(cards);
   }
-  return arr.sort(() => Math.random() - 0.5);
+}  
+
+export function sortCardsByReviewDuration(cards) {
+  // Sort descending by FLASHCARD_LAST_REVIEW_DURATION (highest first)
+  return cards.slice().sort((a, b) => 
+    (b.FLASHCARD_LAST_REVIEW_DURATION || 0) - (a.FLASHCARD_LAST_REVIEW_DURATION || 0)
+  );
+}
+
+export function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 /** Generate plausible pinyin variations for tricky mode. */

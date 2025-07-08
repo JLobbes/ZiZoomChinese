@@ -1,4 +1,5 @@
 .deck-breadcrumb-container-vertical {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,7 +7,14 @@
   padding: 6px 0;
 }
 
+.deck-breadcrumb-container-vertical .deck-edit-btn {
+  position: absolute;
+  right: 1em;
+
+}
+
 .deck-tile-vertical {
+  position: relative;
   min-width: 6em;
   width: fit-content;
   padding: 6px 12px;
@@ -51,6 +59,7 @@
 }
 
 .deck-children-scroll-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

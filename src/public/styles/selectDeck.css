@@ -1,4 +1,7 @@
-.deck-breadcrumb-container-vertical {
+/* ===========================
+   Main Deck List Container
+   =========================== */
+.deck-list-container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -7,13 +10,10 @@
   padding: 6px 0;
 }
 
-.deck-breadcrumb-container-vertical .deck-edit-btn {
-  position: absolute;
-  right: 1em;
-
-}
-
-.deck-tile-vertical {
+/* ===========================
+   Deck Tile Styles
+   =========================== */
+.deck-tile {
   position: relative;
   min-width: 6em;
   width: fit-content;
@@ -27,29 +27,41 @@
   transition: background 0.2s;
 }
 
-.deck-nav-parent-vertical {
+/* Highlight for selected deck */
+.deck-tile.selected {
+  border: 2px solid rgb(255, 28, 187);
+}
+
+/* ===========================
+   Parent Deck Styles
+   =========================== */
+.deck-parent {
   background: #b2ebf2;
   border-color: #111;
   margin-bottom: 4px;
 }
-
-.deck-nav-parent-vertical:hover {
+.deck-parent:hover {
   background: #499ca7;
   border: 2px solid #fff;
   color: #fff;
 }
 
-.deck-nav-child-vertical {
+/* ===========================
+   Child Deck Styles
+   =========================== */
+.deck-child {
   border-width: 2px;
 }
-
-.deck-nav-child-vertical:hover {
+.deck-child:hover {
   background: #499ca7;
   border: 2px solid #fff;
   color: #fff;
 }
 
-.deck-nav-arrow-vertical {
+/* ===========================
+   Back Button
+   =========================== */
+.deck-back-btn {
   font-size: 18px;
   cursor: pointer;
   user-select: none;
@@ -58,7 +70,10 @@
   font-weight: normal;
 }
 
-.deck-children-scroll-container {
+/* ===========================
+   Children Scroll Container
+   =========================== */
+.deck-children-scroll {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -68,21 +83,24 @@
   gap: 8px;
 }
 
-.deck-children-scroll-container::-webkit-scrollbar {
+/* Custom scrollbar */
+.deck-children-scroll::-webkit-scrollbar {
   width: 4px;
 }
-
-.deck-children-scroll-container::-webkit-scrollbar-track {
+.deck-children-scroll::-webkit-scrollbar-track {
   background-color: #b2ebf2;
   border-radius: 10px;
 }
-
-.deck-children-scroll-container::-webkit-scrollbar-thumb {
+.deck-children-scroll::-webkit-scrollbar-thumb {
   background-color: #326b72;
   border-radius: 10px;
   width: 4px;
 }
 
-.selected-deck {
-  border: 2px solid rgb(255, 28, 187);
+/* ===========================
+   Edit Button
+   =========================== */
+.deck-edit-btn {
+  position: absolute;
+  right: 1em;
 }

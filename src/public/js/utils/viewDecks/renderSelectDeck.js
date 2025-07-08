@@ -23,29 +23,27 @@ export function renderDeckSelection(container, decks, onSelect) {
 
   function render() {
     container.innerHTML = '';
-    container.className = 'deck-breadcrumb-container-vertical';
+    container.className = 'deck-list-container';
 
     if (!currentDeck) {
       // At root: show all top-level decks as vertical list
       root.forEach(deck => {
         const deckTile = document.createElement('div');
-        deckTile.className = 'deck-nav-parent-vertical deck-tile-vertical';
+        deckTile.className = 'deck-parent deck-tile';
         deckTile.textContent = deck.DECK_NAME;
 
         // Highlight if selected
         if (selectedDeckId === deck.DECK_ID) {
-          deckTile.classList.add('selected-deck');
-
+          deckTile.classList.add('selected');
           // TO-DO: Nothing happens here, diag and clean house
         }
 
-        // Decide whether to go in or select
         deckTile.onclick = () => {
           const deckInMap = deckMap.get(deck.DECK_ID);
           if (deckInMap.children.length > 0) {
             currentDeck = deck.DECK_ID;
-            selectedDeckId = deck.DECK_ID; // Auto-select parent
-            onSelect(deck.DECK_ID, deck.DECK_NAME); // Auto-select parent
+            selectedDeckId = deck.DECK_ID;
+            onSelect(deck.DECK_ID, deck.DECK_NAME);
             render();
           } else {
             selectedDeckId = deck.DECK_ID;
@@ -64,7 +62,7 @@ export function renderDeckSelection(container, decks, onSelect) {
       // Up arrow
       const upArrow = document.createElement('div');
       upArrow.textContent = '← Back';
-      upArrow.className = 'deck-nav-arrow-vertical';
+      upArrow.className = 'deck-back-btn';
       upArrow.onclick = () => {
         currentDeck = parentDeck ? parentDeck.DECK_ID : null;
         render();
@@ -73,11 +71,11 @@ export function renderDeckSelection(container, decks, onSelect) {
 
       // Parent tile (select current deck)
       const parentTile = document.createElement('div');
-      parentTile.className = 'deck-nav-parent-vertical deck-tile-vertical';
+      parentTile.className = 'deck-parent deck-tile';
       parentTile.textContent = deck.DECK_NAME;
 
       if (selectedDeckId === deck.DECK_ID) {
-        parentTile.classList.add('selected-deck');
+        parentTile.classList.add('selected');
         addEditButton(parentTile, deck);
       }
 
@@ -91,19 +89,18 @@ export function renderDeckSelection(container, decks, onSelect) {
       // Children (if any)
       if (deck.children.length > 0) {
         const scrollContainer = document.createElement('div');
-        scrollContainer.className = 'deck-children-scroll-container';
+        scrollContainer.className = 'deck-children-scroll';
 
-        // Sort children alphabetically before rendering
         deck.children
-          .slice() // copy to avoid mutating original
+          .slice()
           .sort((a, b) => a.DECK_NAME.localeCompare(b.DECK_NAME))
           .forEach(child => {
             const childTile = document.createElement('div');
-            childTile.className = 'deck-nav-child-vertical deck-tile-vertical';
+            childTile.className = 'deck-child deck-tile';
             childTile.textContent = child.DECK_NAME;
 
             if (selectedDeckId === child.DECK_ID) {
-              childTile.classList.add('selected-deck');
+              childTile.classList.add('selected');
               addEditButton(childTile, child);
             }
 
@@ -111,8 +108,8 @@ export function renderDeckSelection(container, decks, onSelect) {
               const childDeck = deckMap.get(child.DECK_ID);
               if (childDeck.children.length > 0) {
                 currentDeck = child.DECK_ID;
-                selectedDeckId = child.DECK_ID; // Auto-select parent
-                onSelect(child.DECK_ID, child.DECK_NAME); // Auto-select parent
+                selectedDeckId = child.DECK_ID;
+                onSelect(child.DECK_ID, child.DECK_NAME);
                 render();
               } else {
                 selectedDeckId = child.DECK_ID;

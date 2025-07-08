@@ -11,7 +11,7 @@ import {
   showFeedbackMessage,
   closeDownQuizMode
 } from "./quizVisualHelpers.js";
-import { updateCardInDatabase } from "../../api/updateFlashcard.js";
+import { updateReviewDurationInDatabase } from "../../api/updateFlashcard.js";
 
 export function runQuiz(cards) {
   uiState.quizRunning = true;
@@ -129,8 +129,7 @@ function pushNewFlashCardDuration(card, duration) {
 
   card.FLASHCARD_LAST_REVIEW_DURATION = Number(exponentialMovingAverage.toFixed(2));
 
-  // TO-DO: Create dedicated API call for updating card duration ALONE, currently updating the whole card
-  updateCardInDatabase(card); // API call
+  updateReviewDurationInDatabase(card.FLASHCARD_ID, card.FLASHCARD_LAST_REVIEW_DURATION); // API call
 }
 
 function renderChoices(choices, callback) {

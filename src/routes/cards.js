@@ -2,10 +2,11 @@
 
 const express = require('express');
 const { createFlashcard } = require('../models/cards/create');
-const { updateFlashcard } = require('../models/cards/update'); // Add this import
-const { deleteFlashcard } = require('../models/cards/delete'); // <-- Add this import
+const { updateFlashcard } = require('../models/cards/update'); 
+const { deleteFlashcard } = require('../models/cards/delete'); 
 const { getCardsRecursive } = require('../models/cards/read_by_deck_recursive');
 const { readByImgPath } = require('../models/cards/read_by_imgPath');
+const { updateFlashcardReviewDuration } = require('../models/cards/update_review_duration');
 
 const router = express.Router();
 
@@ -54,6 +55,25 @@ router.put('/update', async (req, res) => {
   } catch (err) {
     console.error('Error updating flashcard:', err);
     res.status(500).json({ error: 'Failed to update flashcard' });
+  }
+});
+
+router.put('/update_review_duration', async (req, res) => {
+  try {
+    const { flashcardId, duration } = req.body;
+    console.log('Updating flashcard duration:', 'Card:', flashcardId, 'New Duration:', duration);
+    if (!flashcardId || typeof duration !== 'number') {
+      return res.status(400).json({ success: false, error: 'Missing flashcardId or duration' });
+    }
+    const updated = await updateFlashcardReviewDuration(flashcardId, duration); 
+    if (updated) {
+      res.status(200).json({ success: true, flashcardId });
+    } else {
+      res.status(404).json({ success: false, error: 'Flashcard not found' });
+    }
+  } catch (err) {
+    console.error('Error updating flashcard duration:', err);
+    res.status(500).json({ error: 'Failed to update flashcard duration' });
   }
 });
 

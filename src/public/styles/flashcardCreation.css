@@ -104,20 +104,6 @@
   font-size: 18px;
 }
 
-/* .flashcardForm-Container button { 
-  background: #fff;
-  padding: 6px 12px;
-  margin: 0.5em 0 0 0;
-  border: 2px solid #111;
-  border-radius: 15px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 9999;
-  font-family: sans-serif;
-  user-select: none;
-} */
-
 #flashcardCreation-buttonWrapper {
   display: flex;
   flex-direction: row;

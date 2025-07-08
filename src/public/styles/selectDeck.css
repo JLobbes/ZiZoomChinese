@@ -4,6 +4,7 @@
 .deck-list-container {
   position: relative;
   display: flex;
+  min-width: 10em;
   flex-direction: column;
   align-items: center;
   gap: 8px;
@@ -15,7 +16,7 @@
    =========================== */
 .deck-tile {
   position: relative;
-  min-width: 6em;
+  min-width: 8em;
   width: fit-content;
   padding: 6px 12px;
   background: #fff;
@@ -79,13 +80,16 @@
   flex-direction: column;
   align-items: center;
   max-height: 5em;
+  min-width: 16em;
   overflow-y: auto;
+  overflow-x: visible;
   gap: 8px;
 }
 
 /* Custom scrollbar */
 .deck-children-scroll::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 .deck-children-scroll::-webkit-scrollbar-track {
   background-color: #b2ebf2;
@@ -100,7 +104,83 @@
 /* ===========================
    Edit Button
    =========================== */
-.deck-edit-btn {
+.deck-tile #deck-edit-btn {
   position: absolute;
-  right: 1em;
+  right: -1.7em;
+  top: 0;
+  margin: 0 0 0 0; 
+  padding: 0 0.2em;
+  background: none;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.5em;
+  font-weight: normal;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.deck-tile #deck-edit-btn:hover {
+  background-color: #fff;
+  color: #111;
+  transition: background 0.2s;
+}
+
+/* ===========================
+   Deck Edit Popup Styles
+   =========================== */
+.deck-edit-popup {
+  position: absolute;
+  top: 2.2em;
+  right: 0;
+  z-index: 1000;
+  background: #222;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  padding: 0.5em 1em;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.deck-edit-popup .deck-edit-btn,
+.deck-edit-popup .deck-cancel-btn,
+.deck-edit-popup .deck-delete-btn,
+.deck-edit-popup .deck-save-btn {
+  background: none;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0 0.2em;
+  font-size: 1.5em;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.deck-edit-popup .deck-edit-btn:hover,
+.deck-edit-popup .deck-cancel-btn:hover,
+.deck-edit-popup .deck-delete-btn:hover,
+.deck-edit-popup .deck-save-btn:hover {
+  background-color: #fff;
+  color: #111;
+  transition: background 0.2s;
+}
+
+.deck-edit-popup .deck-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2em 0.3em;
+}
+
+.deck-edit-popup .deck-delete-btn svg {
+  display: inline-block;
+  vertical-align: unset;
+  fill: #fff;
+  transition: fill 0.2s;
+}
+
+.deck-edit-popup .deck-delete-btn:hover svg {
+  fill: #111;
 }

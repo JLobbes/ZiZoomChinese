@@ -17,7 +17,6 @@ const uiElements = {
   flashcardSnippitPreview: document.getElementById('flashcardSnippitPreview'),
   flashcardDeckSelectionGUI: document.getElementById('flashcardDeckSelectionGUI'),
 
-
   // ==== Flashcard Creation Steps ====
 
   saveDataBtn: document.getElementById('saveDataBtn'), // Also functions as 'next'
@@ -72,6 +71,10 @@ const uiElements = {
   quizOptionThree: document.getElementById('option-three'),
   quizOptionFour: document.getElementById('option-four'),
 
+  presenterNavButtons: document.getElementById('presenterNavButtons'),
+  presenterBackBtn: document.getElementById('presenterBackBtn'),
+  presenterNextBtn: document.getElementById('presenterNextBtn'),
+
   quizProgressCounter: document.getElementById('quizProgressCounter'),
   quizFrontAnswer: document.getElementById('quizFrontAnswer'),
 
@@ -106,7 +109,6 @@ const uiElements = {
   filterNoPinyinBtn: document.getElementById('filterNoPinyinBtn'),
   filterRecentlyAddedBtn: document.getElementById('filterRecentlyAddedBtn'),
   flashcardListWrapper: document.getElementById('flashcardListWrapper'),
-
 
 };
 

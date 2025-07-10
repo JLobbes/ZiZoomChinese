@@ -17,10 +17,13 @@ export function runQuiz(cards) {
   uiState.quizRunning = true;
   uiElements.infoDisplayContainer.classList.add('quizRunning');
   uiState.scale = 1;
-  
+
   if (uiState.quizPresenterMode) {
     document.getElementById('options-container').classList.add('presenterMode');
     uiElements.infoDisplayContainer.classList.add('presenterMode');
+    uiElements.presenterNavButtons.style.display = 'flex';
+  } else {
+    uiElements.presenterNavButtons.style.display = 'none';
   }
 
   uiElements.quizProgressCounter.style.display = 'block';
@@ -28,6 +31,14 @@ export function runQuiz(cards) {
 
   const shuffledCards = getPerformanceAdaptiveStack([...cards], 100);
   let currentIndex = 0;
+  let stages = ['FRONT', ...(uiState.includePinyin ? ['PINYIN'] : []), 'REAR'];
+  let currentStage = 0;
+
+  // --- Memory for choices per card/stage ---
+  // Structure: questionMemory[cardIndex][stageIndex] = { choices: [...], ... }
+  const questionMemory = Array.from({ length: shuffledCards.length }, () =>
+    Array.from({ length: stages.length }, () => ({}))
+  );
 
   runQuizQuestion();
 
@@ -43,8 +54,6 @@ export function runQuiz(cards) {
     updateQuizCounter(currentIndex, shuffledCards.length);
 
     const currentCard = shuffledCards[currentIndex];
-    const stages = ['FRONT', ...(uiState.includePinyin ? ['PINYIN'] : []), 'REAR'];
-    let currentStage = 0;
 
     handlQuizCardVisual(currentCard);
 
@@ -62,6 +71,7 @@ export function runQuiz(cards) {
         uiElements.quizFrontAnswer.textContent = '';
       }
 
+      // --- Fill-in-blank memory not needed, but you could add it if you want ---
       if (field === 'FRONT' && uiState.fillInTheBlank) {
         renderFillInBlank(correctAnswer, (userInput) => {
           if (userInput && userInput.trim() === correctAnswer.trim()) {
@@ -86,7 +96,12 @@ export function runQuiz(cards) {
         return;
       }
 
-      const choices = generateChoices(cards, field, correctAnswer, 4);
+      // --- Use memory for choices ---
+      let memory = questionMemory[currentIndex][currentStage];
+      if (!memory.choices) {
+        memory.choices = generateChoices(cards, field, correctAnswer, 4);
+      }
+      const choices = memory.choices;
 
       renderChoices(choices, (selected) => {
         if (selected === correctAnswer) {
@@ -106,15 +121,41 @@ export function runQuiz(cards) {
   }
 
   function completeQuestionAndContinue(questionStartTime, showPlus = false) {
-    uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
-    uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
-    showFeedbackMessage(
-      `⏱️ ${uiState.questionCompletionTime}${showPlus ? '+' : ''}s`,
-      1000
-    );
-    pushNewFlashCardDuration(shuffledCards[currentIndex], uiState.questionCompletionTime);
+
+    if(uiState.performanceAdaptiveReview) {
+      uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
+      uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
+      showFeedbackMessage(
+        `⏱️ ${uiState.questionCompletionTime}${showPlus ? '+' : ''}s`,
+        1000
+      );
+      pushNewFlashCardDuration(shuffledCards[currentIndex], uiState.questionCompletionTime);
+    }
     currentIndex++;
+    currentStage = 0; // Reset stage for next card
     runQuizQuestion();
+  }
+
+  // --- Presenter navigation ---
+  if (uiState.quizPresenterMode) {
+    uiElements.presenterBackBtn.onclick = () => {
+      if (currentStage > 0) {
+        currentStage--;
+      } else if (currentIndex > 0) {
+        currentIndex--;
+        currentStage = stages.length - 1;
+      }
+      runQuizQuestion();
+    };
+    uiElements.presenterNextBtn.onclick = () => {
+      if (currentStage < stages.length - 1) {
+        currentStage++;
+      } else if (currentIndex < shuffledCards.length - 1) {
+        currentIndex++;
+        currentStage = 0;
+      }
+      runQuizQuestion();
+    };
   }
 }
 

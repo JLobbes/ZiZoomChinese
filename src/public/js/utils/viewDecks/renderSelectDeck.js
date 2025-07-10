@@ -130,11 +130,27 @@ export function renderDeckSelection(container, decks, onSelect) {
     // Remove any existing popup
     document.querySelectorAll('.deck-edit-popup').forEach(p => p.remove());
 
+    // Save original name and content
+    const originalName = deck.DECK_NAME;
+    const originalContent = deckTile.textContent;
+
+    // Remove all children (including edit button)
+    deckTile.innerHTML = '';
+
+    // Create input for editing name
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = originalName;
+    input.id = 'deck-edit-input';
+    input.style.width = '80%';
+    deckTile.appendChild(input);
+    input.focus();
+
     // Create popup
     const popup = document.createElement('div');
     popup.className = 'deck-edit-popup';
 
-    // Example: Add Save, Cancel, Delete buttons
+    // Save, Cancel, Delete buttons
     const saveBtn = document.createElement('button');
     saveBtn.textContent = '✔';
     saveBtn.title = 'Save';
@@ -153,15 +169,23 @@ export function renderDeckSelection(container, decks, onSelect) {
     deleteBtn.title = 'Delete';
     deleteBtn.className = 'deck-delete-btn';
 
-    // Add handlers (implement logic as needed)
+    // Handlers
     saveBtn.onclick = (e) => {
       e.stopPropagation();
-      // TODO: Save logic
+      // TODO: Save logic (e.g., update deck name in backend)
+      deck.DECK_NAME = input.value;
       popup.remove();
+      deckTile.innerHTML = '';
+      deckTile.textContent = deck.DECK_NAME;
+      // Optionally re-add edit button if needed
+      addEditButton(deckTile, deck);
     };
     cancelBtn.onclick = (e) => {
       e.stopPropagation();
       popup.remove();
+      deckTile.innerHTML = '';
+      deckTile.textContent = originalName;
+      addEditButton(deckTile, deck);
     };
     deleteBtn.onclick = (e) => {
       e.stopPropagation();

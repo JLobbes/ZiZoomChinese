@@ -24,6 +24,7 @@
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
+  font-size: 1em;
   font-weight: bold;
   transition: background 0.2s;
 }
@@ -142,6 +143,20 @@
   display: flex;
   gap: 0.5em;
   align-items: center;
+}
+
+.deck-tile #deck-edit-input {
+  position: relative;
+  width: 10em;
+  width: fit-content;
+  padding: 6px 12px;
+  background: #fff;
+  border: 2px solid #111;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  transition: background 0.2s;
 }
 
 .deck-edit-popup .deck-edit-btn,

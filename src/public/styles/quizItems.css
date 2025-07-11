@@ -158,7 +158,7 @@
 }
 
 #presenterNavButtons button:hover {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 1);
   box-shadow: 0 0px 16px 0 rgba(255,255,255,1), 0 0px 6px 0 rgba(255,255,255,1);
 }
 
@@ -245,6 +245,10 @@
   font-weight: bold;
   z-index: 1100;
   opacity: 0.25;
+}
+
+#quizProgressCounter.presenterMode {
+  opacity: 0.8;
 }
 
 .quizCropBox {

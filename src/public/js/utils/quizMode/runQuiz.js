@@ -19,7 +19,8 @@ export function runQuiz(cards) {
   uiState.scale = 1;
 
   if (uiState.quizPresenterMode) {
-    document.getElementById('options-container').classList.add('presenterMode');
+    uiElements.quizOptionsContainer.classList.add('presenterMode');
+    uiElements.quizProgressCounter.classList.add('presenterMode');
     uiElements.infoDisplayContainer.classList.add('presenterMode');
     uiElements.presenterNavButtons.style.display = 'flex';
   } else {

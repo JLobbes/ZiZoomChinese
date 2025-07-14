@@ -152,7 +152,7 @@ export function startSelectDeckStep(card) {
 
     uiElements.saveDataBtn.textContent = 'Next';
     uiElements.saveDataBtn.onclick = () => {
-      card.deckID = uiState.globalDeckID;
+      card.deckID = uiState.globalDeckName === null ? 1 : Number(uiState.globalDeckName);
       card.deckName = uiState.globalDeckName;
       uiElements.collectDeckStep.style.display = 'none';
       uiElements.flashcardSnippitPreview.style.display = 'block';

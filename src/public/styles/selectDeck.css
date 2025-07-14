@@ -199,3 +199,49 @@
 .deck-edit-popup .deck-delete-btn:hover svg {
   fill: #111;
 }
+
+/* ===========================
+   Add Deck Popup Styles
+   =========================== */
+.deck-add-popup {
+  position: absolute;
+  top: 2.2em;
+  right: 0;
+  z-index: 1000;
+  background: #222;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  padding: 0.5em 1em;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.deck-add-popup input {
+  width: 10em;
+  padding: 6px 12px;
+  background: #fff;
+  border: 2px solid #111;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.deck-add-popup button {
+  background: none;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0 0.2em;
+  font-size: 1.5em;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.deck-add-popup button:hover {
+  background-color: #fff;
+  color: #111;
+  transition: background 0.2s;
+}

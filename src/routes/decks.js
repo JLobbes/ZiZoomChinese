@@ -20,9 +20,14 @@ router.get('/', async (req, res) => {
 router.post('/create', async (req, res) => {
   const { name, parentId } = req.body;
   try {
-    const deckId = await createDeck({ name, parentId });
-    console.log('Deck created with ID:', deckId);
-    res.json({ deckId: Number(deckId) }); 
+    await createDeck({ name, parentId }).then(newDeck => {
+      console.log('From ../routes/decks.js: New deck created:', newDeck);
+      if (!newDeck) {
+        throw new Error('Failed to create deck');
+      }
+      res.json({ newDeck }); 
+      console.log(' :', );
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

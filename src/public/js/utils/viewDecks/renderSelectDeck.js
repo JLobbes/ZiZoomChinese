@@ -1,4 +1,6 @@
 // public/js/utils/viewDecks/renderSelectDeck.js
+import { createDeck } from "../../api/createDeck.js";
+import { getDecks } from "../../api/getDecks.js";
 
 export function renderDeckSelection(container, decks, onSelect) {
   container.innerHTML = '';
@@ -39,17 +41,11 @@ export function renderDeckSelection(container, decks, onSelect) {
         }
 
         deckTile.onclick = () => {
-          const deckInMap = deckMap.get(deck.DECK_ID);
-          if (deckInMap.children.length > 0) {
+            // childless Tiles are still parents because they can have children added
             currentDeck = deck.DECK_ID;
             selectedDeckId = deck.DECK_ID;
             onSelect(deck.DECK_ID, deck.DECK_NAME);
             render();
-          } else {
-            selectedDeckId = deck.DECK_ID;
-            onSelect(deck.DECK_ID, deck.DECK_NAME);
-            render();
-          }
         };
 
         container.appendChild(deckTile);
@@ -87,10 +83,10 @@ export function renderDeckSelection(container, decks, onSelect) {
       container.appendChild(parentTile);
 
       // Children (if any)
-      if (deck.children.length > 0) {
-        const scrollContainer = document.createElement('div');
-        scrollContainer.className = 'deck-children-scroll';
+      const scrollContainer = document.createElement('div');
+      scrollContainer.className = 'deck-children-scroll';
 
+      if (deck.children.length > 0) {
         deck.children
           .slice()
           .sort((a, b) => a.DECK_NAME.localeCompare(b.DECK_NAME))
@@ -105,24 +101,28 @@ export function renderDeckSelection(container, decks, onSelect) {
             }
 
             childTile.onclick = () => {
-              const childDeck = deckMap.get(child.DECK_ID);
-              if (childDeck.children.length > 0) {
-                currentDeck = child.DECK_ID;
-                selectedDeckId = child.DECK_ID;
-                onSelect(child.DECK_ID, child.DECK_NAME);
-                render();
-              } else {
-                selectedDeckId = child.DECK_ID;
-                onSelect(child.DECK_ID, child.DECK_NAME);
-                render();
-              }
+              // childless Tiles are still parents because they can have children added
+              currentDeck = child.DECK_ID;
+              selectedDeckId = child.DECK_ID;
+              onSelect(child.DECK_ID, child.DECK_NAME);
+              render();
             };
 
             scrollContainer.appendChild(childTile);
           });
-
-        container.appendChild(scrollContainer);
       }
+
+      // --- Add Deck Button (always shown) ---
+      const addDeckBtn = document.createElement('button');
+      addDeckBtn.textContent = '+ Add Deck';
+      addDeckBtn.className = 'deck-add-btn';
+      addDeckBtn.onclick = (e) => {
+        e.stopPropagation();
+        showAddDeckPopup(deck.DECK_ID, container);
+      };
+      scrollContainer.appendChild(addDeckBtn);
+
+      container.appendChild(scrollContainer);
     }
   }
 
@@ -211,5 +211,59 @@ export function renderDeckSelection(container, decks, onSelect) {
     };
     deckTile.appendChild(editBtn);
   }
+
+  function showAddDeckPopup(parentDeckId, container) {
+    // Remove any existing popup
+    document.querySelectorAll('.deck-add-popup').forEach(p => p.remove());
+
+    const popup = document.createElement('div');
+    popup.className = 'deck-add-popup';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'New deck name';
+    input.style.width = '80%';
+
+    const saveBtn = document.createElement('button');
+    saveBtn.textContent = '✔';
+    saveBtn.title = 'Create';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '✖';
+    cancelBtn.title = 'Cancel';
+
+    saveBtn.onclick = async (e) => {
+      e.stopPropagation();
+      const deckName = input.value.trim();
+      if (!deckName) return;
+      await createDeck(deckName, parentDeckId).then(newDeck => {
+        if (newDeck) { 
+          // Add new deck to decks array
+          decks.push(newDeck);
+          // Add new deck to deckMap
+          deckMap.set(newDeck.DECK_ID, { ...newDeck, children: [] });
+          // If it has a parent, add to parent's children
+          if (newDeck.PARENT_DECK_ID !== null) {
+            const parent = deckMap.get(newDeck.PARENT_DECK_ID);
+            if (parent) parent.children.push(deckMap.get(newDeck.DECK_ID));
+          }
+          render();
+        }
+      });
+      popup.remove();
+      // Refetch decks and re-render
+    };
+
+    cancelBtn.onclick = (e) => {
+      e.stopPropagation();
+      popup.remove();
+    };
+
+    popup.append(input, saveBtn, cancelBtn);
+
+    // Add popup to container
+    container.appendChild(popup);
+  }
+
   render();
 }

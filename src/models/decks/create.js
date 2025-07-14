@@ -1,3 +1,5 @@
+// models/decks/create.js
+
 const db = require('../../lib/db');
 
 async function createDeck({ name, parentId }) {
@@ -8,8 +10,15 @@ async function createDeck({ name, parentId }) {
       'INSERT INTO DECKS (DECK_NAME, PARENT_DECK_ID) VALUES (?, ?)',
       [name, parentId || null]
     );
-    console.log('Deck created with ID:', result.insertId);
-    return result.insertId;
+
+    const deckId = Number(result.insertId); // or String(result.insertId)
+    const rows = await conn.query(
+      'SELECT * FROM DECKS WHERE DECK_ID = ?',
+      [deckId]
+    );
+
+    console.log('From ../models/decks/create.js: Deck created with ID:', Number(result.insertId));
+    return rows[0];
   } finally {
     conn.release();
   }

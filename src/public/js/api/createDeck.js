@@ -8,9 +8,9 @@ export async function createDeck(name, parentId) {
       body: JSON.stringify({ name, parentId }),
     });
     const data = await res.json();
-    console.log('New Deck retrieved from backend:', data.deckId);
-    if (!data.deckId) throw new Error('Failed to create deck');
-    return data.deckId;
+    console.log('Response from createDeck API:', data);
+    if (!data.newDeck) throw new Error('Failed to create deck');
+    return data.newDeck;
   } catch (err) {
     alert('Error creating deck: ' + err.message);
   }

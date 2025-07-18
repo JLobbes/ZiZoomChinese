@@ -3,6 +3,7 @@
 const express = require('express');
 const { readAll } = require('../models/decks/read_all');
 const { createDeck } = require('../models/decks/create');
+const { deleteDeck } = require('../models/decks/delete'); // <-- import deleteDeck
 
 const router = express.Router();
 
@@ -29,6 +30,20 @@ router.post('/create', async (req, res) => {
       console.log(' :', );
     });
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/decks/delete
+router.post('/delete', async (req, res) => {
+  const { deckId } = req.body;
+  try {
+    const result = await deleteDeck(deckId).then(result => {
+      console.log('From ../routes/decks.js: Deck deleted:', result) ;
+      res.json( result ); // { DELETED_DECK_ID: deckId, PARENT_DECK_ID: parentOfDeleted }
+    });
+  } catch (err) {
+    console.error('Error deleting deck:', err);
     res.status(500).json({ error: err.message });
   }
 });

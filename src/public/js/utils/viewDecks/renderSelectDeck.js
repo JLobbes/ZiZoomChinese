@@ -1,6 +1,6 @@
 // public/js/utils/viewDecks/renderSelectDeck.js
 import { createDeck } from "../../api/createDeck.js";
-import { getDecks } from "../../api/getDecks.js";
+import { deleteDeck } from "../../api/deleteDeck.js"; 
 
 export function renderDeckSelection(container, decks, onSelect) {
   container.innerHTML = '';
@@ -14,6 +14,7 @@ export function renderDeckSelection(container, decks, onSelect) {
       if (parent) parent.children.push(deckMap.get(deck.DECK_ID));
     }
   });
+  console.log('Deck map created:', deckMap);
 
   // Find root decks (no parent)
   const root = decks.filter(d => d.PARENT_DECK_ID === null)
@@ -187,9 +188,27 @@ export function renderDeckSelection(container, decks, onSelect) {
       deckTile.textContent = originalName;
       addEditButton(deckTile, deck);
     };
-    deleteBtn.onclick = (e) => {
+    deleteBtn.onclick = async (e) => {
       e.stopPropagation();
-      // TODO: Delete logic
+      // Call API to delete deck
+      try {
+        const success = await deleteDeck(deck.DECK_ID);
+        if (success) {
+          // Remove deck from decks array and deckMap
+          decks = decks.filter(d => d.DECK_ID !== deck.DECK_ID);
+          deckMap.delete(deck.DECK_ID);
+          // If it has a parent, remove from parent's children
+          if (deck.PARENT_DECK_ID !== null) {
+            const parent = deckMap.get(deck.PARENT_DECK_ID);
+            if (parent) {
+              parent.children = parent.children.filter(child => child.DECK_ID !== deck.DECK_ID);
+            }
+          }
+          render();
+        }
+      } catch (err) {
+        alert('Error deleting deck: ' + err.message);
+      }
       popup.remove();
     };
 

@@ -6,11 +6,16 @@ import { imageCoordsToPercent } from '../coordinateConverter.js';
 import { updateImageTransform } from "../zoomOrPanImage.js";
 
 /** Show a feedback message bubble in the quiz UI. */
-export function showFeedbackMessage(message, delay = 0) {
+export function showFeedbackMessage(message = '', delay = 0, svg = null, textColor = 'white') {
   const feedbackDiv = document.getElementById('quizOperationFeedback');
   const msg = document.createElement('div');
   msg.className = 'quiz-feedback-message';
-  msg.textContent = message;
+  if (svg) {
+    msg.innerHTML = `${svg} ${message}`;
+  } else {
+    msg.textContent = message;
+    msg.style.color = textColor; // Set text color
+  }
   const leftPercent = 10 + Math.random() * 70;
   msg.style.left = `${leftPercent}%`;
   msg.style.transform = `translateX(-50%)`;

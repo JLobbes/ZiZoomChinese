@@ -121,15 +121,15 @@ export function runQuiz(cards) {
     }
   }
 
-  function completeQuestionAndContinue(questionStartTime, showPlus = false) {
+  function completeQuestionAndContinue(questionStartTime) {
 
     if(uiState.performanceAdaptiveReview) {
-      uiState.questionCompletionTime += (Date.now() - questionStartTime) / 1000;
+      const newCompletionTime = (Date.now() - questionStartTime) / 1000;
+        showFeedbackMessage(
+          `⏱️ ${newCompletionTime}s`,
+        );
+      uiState.questionCompletionTime += newCompletionTime;
       uiState.questionCompletionTime = Number(uiState.questionCompletionTime.toFixed(2));
-      showFeedbackMessage(
-        `⏱️ ${uiState.questionCompletionTime}${showPlus ? '+' : ''}s`,
-        1000
-      );
       pushNewFlashCardDuration(shuffledCards[currentIndex], uiState.questionCompletionTime);
     }
     currentIndex++;
@@ -160,18 +160,44 @@ export function runQuiz(cards) {
   }
 }
 
-function pushNewFlashCardDuration(card, duration) {
-  const newDurationInMilliseconds = duration * 1000; 
+function pushNewFlashCardDuration(card, newDuration) {
+  const newDurationInMilliseconds = newDuration * 1000; 
   const previousDuration = card.FLASHCARD_LAST_REVIEW_DURATION || 0;
+
   const alpha = 0.2; // recent value weight — increase to make it more responsive
 
   const exponentialMovingAverage = Math.floor(previousDuration * (1 - alpha) + newDurationInMilliseconds * alpha);
+  displayImprovementFeedback(previousDuration, exponentialMovingAverage); // Shows progression or regression
 
   console.log('Old Duration:', (previousDuration / 1000).toFixed(2), 'New Duration:', (exponentialMovingAverage / 1000).toFixed(2));
 
   card.FLASHCARD_LAST_REVIEW_DURATION = Number(exponentialMovingAverage.toFixed(2));
 
   updateReviewDurationInDatabase(card.FLASHCARD_ID, card.FLASHCARD_LAST_REVIEW_DURATION); // API call
+}
+
+
+function displayImprovementFeedback(previousDuration, latestCompletionTime) {
+  let improvementMessage = '';
+  let improvementSVG = null;
+
+  if (previousDuration > 0) {
+    const improvement = ((previousDuration - latestCompletionTime) / previousDuration) * 100;
+    console.log('Improvement:', improvement.toFixed(2), '%');
+    if (improvement > 0) {
+      improvementSVG = `<span style='display: inline-flex; align-items: center; gap: 0.4em;'><svg viewBox='0 0 64 64' fill='#ffffff' style='width: 1.2em; height: 1.2em; vertical-align: middle;'><g stroke-width='0'></g><g stroke-linecap='round' stroke-linejoin='round'></g><g> <g fill='none' fill-rule='evenodd'> <rect width='10' height='23' x='15' y='33' fill='#4ccd4e' rx='3'></rect> <rect width='10' height='30' x='28' y='26' fill='#2ba522' rx='3'></rect> <rect width='10' height='37' x='41' y='19' fill='#036316' rx='3'></rect> <path stroke='#ffffff' stroke-linecap='round' stroke-width='2' d='M10.4868562,28.2544738 C10.4868562,28.2544738 29.9645832,22.8690471 40.558199,9.75941372'></path> <polygon fill='#ffffff' points='43.132 1.632 49.132 12.632 37.132 12.632' transform='rotate(45 43.132 7.132)'></polygon> <rect width='57' height='3' x='3' y='58' fill='#ffffff'></rect> </g> </g></svg> <span>-${Math.abs(improvement.toFixed(1))}%</span></span>`;
+      improvementMessage = '';
+    } else {
+      improvementSVG =  `<span style='display: inline-flex; align-items: center; gap: 0.4em;'><svg viewBox='0 0 64 64' fill='#ffffff' style='width: 1.2em; height: 1.2em; vertical-align: middle;'><g stroke-width='0'></g><g stroke-linecap='round' stroke-linejoin='round'></g><g> <g fill='none' fill-rule='evenodd'> <rect width='10' height='23' x='15' y='33' fill='#c34141' rx='3'></rect> <rect width='10' height='30' x='28' y='26' fill='#d2606b' rx='3'></rect> <rect width='10' height='37' x='41' y='19' fill='#ebadb7' rx='3'></rect> <path stroke='#ffffff' stroke-linecap='round' stroke-width='2' d='M10.4868562,28.2544738 C10.4868562,28.2544738 29.9645832,22.8690471 40.558199,9.75941372'></path> <polygon fill='#ffffff' points='43.132 1.632 49.132 12.632 37.132 12.632' transform='rotate(45 43.132 7.132)'></polygon> <rect width='57' height='3' x='3' y='58' fill='#ffffff'></rect> </g> </g></svg> <span>+${Math.abs(improvement.toFixed(1))}%</span></span>`;
+      improvementMessage = ``;
+    }
+  }
+
+  if (improvementSVG) {
+    showFeedbackMessage('', 2000, improvementSVG);
+  } else if (improvementMessage) {
+    showFeedbackMessage(improvementMessage, 2000);
+  }
 }
 
 function renderChoices(choices, callback) {

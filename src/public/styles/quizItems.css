@@ -268,3 +268,18 @@
   user-select: none;
   opacity: 0.15;
 }
+
+#quizOperationUI #resetQuestionBtn {
+  position: absolute;
+  left: 0em;
+  bottom: 0.2em;
+  margin: 0 0 0 0.4em;
+  padding: 0;
+  background: none;
+  color: #fff;
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  opacity: 0.25;
+}

@@ -35,6 +35,16 @@ export function runQuiz(cards) {
   let stages = ['FRONT', ...(uiState.includePinyin ? ['PINYIN'] : []), 'REAR'];
   let currentStage = 0;
 
+  // --- Reset Question Button ---
+  const resetBtn = document.getElementById('resetQuestionBtn');
+  if (resetBtn) {
+    resetBtn.onclick = () => {
+      uiState.questionCompletionTime = 0;
+      showFeedbackMessage('⏱️ Timer reset!');
+      // Optionally, you could also reset input fields or UI here if needed
+    };
+  }
+
   // --- Memory for choices per card/stage ---
   // Structure: questionMemory[cardIndex][stageIndex] = { choices: [...], ... }
   const questionMemory = Array.from({ length: shuffledCards.length }, () =>

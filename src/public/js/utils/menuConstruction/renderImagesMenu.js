@@ -10,9 +10,13 @@ import { displayFlashcardGhosts } from '../../utils/displayFlashcardGhosts.js';
 import { closeDownQuizMode } from '../quizMode/quizVisualHelpers.js';
 import { updateImageTransform } from '../zoomOrPanImage.js';
 
+let currentFolderImages = [];
+let currentImageIndex = -1;
+
 export async function renderImageSection(container) {
   try {
     const images = await getImages();
+    uiState.allImages = images;
     const folderTree = buildFolderTree(images);
     appendFoldersToMenu(container, folderTree);
   } catch (err) {
@@ -36,7 +40,15 @@ function buildFolderTree(images) {
 }
 
 function appendFoldersToMenu(container, tree) {
-  for (const key in tree) {
+  const sortedKeys = Object.keys(tree).sort((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+  );
+
+  const folderImages = sortedKeys
+    .map(key => tree[key])
+    .filter(node => node.__file);
+
+  for (const key of sortedKeys) {
     const node = tree[key];
 
     if (node.__file) {
@@ -53,6 +65,14 @@ function appendFoldersToMenu(container, tree) {
 
           // Wait for image to finish loading before placing ghosts
           uiElements.viewedImg.onload = async () => {
+            currentFolderImages = folderImages;
+            currentImageIndex = folderImages.findIndex(
+              img => img.path === node.path
+            );
+
+            uiElements.imageCounter.textContent =
+              `${currentImageIndex + 1}/${currentFolderImages.length}`;
+
             const cards = await fetchFlashcardsData(uiElements.viewedImg.src);
             displayFlashcardGhosts(cards);
           };
@@ -79,4 +99,32 @@ function appendFoldersToMenu(container, tree) {
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export async function nextImageInFolder(direction = 1) {
+  if (currentFolderImages.length === 0) return;
+
+  currentImageIndex =
+    (currentImageIndex + direction + currentFolderImages.length)
+    % currentFolderImages.length;
+
+  const node = currentFolderImages[currentImageIndex];
+  uiElements.imageCounter.textContent =
+    `${currentImageIndex + 1}/${currentFolderImages.length}`;
+
+  if (uiState.quizModeOn) closeDownQuizMode();
+
+  uiElements.viewedImg.onload = async () => {
+    const cards = await fetchFlashcardsData(uiElements.viewedImg.src);
+    displayFlashcardGhosts(cards);
+  };
+
+  uiElements.viewedImg.src = `/${node.path}`;
+  uiElements.viewerContainer.style.display = 'flex';
+
+  uiState.scale = 1;
+  uiState.offsetX = 0;
+  uiState.offsetY = 0;
+
+  updateImageTransform();
 }

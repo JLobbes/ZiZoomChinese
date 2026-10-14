@@ -18,6 +18,11 @@
   user-select: none;
 }
 
+.menu::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
 .submenu {
   display: none;
   position: absolute;

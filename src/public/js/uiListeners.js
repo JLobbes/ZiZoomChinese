@@ -2,7 +2,7 @@
 
 import uiState from './uiState.js';
 import uiElements from './uiElements.js';
-import { renderMenu } from './utils/menuConstruction/renderMenuMain.js';
+import { nextImageInFolder } from './utils/menuConstruction/renderImagesMenu.js';
 import { showFlashcardOverlay, hideFlashcardOverlay } from './utils/displayFlashcardGhosts.js';
 import { keyPressZoomAndPan, startPan, panImage, endPan } from './utils/zoomOrPanImage.js';
 import {
@@ -21,6 +21,7 @@ export function initUIListeners() {
   initMouseEvents();
   initOverlayListeners();
   initSelectionButton();
+  initNextImageButton();
   initFillBlankListeners();
 }
 
@@ -121,6 +122,18 @@ function initOverlayListeners() {
 
 function initSelectionButton() {
   uiElements.makeFlashcardBtn.addEventListener('click', enableSelectionMode);
+}
+
+// === Flashcard Navigation
+
+function initNextImageButton() {
+  uiElements.nextImageBtn.addEventListener('click', () => {
+    nextImageInFolder(1);
+  });
+
+  uiElements.previousImageBtn.addEventListener('click', () => {
+    nextImageInFolder(-1);
+  });
 }
 
 // === Escape Key Handler

@@ -9,6 +9,10 @@ const uiElements = {
   viewedImg: document.getElementById('viewedImage'),
   viewerContainer: document.getElementById('viewerContainer'),
 
+  previousImageBtn: document.getElementById('previousImage'),
+  imageCounter: document.getElementById('imageCounter'),
+  nextImageBtn: document.getElementById('nextImage'),
+
   // ==== Area Selection Elements ====
 
   exitFlashcardCreationBtn: document.getElementById('exitFlashcardCreationBtn'),

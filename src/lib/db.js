@@ -5,7 +5,7 @@ const mariadb = require('mariadb');
 const pool = mariadb.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'bananas',
+  password: 'strawberries',
   database: 'ZiZoomChinese',
   connectionLimit: 5
 });

@@ -128,6 +128,9 @@ export function runQuiz(cards) {
           uiState.questionCompletionTime += 20;
         }
       });
+      requestAnimationFrame(() => {
+        uiElements.quizOptionOne.focus();
+      });
     }
   }
 

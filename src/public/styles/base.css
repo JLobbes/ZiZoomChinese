@@ -59,6 +59,21 @@ body::-webkit-scrollbar {
   min-width: 5px;
 }
 
+#nextImage:active,
+#nextImage:hover,
+#nextImage:focus,
+#previousImage:active,
+#previousImage:hover,
+#previousImage:focus,
+#makeFlashcardBtn:active,
+#makeFlashcardBtn:focus,
+#makeFlashcardBtn:hover {
+  box-shadow:
+    0 0 2px #00ff00,
+    0 0 5px #00cc00,
+    0 0 8px #009900;
+}
+
 .exit-btn {
   position: absolute;
   top: 10px;
